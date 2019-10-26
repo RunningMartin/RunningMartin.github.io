@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="记录关于Python元类相关知识点的总结。">
+<meta name="keywords" content="学习笔记,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="每日新知识--Python元类">
+<meta property="og:url" content="http:&#x2F;&#x2F;fangjieblog.cn&#x2F;2018&#x2F;07&#x2F;18&#x2F;%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86&#x2F;Python&#x2F;Python%E5%85%83%E7%B1%BB&#x2F;index.html">
+<meta property="og:site_name" content="随遇而安">
+<meta property="og:description" content="记录关于Python元类相关知识点的总结。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-26T13:20:08.000Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://fangjieblog.cn/2018/07/18/%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86/Python/Python%E5%85%83%E7%B1%BB/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>每日新知识--Python元类 | 随遇而安</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">随遇而安</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">淡泊明志，宁静致远</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://fangjieblog.cn/2018/07/18/%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86/Python/Python%E5%85%83%E7%B1%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Martin">
+      <meta itemprop="description" content="一只奔跑在代码之道上的猪">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="随遇而安">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          每日新知识--Python元类
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-07-18 21:25:03" itemprop="dateCreated datePublished" datetime="2018-07-18T21:25:03+08:00">2018-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-10-26 21:20:08" itemprop="dateModified" datetime="2019-10-26T21:20:08+08:00">2019-10-26</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86/" itemprop="url" rel="index">
+                    <span itemprop="name">每日新知识</span>
+                  </a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index">
+                    <span itemprop="name">Python基础</span>
+                  </a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E3%80%8APython3-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index">
+                    <span itemprop="name">《Python3 学习笔记》阅读笔记</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>记录关于Python元类相关知识点的总结。</p>
+<a id="more"></a>
+
+<h2 id="元类-当你不确定该不该用时，就别用"><a href="#元类-当你不确定该不该用时，就别用" class="headerlink" title="元类(当你不确定该不该用时，就别用)"></a>元类(当你不确定该不该用时，就别用)</h2><ul>
+<li><p>元类的作用：</p>
+<ul>
+<li>创建所有的类型对象。</li>
+<li>将类型对象与逻辑上的父类相关键。</li>
+</ul>
+</li>
+<li><p>系统默认的元类为type，因此是可以通过type来创建类型对象。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">1</span>]: User=type(<span class="string">"User"</span>,(object,),&#123;<span class="string">"test"</span>:<span class="keyword">lambda</span> self:print(<span class="string">"test"</span>)&#125;)</span><br><span class="line">In [<span class="number">2</span>]: User.__dict__</span><br><span class="line">Out[<span class="number">2</span>]:</span><br><span class="line">mappingproxy(&#123;<span class="string">'__dict__'</span>: &lt;attribute <span class="string">'__dict__'</span> of <span class="string">'User'</span> objects&gt;,</span><br><span class="line">              <span class="string">'__doc__'</span>: <span class="literal">None</span>,</span><br><span class="line">              <span class="string">'__module__'</span>: <span class="string">'__main__'</span>,</span><br><span class="line">              <span class="string">'__weakref__'</span>: &lt;attribute <span class="string">'__weakref__'</span> of <span class="string">'User'</span> objects&gt;,</span><br><span class="line">              <span class="string">'test'</span>: &lt;function __main__.&lt;<span class="keyword">lambda</span>&gt;(self)&gt;&#125;)</span><br><span class="line">In [<span class="number">3</span>]: u=User()</span><br><span class="line">In [<span class="number">4</span>]: u.test()</span><br><span class="line">test</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="自定义元类"><a href="#自定义元类" class="headerlink" title="自定义元类"></a>自定义元类</h2><ul>
+<li><p>可以通过自定义元类来控制类型对象的生成。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">1</span>]: <span class="class"><span class="keyword">class</span> <span class="title">DemoMeta</span><span class="params">(type)</span>:</span></span><br><span class="line">   ...:     @classmethod</span><br><span class="line">   ...:     <span class="function"><span class="keyword">def</span> <span class="title">__prepare__</span><span class="params">(cls, name, bases)</span>:</span></span><br><span class="line">   ...:         print(<span class="string">f"自定义名字空间:<span class="subst">&#123;name&#125;</span>,<span class="subst">&#123;bases&#125;</span>"</span>)</span><br><span class="line">   ...:         <span class="keyword">return</span> &#123;<span class="string">"__make__"</span>: <span class="string">"make in Meta"</span>&#125;</span><br><span class="line">   ...: </span><br><span class="line">   ...:     <span class="function"><span class="keyword">def</span> <span class="title">__new__</span><span class="params">(cls, name, bases, attrs, **kwargs)</span>:</span></span><br><span class="line">   ...:         print(<span class="string">f"创建类型对象:<span class="subst">&#123;name&#125;</span>.<span class="subst">&#123;bases&#125;</span>.<span class="subst">&#123;attrs&#125;</span>"</span>)</span><br><span class="line">   ...:         print(<span class="string">f"传入的参数<span class="subst">&#123;kwargs&#125;</span>"</span>)</span><br><span class="line">   ...:         <span class="keyword">return</span> type.__new__(cls, name, bases, attrs)</span><br><span class="line">   ...: </span><br><span class="line">   ...:     <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, bases, attrs)</span>:</span></span><br><span class="line">   ...:         print(<span class="string">f"初始化类型对象:<span class="subst">&#123;name&#125;</span>,<span class="subst">&#123;bases&#125;</span>,<span class="subst">&#123;attrs&#125;</span>"</span>)</span><br><span class="line">   ...:         <span class="keyword">return</span> type.__init__(self, name, bases, attrs)</span><br><span class="line">   ...: </span><br><span class="line">   ...:     <span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(cls, *args, **kwargs)</span>:</span></span><br><span class="line">   ...:         print(<span class="string">f"创建实例对象:<span class="subst">&#123;cls&#125;</span>,<span class="subst">&#123;args&#125;</span>,<span class="subst">&#123;kwargs&#125;</span>"</span>)</span><br><span class="line">   ...:         <span class="keyword">return</span> type.__call__(cls, *args, **kwargs)</span><br><span class="line">   ...:     </span><br><span class="line">In [<span class="number">2</span>]: <span class="class"><span class="keyword">class</span> <span class="title">X</span><span class="params">(metaclass=DemoMeta)</span>:</span></span><br><span class="line">   ...:     data = <span class="number">100</span></span><br><span class="line">   ...: </span><br><span class="line">   ...:     <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, x, y)</span>:</span> <span class="keyword">pass</span></span><br><span class="line">   ...: </span><br><span class="line">   ...:     <span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">(self)</span>:</span> <span class="keyword">pass</span></span><br><span class="line">   ...:     </span><br><span class="line">自定义名字空间:X,()</span><br><span class="line">创建类型对象:X.().&#123;<span class="string">'__make__'</span>: <span class="string">'make in Meta'</span>, <span class="string">'__module__'</span>: <span class="string">'__main__'</span>, <span class="string">'__qualname__'</span>: <span class="string">'X'</span>, <span class="string">'data'</span>: <span class="number">100</span>, <span class="string">'__init__'</span>: &lt;function X.__init__ at <span class="number">0x7fa9fea8abf8</span>&gt;, <span class="string">'test'</span>: &lt;function X.test at <span class="number">0x7fa9fea8aa60</span>&gt;&#125;</span><br><span class="line">传入的参数&#123;&#125;</span><br><span class="line">初始化类型对象:X,(),&#123;<span class="string">'__make__'</span>: <span class="string">'make in Meta'</span>, <span class="string">'__module__'</span>: <span class="string">'__main__'</span>, <span class="string">'__qualname__'</span>: <span class="string">'X'</span>, <span class="string">'data'</span>: <span class="number">100</span>, <span class="string">'__init__'</span>: &lt;function X.__init__ at <span class="number">0x7fa9fea8abf8</span>&gt;, <span class="string">'test'</span>: &lt;function X.test at <span class="number">0x7fa9fea8aa60</span>&gt;&#125;</span><br><span class="line">In [<span class="number">3</span>]: x=X(<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line">创建实例对象:&lt;class '__main__.X'&gt;,(1, 2),&#123;&#125;</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">流程：</span></span><br><span class="line"><span class="string">先调用__prepare__创建名字空间，然后吧名字空间作为参数传入__new__，然后再传入__init__创建类型对象。</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>函数可以作为元类，用来拦截调用。其类型对象的创建仍然有type完成。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">6</span>]: <span class="function"><span class="keyword">def</span> <span class="title">demo_meta</span><span class="params">(name,bases,attrs)</span>:</span></span><br><span class="line">   ...:     print(<span class="string">"函数"</span>)</span><br><span class="line">   ...:     <span class="keyword">return</span> type(name,bases,attrs)</span><br><span class="line">   ...: </span><br><span class="line">In [<span class="number">7</span>]: <span class="class"><span class="keyword">class</span> <span class="title">X</span><span class="params">(metaclass=demo_meta)</span>:</span></span><br><span class="line">   ...:     data=<span class="number">100</span></span><br><span class="line">   ...:     <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,x,y)</span>:</span><span class="keyword">pass</span></span><br><span class="line">   ...:     <span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">(self)</span>:</span><span class="keyword">pass</span></span><br><span class="line">   ...:     </span><br><span class="line">函数</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><ul>
+<li><p>可以通过向元类传递参数，实现功能定制。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">8</span>]: <span class="class"><span class="keyword">class</span> <span class="title">DemoMeta</span><span class="params">(type)</span>:</span></span><br><span class="line">   ...:     <span class="function"><span class="keyword">def</span> <span class="title">__new__</span><span class="params">(cls, name, bases, attrs, **kwargs)</span>:</span></span><br><span class="line">   ...:         print(<span class="string">f"创建类型对象:<span class="subst">&#123;name&#125;</span>.<span class="subst">&#123;bases&#125;</span>.<span class="subst">&#123;attrs&#125;</span>"</span>)</span><br><span class="line">   ...:         print(<span class="string">f"传入的参数<span class="subst">&#123;kwargs&#125;</span>"</span>)</span><br><span class="line">   ...:         <span class="keyword">return</span> type.__new__(cls, name, bases, attrs)</span><br><span class="line">   ...:     </span><br><span class="line"></span><br><span class="line">In [<span class="number">9</span>]: <span class="class"><span class="keyword">class</span> <span class="title">X</span><span class="params">(metaclass=DemoMeta,a=<span class="number">1</span>)</span>:</span><span class="keyword">pass</span></span><br><span class="line">创建类型对象:X.().&#123;<span class="string">'__module__'</span>: <span class="string">'__main__'</span>, <span class="string">'__qualname__'</span>: <span class="string">'X'</span>&#125;</span><br><span class="line">传入的参数&#123;<span class="string">'a'</span>: <span class="number">1</span>&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2></li>
+<li><p>通过metaclass显式指定。</p>
+</li>
+<li><p>默认元类:type。</p>
+</li>
+<li><p>从基类中继承。如果是多继承，必须保证能继承所有的祖先元类。因为<code>__class__</code>只能指向一个元类，因此除非祖先元类之间存在继承关系，否则会导致无法访问的错误。因此应该新建一个元类，让其继承所有的祖先元类，然后显式指定。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">1</span>]: <span class="class"><span class="keyword">class</span> <span class="title">AMeta</span><span class="params">(type)</span>:</span><span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">In [<span class="number">2</span>]: <span class="class"><span class="keyword">class</span> <span class="title">BMeta</span><span class="params">(type)</span>:</span><span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">In [<span class="number">3</span>]: <span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">(metaclass=AMeta)</span>:</span><span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">In [<span class="number">4</span>]: <span class="class"><span class="keyword">class</span> <span class="title">B</span><span class="params">(metaclass=BMeta)</span>:</span><span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">In [<span class="number">5</span>]: <span class="class"><span class="keyword">class</span> <span class="title">C</span><span class="params">(A,B)</span>:</span><span class="keyword">pass</span></span><br><span class="line">-------------------------------------------------------------------------</span><br><span class="line">TypeError: metaclass conflict: the metaclass of a derived <span class="class"><span class="keyword">class</span> <span class="title">must</span> <span class="title">be</span> <span class="title">a</span> <span class="params">(non-strict)</span> <span class="title">subclass</span> <span class="title">of</span> <span class="title">the</span> <span class="title">metaclasses</span> <span class="title">of</span> <span class="title">all</span> <span class="title">its</span> <span class="title">bases</span></span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">In</span> [6]:</span> <span class="class"><span class="keyword">class</span> <span class="title">CMeta</span><span class="params">(AMeta,BMeta)</span>:</span><span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">In [<span class="number">8</span>]: <span class="class"><span class="keyword">class</span> <span class="title">C</span><span class="params">(A,B,metaclass=CMeta)</span>:</span><span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p>使用元类，能实现很多高级功能，但是会提升代码复杂度。元类应该专注于类型的创建和管理，不要涉及逻辑。</p>
+<ul>
+<li><p>静态类:阻止类型创建实例对象。直接拦截<code>__call__</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">10</span>]: <span class="class"><span class="keyword">class</span> <span class="title">StaticClassMeta</span><span class="params">(type)</span>:</span></span><br><span class="line">    ...:     <span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(cls,*args,**kwargs)</span>:</span></span><br><span class="line">    ...:         <span class="keyword">raise</span> RuntimeError(<span class="string">"can`t create object"</span>)</span><br><span class="line">    ...:     </span><br><span class="line"></span><br><span class="line">In [<span class="number">11</span>]: <span class="class"><span class="keyword">class</span> <span class="title">X</span><span class="params">(metaclass=StaticClassMeta)</span>:</span><span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">In [<span class="number">12</span>]: X()</span><br><span class="line">-------------------------------------------------------------------------</span><br><span class="line">RuntimeError: can`t create object</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>密封类:阻止类型被继承。在初始化时，将不能继承的类添加到集合里。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">13</span>]: <span class="class"><span class="keyword">class</span> <span class="title">SealedClassMeta</span><span class="params">(type)</span>:</span></span><br><span class="line">    ...:     types=set()</span><br><span class="line">    ...:     <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(cls,name,bases,attrs)</span>:</span></span><br><span class="line">    ...:         <span class="keyword">if</span> cls.types &amp; set(bases):<span class="keyword">raise</span> RuntimeError(<span class="string">"can`t inhe</span></span><br><span class="line"><span class="string">    ...: rent"</span>)</span><br><span class="line">    ...:         cls.types.add(cls)</span><br><span class="line">    ...:         </span><br><span class="line"></span><br><span class="line">In [<span class="number">14</span>]: <span class="class"><span class="keyword">class</span> <span class="title">X</span><span class="params">(metaclass=SealedClassMeta)</span>:</span><span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">In [<span class="number">15</span>]: <span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">(X)</span>:</span><span class="keyword">pass</span></span><br><span class="line">-------------------------------------------------------------------------</span><br><span class="line">RuntimeError: can`t inherent</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://item.jd.com/12261161.html" target="_blank" rel="noopener">《Python 3学习笔记（上卷》  雨痕</a></li>
+</ul>
+<p>PS:新人学习，新人写文章，若有不足，望请指出。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
+              <a href="/tags/Python/" rel="tag"># Python</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2018/07/17/%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86/Python/Python%E6%8F%8F%E8%BF%B0%E7%AC%A6/" rel="next" title="每日新知识--Python描述符">
+                  <i class="fa fa-chevron-left"></i> 每日新知识--Python描述符
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2018/07/18/%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86/Python/Python%E6%B3%A8%E8%A7%A3/" rel="prev" title="每日新知识--Python注解">
+                  每日新知识--Python注解 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#元类-当你不确定该不该用时，就别用"><span class="nav-number">1.</span> <span class="nav-text">元类(当你不确定该不该用时，就别用)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义元类"><span class="nav-number">2.</span> <span class="nav-text">自定义元类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数"><span class="nav-number">3.</span> <span class="nav-text">参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#继承"><span class="nav-number">4.</span> <span class="nav-text">继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用"><span class="nav-number">5.</span> <span class="nav-text">应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="Martin"
+    src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Martin</p>
+  <div class="site-description" itemprop="description">一只奔跑在代码之道上的猪</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备16004961号 </a><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=null" rel="noopener" target="_blank">null </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Martin</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

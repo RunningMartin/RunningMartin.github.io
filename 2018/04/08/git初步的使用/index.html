@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="记录在git的简单操作流程。">
+<meta name="keywords" content="git,阅读笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git初步的使用">
+<meta property="og:url" content="http:&#x2F;&#x2F;fangjieblog.cn&#x2F;2018&#x2F;04&#x2F;08&#x2F;git%E5%88%9D%E6%AD%A5%E7%9A%84%E4%BD%BF%E7%94%A8&#x2F;index.html">
+<meta property="og:site_name" content="随遇而安">
+<meta property="og:description" content="记录在git的简单操作流程。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-26T13:20:08.000Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://fangjieblog.cn/2018/04/08/git%E5%88%9D%E6%AD%A5%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>git初步的使用 | 随遇而安</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">随遇而安</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">淡泊明志，宁静致远</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://fangjieblog.cn/2018/04/08/git%E5%88%9D%E6%AD%A5%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Martin">
+      <meta itemprop="description" content="一只奔跑在代码之道上的猪">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="随遇而安">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          git初步的使用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-04-08 21:58:33" itemprop="dateCreated datePublished" datetime="2018-04-08T21:58:33+08:00">2018-04-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-10-26 21:20:08" itemprop="dateModified" datetime="2019-10-26T21:20:08+08:00">2019-10-26</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index">
+                    <span itemprop="name">阅读笔记</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>记录在git的简单操作流程。</p>
+<a id="more"></a>
+
+<h1 id="git初步的使用"><a href="#git初步的使用" class="headerlink" title="git初步的使用"></a>git初步的使用</h1><p>在这篇文章中，我将采用讲故事的风格来阐述我的学习笔记。</p>
+<p>在接下来的案例中，我们将学到的命令：</p>
+<ul>
+<li>git clone</li>
+<li>git checkout</li>
+<li>git status</li>
+<li>git add</li>
+<li>git commit</li>
+<li>git log</li>
+<li>git push</li>
+<li>git fetch</li>
+<li>git rebase</li>
+</ul>
+<p>不懂这些命名没有关系，认真将下面的案例允许一遍，可能就会有不同的感触了。在最后将会有一个总结。接下来，让我们跟着案例走一遍吧。</p>
+<p>假设：在一个公司中，同事A和同事B在一起开发同一个项目。</p>
+<p>A同事：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">➜  A git clone https://github.com/RunningMartin/git_exercise</span><br><span class="line"></span><br><span class="line">➜  cd git_exercise</span><br><span class="line"><span class="comment"># 新建分支，并切换到该分支，因为当前是没有分支的，为了方便操作，所以新建了一个分支</span></span><br><span class="line">➜  git_exercise git:(exercise) git checkout -b exercise</span><br><span class="line"><span class="comment"># 添加一些内容</span></span><br><span class="line">➜  git_exercise git:(exercise) vi template.txt</span><br><span class="line"><span class="comment"># 查看当前仓库的状态</span></span><br><span class="line">➜  git_exercise git:(exercise) ✗ git status </span><br><span class="line">位于分支 exercise</span><br><span class="line"></span><br><span class="line">初始提交</span><br><span class="line"></span><br><span class="line">未跟踪的文件:</span><br><span class="line">  （使用 <span class="string">"git add &lt;文件&gt;..."</span> 以包含要提交的内容）</span><br><span class="line"></span><br><span class="line">	template.txt</span><br><span class="line"></span><br><span class="line">提交为空，但是存在尚未跟踪的文件（使用 <span class="string">"git add"</span> 建立跟踪）</span><br><span class="line"><span class="comment"># A同事添加自己修改的文件</span></span><br><span class="line">➜  git_exercise git:(exercise) ✗ git add template.txt </span><br><span class="line"><span class="comment"># A同事对自己的修改添加注释</span></span><br><span class="line">➜  git_exercise git:(exercise) ✗ git commit -m <span class="string">"修改了一些东西"</span></span><br><span class="line">[exercise（根提交） c6bb732] 修改了一些东西</span><br><span class="line"> <span class="number">1</span> file changed, <span class="number">1</span> insertion(+)</span><br><span class="line"> create mode <span class="number">100644</span> template.txt</span><br><span class="line"><span class="comment"># A同事推送自己的更新</span></span><br><span class="line">➜  git_exercise git:(exercise) ggpush</span><br><span class="line">对象计数中: <span class="number">3</span>, 完成.</span><br><span class="line">写入对象中: <span class="number">100</span>% (<span class="number">3</span>/<span class="number">3</span>), <span class="number">241</span> bytes | <span class="number">0</span> bytes/s, 完成.</span><br><span class="line">Total <span class="number">3</span> (delta <span class="number">0</span>), reused <span class="number">0</span> (delta <span class="number">0</span>)</span><br><span class="line">To https://github.com/RunningMartin/git_exercise</span><br><span class="line"> * [new branch]      exercise -&gt; exercise</span><br></pre></td></tr></table></figure>
+
+<p>B同事：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">➜  B git clone https://github.com/RunningMartin/git_exercise</span><br><span class="line">正克隆到 <span class="string">'git_exercise'</span>...</span><br><span class="line">➜  B cd git_exercise </span><br><span class="line">➜  git_exercise git:(master) </span><br><span class="line">➜  git_exercise git:(master) git checkout -b exercise</span><br><span class="line">切换到一个新分支 <span class="string">'exercise'</span></span><br><span class="line"><span class="comment"># 添加新的内容</span></span><br><span class="line">➜  git_exercise git:(exercise) vi templateB.txt</span><br><span class="line">➜  git_exercise git:(exercise) ✗ git status </span><br><span class="line">位于分支 exercise</span><br><span class="line"></span><br><span class="line">初始提交</span><br><span class="line"></span><br><span class="line">未跟踪的文件:</span><br><span class="line">  （使用 <span class="string">"git add &lt;文件&gt;..."</span> 以包含要提交的内容）</span><br><span class="line"></span><br><span class="line">	templateB.txt</span><br><span class="line"></span><br><span class="line">提交为空，但是存在尚未跟踪的文件（使用 <span class="string">"git add"</span> 建立跟踪）</span><br><span class="line">➜  git_exercise git:(exercise) ✗ git diff</span><br><span class="line">➜  git_exercise git:(exercise) ✗ git add templateB.txt </span><br><span class="line">➜  git_exercise git:(exercise) ✗ git commit -m <span class="string">"B添加了一些内容"</span></span><br><span class="line">[exercise（根提交） <span class="number">3676394</span>] B添加了一些内容</span><br><span class="line"> <span class="number">1</span> file changed, <span class="number">1</span> insertion(+)</span><br><span class="line"> create mode <span class="number">100644</span> templateB.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># B同事尝试推送</span></span><br><span class="line">➜  git_exercise git:(exercise) ggpush</span><br><span class="line">To https://github.com/RunningMartin/git_exercise</span><br><span class="line"> ! [rejected]        exercise -&gt; exercise (fetch first)</span><br><span class="line">error: 无法推送一些引用到 <span class="string">'https://github.com/RunningMartin/git_exercise'</span></span><br><span class="line">提示：更新被拒绝，因为远程仓库包含您本地尚不存在的提交。这通常是因为另外</span><br><span class="line">提示：一个仓库已向该引用进行了推送。再次推送前，您可能需要先整合远程变更</span><br><span class="line">提示：（如 <span class="string">'git pull ...'</span>）。</span><br><span class="line">提示：详见 <span class="string">'git push --help'</span> 中的 <span class="string">'Note about fast-forwards'</span> 小节。</span><br><span class="line"><span class="comment"># 因为A同事已经推送了新的更新，所有你的分支跟远程的分支相比，是旧的分支，你需要去获取远程分支的更新，然后在进行合并分支后，在推送更新</span></span><br><span class="line">➜  git_exercise git:(exercise) git fetch origin </span><br><span class="line">warning: 没有共同的提交</span><br><span class="line">remote: Counting objects: <span class="number">3</span>, done.</span><br><span class="line">remote: Total <span class="number">3</span> (delta <span class="number">0</span>), reused <span class="number">3</span> (delta <span class="number">0</span>), pack-reused <span class="number">0</span></span><br><span class="line">展开对象中: <span class="number">100</span>% (<span class="number">3</span>/<span class="number">3</span>), 完成.</span><br><span class="line">来自 https://github.com/RunningMartin/git_exercise</span><br><span class="line"> * [新分支]          exercise   -&gt; origin/exercise</span><br><span class="line"><span class="comment"># 合并分支</span></span><br><span class="line">➜  git_exercise git:(exercise) git rebase origin/exercise </span><br><span class="line">首先，回退分支以便在上面重放您的工作...</span><br><span class="line">应用：B添加了一些内容</span><br><span class="line"><span class="comment"># 查看提交日志，你会发现A的提交的内容进入了你的日志</span></span><br><span class="line">➜  git_exercise git:(exercise) git log</span><br><span class="line">commit c8ad46a4914151dc539e7cfe922204bebcedfa90 (HEAD -&gt; exercise)</span><br><span class="line">Author: RunningMartin &lt;<span class="number">838379742</span>@qq.com&gt;</span><br><span class="line">Date:   Sun Apr <span class="number">8</span> <span class="number">22</span>:<span class="number">24</span>:<span class="number">31</span> <span class="number">2018</span> +<span class="number">0800</span></span><br><span class="line"></span><br><span class="line">    B添加了一些内容</span><br><span class="line"></span><br><span class="line">commit c6bb732218747c6cd5b30ab0f2f089c02222701d (origin/exercise)</span><br><span class="line">Author: RunningMartin &lt;<span class="number">838379742</span>@qq.com&gt;</span><br><span class="line">Date:   Sun Apr <span class="number">8</span> <span class="number">22</span>:<span class="number">14</span>:<span class="number">22</span> <span class="number">2018</span> +<span class="number">0800</span></span><br><span class="line"></span><br><span class="line">    修改了一些东西</span><br><span class="line"><span class="comment"># 然后我们在提交</span></span><br><span class="line">➜  git_exercise git:(exercise) ggpush</span><br><span class="line">对象计数中: <span class="number">3</span>, 完成.</span><br><span class="line">Delta compression using up to <span class="number">8</span> threads.</span><br><span class="line">压缩对象中: <span class="number">100</span>% (<span class="number">2</span>/<span class="number">2</span>), 完成.</span><br><span class="line">写入对象中: <span class="number">100</span>% (<span class="number">3</span>/<span class="number">3</span>), <span class="number">309</span> bytes | <span class="number">0</span> bytes/s, 完成.</span><br><span class="line">Total <span class="number">3</span> (delta <span class="number">0</span>), reused <span class="number">0</span> (delta <span class="number">0</span>)</span><br><span class="line">To https://github.com/RunningMartin/git_exercise</span><br><span class="line">   c6bb732..c8ad46a  exercise -&gt; exercise</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 克隆仓库 </span></span><br><span class="line">git <span class="built_in">clone</span> 仓库地址</span><br><span class="line"><span class="comment"># 创建分支</span></span><br><span class="line">git branch 分支名</span><br><span class="line"><span class="comment"># 切换分支</span></span><br><span class="line">git checkout 分支名</span><br><span class="line"><span class="comment"># 创建并切换分支</span></span><br><span class="line">git checkout -b 分支名</span><br><span class="line"><span class="comment"># 查看仓库的状态</span></span><br><span class="line">git status</span><br><span class="line"><span class="comment"># 添加修改</span></span><br><span class="line">git add</span><br><span class="line"><span class="comment"># 为修改添加注解</span></span><br><span class="line">git commit</span><br><span class="line"><span class="comment"># 查看仓库日志</span></span><br><span class="line">git <span class="built_in">log</span></span><br><span class="line"><span class="comment"># 推送仓库的更新</span></span><br><span class="line">git push 仓库名 分支名</span><br><span class="line"><span class="comment"># 拉取更新</span></span><br><span class="line">git fetch</span><br><span class="line"><span class="comment"># 合并分支</span></span><br><span class="line">git rebase 将与其合并的分支</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>PS:新人学习，新人写文章，若有不足，望请指出。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/git/" rel="tag"># git</a>
+              <a href="/tags/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" rel="tag"># 阅读笔记</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2018/04/08/git%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/" rel="next" title="git的安装与配置">
+                  <i class="fa fa-chevron-left"></i> git的安装与配置
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2018/04/11/%E8%BF%AD%E4%BB%A3%E5%99%A8,%E7%94%9F%E6%88%90%E5%99%A8%E4%B8%8Eitertools/" rel="prev" title="迭代器,生成器与itertools">
+                  迭代器,生成器与itertools <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#git初步的使用"><span class="nav-number">1.</span> <span class="nav-text">git初步的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.1.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="Martin"
+    src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Martin</p>
+  <div class="site-description" itemprop="description">一只奔跑在代码之道上的猪</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备16004961号 </a><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=null" rel="noopener" target="_blank">null </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Martin</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

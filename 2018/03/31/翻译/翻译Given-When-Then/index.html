@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="最近在学习TDD的过程中，看到一篇讲关于测试编写的文章。这篇文章个人认为非常不错，想和大家分享一下，于是就献丑，翻译一下，由于自己的翻译水平有限，请大家多多谅解。在正文开始之前，先感谢原文作者允许我进行翻译这篇文章。">
+<meta name="keywords" content="Python,翻译,测试,Pytest">
+<meta property="og:type" content="article">
+<meta property="og:title" content="翻译Given-When-Then">
+<meta property="og:url" content="http:&#x2F;&#x2F;fangjieblog.cn&#x2F;2018&#x2F;03&#x2F;31&#x2F;%E7%BF%BB%E8%AF%91&#x2F;%E7%BF%BB%E8%AF%91Given-When-Then&#x2F;index.html">
+<meta property="og:site_name" content="随遇而安">
+<meta property="og:description" content="最近在学习TDD的过程中，看到一篇讲关于测试编写的文章。这篇文章个人认为非常不错，想和大家分享一下，于是就献丑，翻译一下，由于自己的翻译水平有限，请大家多多谅解。在正文开始之前，先感谢原文作者允许我进行翻译这篇文章。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-26T13:20:08.000Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://fangjieblog.cn/2018/03/31/%E7%BF%BB%E8%AF%91/%E7%BF%BB%E8%AF%91Given-When-Then/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>翻译Given-When-Then | 随遇而安</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">随遇而安</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">淡泊明志，宁静致远</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://fangjieblog.cn/2018/03/31/%E7%BF%BB%E8%AF%91/%E7%BF%BB%E8%AF%91Given-When-Then/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Martin">
+      <meta itemprop="description" content="一只奔跑在代码之道上的猪">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="随遇而安">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          翻译Given-When-Then
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-03-31 16:16:24" itemprop="dateCreated datePublished" datetime="2018-03-31T16:16:24+08:00">2018-03-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-10-26 21:20:08" itemprop="dateModified" datetime="2019-10-26T21:20:08+08:00">2019-10-26</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BF%BB%E8%AF%91/" itemprop="url" rel="index">
+                    <span itemprop="name">翻译</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>最近在学习TDD的过程中，看到一篇讲关于测试编写的文章。这篇文章个人认为非常不错，想和大家分享一下，于是就献丑，翻译一下，由于自己的翻译水平有限，请大家多多谅解。在正文开始之前，先感谢原文<a href="http://pythontesting.net/" target="_blank" rel="noopener">作者</a>允许我进行翻译这篇<a href="http://pythontesting.net/strategy/given-when-then-2/" target="_blank" rel="noopener">文章</a>。</p>
+<a id="more"></a>
+
+<h1 id="翻译Given-When-Then"><a href="#翻译Given-When-Then" class="headerlink" title="翻译Given-When-Then"></a>翻译Given-When-Then</h1><p>使用类似given-when-then的简单框架来设计你的测试方法将会为你带来以下好处：</p>
+<ul>
+<li>明确的表达测试目的。</li>
+<li>在写测试时集中精力。</li>
+<li>测试编写更快。</li>
+<li>更容易重用部分测试。</li>
+<li>突出你对测试的前提条件的假设。</li>
+<li>突出你测试的输出的期待。</li>
+</ul>
+<p>在这篇文章中，我将讨论如何使用given-when-then来设计你的测试用例/测试方法。无论你使用的是pytest、unittest、nose或者其他的框架，这篇文章都将有助于你写出更棒的测试。</p>
+<hr>
+<p>注意：这原本是写在Python Test Product episode 10之后的。但是，我认为它更适合单独作为一篇文章。</p>
+<hr>
+<p>结构化你的测试不仅仅能让其可读性更好，而且易于编写和重用。我很高兴马上开始讲解，但是，首先允许我花一点点时间感谢赞助者。</p>
+<h2 id="使用given-when-then来设计你的测试"><a href="#使用given-when-then来设计你的测试" class="headerlink" title="使用given-when-then来设计你的测试"></a>使用given-when-then来设计你的测试</h2><p>我在这讨论的是测试函数和测试方法，不是整个测试的框架，而仅仅是单个测试。这适用于任何的测试框架。但是我将假设我们使用的是pytest，因此我在后面就不会一致提示是使用的“pytest、unittest、norse或其他的框架”。</p>
+<p>Pytest并不关心你的测试函数和方法的输入，并且它也不关心初始和结束处理函数或测试的内容。这些的语法和原理都十分简单。如果你被这些语法或原理难到了，别担心，只需要将一个好的案例加入书签。当然，我建议你讲pythontesting.net/start-here加入书签并且你也可以将合适的框架的参考页面固定在开始页面。一旦你掌握了这些原理，你将能在任何你想使用的地方使用它。如果程序触发了断言或异常，则测试将失败。如果测试函数或方法触发断言，则测试将失败。这就是它的原理。</p>
+<p>但这就跟一张白纸一样，我们需要往里面添加些什么呢？就像艺术家和画家经常采用一个相似的框架来帮助自己的能创造，一个好的测试编写者使用这样结构不仅能够很快的编写测试，而且还可以获得相当多的好处。</p>
+<p>##　框架</p>
+<p>让我们先讨论一下结构，然后再讨论它的优点。已经有许多不同的结构或框架被作为编写测试的良好模型。我熟悉的模型都是有着不同名称的相同模型。</p>
+<h3 id="Given-When-Then"><a href="#Given-When-Then" class="headerlink" title="Given-When-Then"></a>Given-When-Then</h3><p>我现在使用并深爱的模型是given-when-then。它十分容易记忆。并且它能让我在思考、扩展并重用测试。</p>
+<p>它十分简单：</p>
+<ul>
+<li>Given：给定测试运行的环境。</li>
+<li>When：发生一些操作。</li>
+<li>Then：会有一些所期待的结果。可能是When中操作的输出，或一些能被测试到的副作用。</li>
+</ul>
+<p>一个简单的方法是将测试函数中的代码分隔成三个容易区分的块。我通常采用空行来区分这些块，你也可以在每个块的顶部添加注释。如果你在注释中写了一个句子，你可能需要将given，when和then放在句子中来进行提示。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_something</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># GIVEN a mobile is registered</span></span><br><span class="line">    ... some source code ...</span><br><span class="line"> </span><br><span class="line">    <span class="comment"># WHEN a test mode data connection is initiated</span></span><br><span class="line">    ... some source code ...</span><br><span class="line"> </span><br><span class="line">    <span class="comment"># THEN the call should connect</span></span><br><span class="line">    ... some source code ...</span><br></pre></td></tr></table></figure>
+
+<p>Given-When-Then这个结构是来自于BDD：行为驱动开发。我认为这是我唯一能从BDD借鉴的。BDD有许多我不喜欢的东西，但是我喜欢given-when-then。</p>
+<h4 id="GIVEN"><a href="#GIVEN" class="headerlink" title="GIVEN"></a>GIVEN</h4><p>如果你在测试函数/方法中从没有使用GIVEN，一旦你使将其放在固定的结构中、类或模块中，或者把它放在一个命名的pytest框架中，这将会给你带来极大的好处。</p>
+<p>把GIVEN放在固定的结构中的带来的好处是，如果你不能通过GIVEN部分（比如断言被击中），那么测试不会以失败结束，它将以Error结束。你还会有两个部分，WHEN和THEN。</p>
+<p>对一些测试来说，GIVEN将会建立测试数据。它也能系统进入更佳的状态。对我来说，在测试嵌入式电子仪器代码时，GIVEN或启动程序的作用可以是一个配置RF的接口、设置电路损耗，加载任意波形的发生器或许多类似的有趣的事情。</p>
+<p>或者它可能是空的。如果您正在进行的操作应该具有相同的效果，无论被测系统的状态如何，那么这就应该没有任何东西。我建议跟下面的例子一样，将注释明确化：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># GIVEN any state</span></span><br></pre></td></tr></table></figure>
+
+<p>在进入下一部分之前，应该确保未来的测试维护人员知道您所考虑的前提条件。</p>
+<h4 id="WHEN"><a href="#WHEN" class="headerlink" title="WHEN"></a>WHEN</h4><p>WHEN部分实际上是我们正在测试的部分。WHEN部分应该易读，并且逻辑清楚。这部分正如人们所提及到的“一个测试应该只测试一件事”那样。WHEN应该只做一件事。</p>
+<p>即使WHEN部分所涉及的很复杂。这也应该被认为一件事情。</p>
+<h4 id="THEN"><a href="#THEN" class="headerlink" title="THEN"></a>THEN</h4><p>THEN部分涉及如下部分：</p>
+<ul>
+<li>检查输出的结果。</li>
+<li>查看其副作用。</li>
+<li>所有断言的所在的区域</li>
+</ul>
+<p>如果有人告诉你，在测试中只能有一个断言。这完全就是在扯淡。他们所谈论是TDD的一个非常狭窄的定义，这个定义不包括我关心的所有测试级别。如果你的WHEN部分涉及的操作有15个可见的副作用和一个函数输出，这也就意味这应该放置16个断言语句。</p>
+<p>我通常只有几个断言。但这完全取决于你的测试，你正在测试什么，你测试的领域以及许多其他因素。让我们暂时休息一下，接下来我们将对比讨论其他的测试设计结构。</p>
+<h3 id="Setup-Test-Teardown-或者也被叫做-Setup-Exercise-Verify-Teardown"><a href="#Setup-Test-Teardown-或者也被叫做-Setup-Exercise-Verify-Teardown" class="headerlink" title="Setup-Test-Teardown (或者也被叫做 Setup-Exercise-Verify-Teardown)"></a>Setup-Test-Teardown <em>(或者也被叫做 Setup-Exercise-Verify-Teardown)</em></h3><p>这在很大程度上就像是在given-when-then上添加额外的步骤。</p>
+<ul>
+<li>Setup == Given</li>
+<li>Exercise == When</li>
+<li>Verify == Then</li>
+</ul>
+<p>当在写setup-test-teardown模式时，Test部分既是WHEN也是THEN。因此，Teardown是什么呢？对于很多人来说，它是空的，什么也不做。当你真的需要撤销你在设置或部分所做的任何事情时，这将是非常重要的。</p>
+<p>假设您正在测试一个交易系统。您可以使用teardown将交易回滚到测试开始前的状态。对我而言，我可能会断开与移动设备的数据连接，或者确保系统中的power levels处于安全级别，或通过系统将转换模型重置为安全路径。</p>
+<p>当我使用give-when-then时，teardown并不是最难的部分，所以我不介意没有明确指出名称的一部分。当使用pytest时，你需要把teardown操作当做成框架本身的一部分。无论如何，在结束器的形式中，测试本身不应考虑结束处理。</p>
+<p>当然，如果正确的测试，When部分需要在teardown中撤销一些东西，我们需要确保即使异常或断言导致测试功能未完成时这些操作也会执行。一个很好的方法是在结构中不包含初始化操作，仅仅使用一个结束器。</p>
+<h3 id="Arrange-Act-Assert"><a href="#Arrange-Act-Assert" class="headerlink" title="Arrange-Act-Assert"></a>Arrange-Act-Assert</h3><p>这种结构的另一个通用名称是Arrange-Act-Assert。现在让我们看看他们的关系：</p>
+<ul>
+<li>Arrange == GIVEN</li>
+<li>Act == WHEN</li>
+<li>Assert == THEN</li>
+</ul>
+<p>仔细想了一下，我认为Act可能比WHEN更好。但是为什么是“given-act-then”而不是“given-act-assert”呢？这让我很难记住它。但是，我记住given-when-then完全没有任何困难，所以我我会坚持given-when-then。</p>
+<h3 id="preconditions-trigger-postconditions"><a href="#preconditions-trigger-postconditions" class="headerlink" title="preconditions-trigger-postconditions"></a>preconditions-trigger-postconditions</h3><p>让我们来看看其他的名字。一个较老的是preconditions-trigger-postconditions。这并不没有错。</p>
+<ul>
+<li>GIVEN == preconditions</li>
+<li>WHEN == trigger</li>
+<li>THEN == postconditions</li>
+</ul>
+<p>实际上这也挺不错的。但我不是在评论中写这些。我不想打这么多字。你可以查看一下<a href="pythontesting.net/10">pythontesting.net/10</a>。</p>
+<h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><p>我承诺过我将会讨论使用一个模式所带来的好处，比如使用given-when-then或我们讨论过对您最有用的模式变体。如果我们将测试拆分为give-when-then，当然也可以选择teardowns或finalizers，这将会带来很多好处。希望你能了解这些。</p>
+<h3 id="更明确的表达测试目的"><a href="#更明确的表达测试目的" class="headerlink" title="更明确的表达测试目的"></a>更明确的表达测试目的</h3><p>让WHEN部分简单化并且通过空行来隔离，这样将有助于突出向你或正在度你的代码的人你的测试。特别是这个测试方法的命名与WHEN部分的操作直接相关时，它有助于帮助你理清正在测试的内容。如果它的命名太长了或在WHEN部分中代码太多了，只需要review它。</p>
+<p>应该只是测试一个还是将其拆分为多个呢？我不会告诉你正确答案是什么，只要能搞清楚发生了什么就可以了。</p>
+<h3 id="在写测试时集中精力"><a href="#在写测试时集中精力" class="headerlink" title="在写测试时集中精力"></a>在写测试时集中精力</h3><p>一次只考虑一个部分确实有助于简化思考和编码。这很难用语音表达出来。但在它确实有助于让思考该写什么。</p>
+<h3 id="测试编写更快"><a href="#测试编写更快" class="headerlink" title="测试编写更快"></a>测试编写更快</h3><p>在given-when-then的约束下工作，你的重心如何能更快的实现它。此外，您可以使用相同的GIVEN部分查看一组测试，或者使用相同的设置，并决定是否测试了使用该GIVEN状态的所有可用操作。如果没有，用相同的GIVEN写更多的测试，但执行不同的操作。当然，THEN部分的后续条件将需要重新审查。这也与下一个好处有关。</p>
+<h3 id="更容易重用部分测试"><a href="#更容易重用部分测试" class="headerlink" title="更容易重用部分测试"></a>更容易重用部分测试</h3><p>您现在可以查看您的测试，并考虑GIVEN是否代表WHEN部分动作发生的系统中的唯一状态。如果没有，那么你可以对这个操作添加更多的测试，但得使用不同的GIVEN状态。<br>当然，THEN的后置条件也可能需要改变。如果不是，则需要检查这两个测试是否真的有必要分为两个测试，或者是否可以简化GIVEN部分。</p>
+<h3 id="行为覆盖"><a href="#行为覆盖" class="headerlink" title="行为覆盖"></a>行为覆盖</h3><p>这两种通过重复使用来创建新的测试就是所谓的行为覆盖的一部分。具体来说，为我正在谈论状态覆盖和状态转换覆盖。我将在未来的帖子中讨论行为覆盖，状态覆盖和状态转换覆盖。</p>
+<p>就目前而言，只要意识到将GIVEN部分和WHEN部分分离，将有助于突出显示正在测试的状态（GIVEN）以及状态的变化（WHEN）即可。这种分离可以让你检查你的测试，看看你是否错过了一些明显的操作或起始状态。</p>
+<h3 id="突出显示关于测试前置条件的假设"><a href="#突出显示关于测试前置条件的假设" class="headerlink" title="突出显示关于测试前置条件的假设"></a>突出显示关于测试前置条件的假设</h3><p>我想我已经介绍过了。你在WHEN部分中测试的功能是否具有所有合理的GIVEN呢？</p>
+<h3 id="突出您期待和测试的结果。"><a href="#突出您期待和测试的结果。" class="headerlink" title="突出您期待和测试的结果。"></a>突出您期待和测试的结果。</h3><h3 id="突出缺少测试"><a href="#突出缺少测试" class="headerlink" title="突出缺少测试"></a>突出缺少测试</h3><h3 id="突出丢失的功能"><a href="#突出丢失的功能" class="headerlink" title="突出丢失的功能"></a>突出丢失的功能</h3><p>这可能让你一时难以理解。查看与相关测试相关的THEN部分，其中包含常见的GIVEN或常见的WHEN部分。或起始状态和从这些状态转换出来。THEN部分是对后置状态的检查，代表了这些操作之后系统的最终状态。如果你确定有一个最终状态在测试中没有被表示出来，可能会存在以下的情况：</p>
+<ul>
+<li>你可能会缺少一个测试</li>
+<li>您可能在系统中缺少功能</li>
+</ul>
+<p>让我举个简单的例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_subscribe_when_not_registered</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># GIVEN a user is not subscribed to a newsletter</span></span><br><span class="line">    <span class="comment"># WHEN a user subscribes to the newsletter</span></span><br><span class="line">    <span class="comment"># THEN the users email is now part of the newsletter email list</span></span><br><span class="line">    <span class="comment"># and the user is told they are now subscribed</span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_subscribe_when_already_registered</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># GIVEN a user is already subscribed to a newsletter</span></span><br><span class="line">    <span class="comment"># WHEN a user subscribes to the newsletter</span></span><br><span class="line">    <span class="comment"># THEN no changes are made to the email list</span></span><br><span class="line">    <span class="comment"># and the user is told they already are subscribed</span></span><br></pre></td></tr></table></figure>
+
+<p>看一下这组测试：</p>
+<ul>
+<li>我有两个相同的动作测试（订阅）</li>
+<li>来自两个不同的开始状态（订阅或未订阅）。</li>
+<li>但是我没有设置任何关于用户没有订阅时后置条件。</li>
+</ul>
+<p>如果没有取消订阅功能，那么我只注意到系统缺少功能。如果已经存在取消订阅操作，那么我可能只是忘记为它编写测试。</p>
+<ul>
+<li>通过固定参数化或测试参数化可以有助于重复使用。</li>
+</ul>
+<p>这是一个很常见的情况，你有很多部分相同的测试。这两种情况都可以通过pytest来处理，这样您能编写更少的测试，但仍涵盖了所需的所有启动状态和功能。我将在后面的文章中讨论参数化。</p>
+<p>我之前在<a href="http://pythontesting.net/framework/pytest/pytest-fixtures-nuts-bolts/" target="_blank" rel="noopener">pytest fixtures nuts and bolts</a>的参数部分中提及过它。</p>
+<hr>
+<p>我在上面一件提及到了足够多关于given-when-then的好处。结构化你的测试不仅使得它更易于阅读，而且易于编写和重用。但是我将在未来的帖子中更详细地介绍所提及的框架。</p>
+<hr>
+<p>PS:新人学习，新人写文章，若有不足，望请指出。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/%E7%BF%BB%E8%AF%91/" rel="tag"># 翻译</a>
+              <a href="/tags/%E6%B5%8B%E8%AF%95/" rel="tag"># 测试</a>
+              <a href="/tags/Pytest/" rel="tag"># Pytest</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2018/03/26/%E6%B5%8B%E8%AF%95%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/" rel="next" title="测试驱动开发">
+                  <i class="fa fa-chevron-left"></i> 测试驱动开发
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2018/04/08/git%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/" rel="prev" title="git的安装与配置">
+                  git的安装与配置 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#翻译Given-When-Then"><span class="nav-number">1.</span> <span class="nav-text">翻译Given-When-Then</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用given-when-then来设计你的测试"><span class="nav-number">1.1.</span> <span class="nav-text">使用given-when-then来设计你的测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Given-When-Then"><span class="nav-number">1.1.1.</span> <span class="nav-text">Given-When-Then</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#GIVEN"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">GIVEN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WHEN"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">WHEN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#THEN"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">THEN</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Setup-Test-Teardown-或者也被叫做-Setup-Exercise-Verify-Teardown"><span class="nav-number">1.1.2.</span> <span class="nav-text">Setup-Test-Teardown (或者也被叫做 Setup-Exercise-Verify-Teardown)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Arrange-Act-Assert"><span class="nav-number">1.1.3.</span> <span class="nav-text">Arrange-Act-Assert</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#preconditions-trigger-postconditions"><span class="nav-number">1.1.4.</span> <span class="nav-text">preconditions-trigger-postconditions</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优点"><span class="nav-number">1.2.</span> <span class="nav-text">优点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#更明确的表达测试目的"><span class="nav-number">1.2.1.</span> <span class="nav-text">更明确的表达测试目的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在写测试时集中精力"><span class="nav-number">1.2.2.</span> <span class="nav-text">在写测试时集中精力</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试编写更快"><span class="nav-number">1.2.3.</span> <span class="nav-text">测试编写更快</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更容易重用部分测试"><span class="nav-number">1.2.4.</span> <span class="nav-text">更容易重用部分测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#行为覆盖"><span class="nav-number">1.2.5.</span> <span class="nav-text">行为覆盖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#突出显示关于测试前置条件的假设"><span class="nav-number">1.2.6.</span> <span class="nav-text">突出显示关于测试前置条件的假设</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#突出您期待和测试的结果。"><span class="nav-number">1.2.7.</span> <span class="nav-text">突出您期待和测试的结果。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#突出缺少测试"><span class="nav-number">1.2.8.</span> <span class="nav-text">突出缺少测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#突出丢失的功能"><span class="nav-number">1.2.9.</span> <span class="nav-text">突出丢失的功能</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="Martin"
+    src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Martin</p>
+  <div class="site-description" itemprop="description">一只奔跑在代码之道上的猪</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备16004961号 </a><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=null" rel="noopener" target="_blank">null </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Martin</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="这篇文章主要是对前面两篇文章的一个总结，详情请看marshmallow初步学习和marshmallow进阶学习。">
+<meta name="keywords" content="学习笔记,Python,Python第三方库,marshmallow">
+<meta property="og:type" content="article">
+<meta property="og:title" content="marshmallow总结">
+<meta property="og:url" content="http:&#x2F;&#x2F;fangjieblog.cn&#x2F;2018&#x2F;04&#x2F;21&#x2F;marshmallow%E6%80%BB%E7%BB%93&#x2F;index.html">
+<meta property="og:site_name" content="随遇而安">
+<meta property="og:description" content="这篇文章主要是对前面两篇文章的一个总结，详情请看marshmallow初步学习和marshmallow进阶学习。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-26T13:20:08.000Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://fangjieblog.cn/2018/04/21/marshmallow%E6%80%BB%E7%BB%93/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>marshmallow总结 | 随遇而安</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">随遇而安</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">淡泊明志，宁静致远</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://fangjieblog.cn/2018/04/21/marshmallow%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Martin">
+      <meta itemprop="description" content="一只奔跑在代码之道上的猪">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="随遇而安">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          marshmallow总结
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-04-21 21:54:46" itemprop="dateCreated datePublished" datetime="2018-04-21T21:54:46+08:00">2018-04-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-10-26 21:20:08" itemprop="dateModified" datetime="2019-10-26T21:20:08+08:00">2019-10-26</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93/" itemprop="url" rel="index">
+                    <span itemprop="name">Python第三方库</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这篇文章主要是对前面两篇文章的一个总结，详情请看<a href="https://fangjieblog.cn/2018/04/19/marshmallow%E5%88%9D%E6%AD%A5%E5%AD%A6%E4%B9%A0/">marshmallow初步学习</a>和<a href="https://fangjieblog.cn/2018/04/21/marshmallow%E8%BF%9B%E9%98%B6%E5%AD%A6%E4%B9%A0/">marshmallow进阶学习</a>。</p>
+<a id="more"></a>
+
+<h2 id="marshmallow基础"><a href="#marshmallow基础" class="headerlink" title="marshmallow基础"></a>marshmallow基础</h2><ul>
+<li><p>安装：<code>pip install marshmallow</code></p>
+</li>
+<li><p>序列化</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ObjectSchema</span><span class="params">(Schema)</span>:</span></span><br><span class="line">    object_field = fields.字段类型</span><br><span class="line"><span class="comment"># 序列化为map</span></span><br><span class="line">ObjectSchema().dump(object)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 序列化为json</span></span><br><span class="line">ObjectSchema().dumps(object)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 序列化时过滤，设置only方法</span></span><br><span class="line">ObjectSchema(only=(<span class="string">'字段名'</span>)).dumps(object)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 序列化时过滤，设置exclude方法</span></span><br><span class="line">ObjectSchema(exclude=(<span class="string">'字段名'</span>)).dumps(object)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 处理多个对象</span></span><br><span class="line">ObjectSchema(many=<span class="literal">True</span>).dumps(objects)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>反序列化</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 反序列化map</span></span><br><span class="line">ObjectSchema().load(serialize_map)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 反序列化json信息</span></span><br><span class="line">ObjectSchema().loads(serialize_json)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 反序列化为对象</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ObjectSchema</span><span class="params">(Schema)</span>:</span></span><br><span class="line">    object_field = fields.字段类型</span><br><span class="line"><span class="meta">    @post_load</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">load</span><span class="params">(self,value)</span>:</span></span><br><span class="line">      <span class="keyword">return</span> Object</span><br><span class="line"></span><br><span class="line"><span class="comment"># 处理对个对象</span></span><br><span class="line">ObjectSchema(many=<span class="literal">True</span>).load(..)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>数据验证</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 仅数据验证</span></span><br><span class="line">ObjectSchema().validate(..)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据验证并反序列化，验证失败，会有ValidationError</span></span><br><span class="line">ObjectSchema().load(..)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证多个</span></span><br><span class="line">ObjectSchema(many=<span class="literal">True</span>).load(..)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定额外的数据验证，设置validate关键字，若有多个可以设置为list，tuple或generator</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ObjectSchema</span><span class="params">(Schema)</span>:</span></span><br><span class="line">    field = fields.数据类型(validate=函数名或<span class="keyword">lambda</span>表达式)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置验证的字段名称，设置attribute关键字</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ObjectSchema</span><span class="params">(Schema)</span>:</span></span><br><span class="line">    field = fields.数据类型(attribute=字段名称)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>额外设置</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置必须，设置require关键字</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ObjectSchema</span><span class="params">(Schema)</span>:</span></span><br><span class="line">    field = fields.数据类型(require=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置局部加载，设置partial</span></span><br><span class="line">result = ObjectSchema().load(.., partial=(字段名称))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据提供的数据进行局部加载</span></span><br><span class="line">result = ObjectSchema().load(.., partial=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置只load</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ObjectSchema</span><span class="params">(Schema)</span>:</span></span><br><span class="line">    field_a = fields.数据类型(load_only=<span class="literal">True</span>)</span><br><span class="line">    field_b = fields.数据类型(dump_only=<span class="literal">True</span>)</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 设置包含的字段，设置fields或additional</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserSchema</span><span class="params">(Schema)</span>:</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        <span class="comment"># 根据名称来对应验证</span></span><br><span class="line">        fields = (所有字段名称)</span><br><span class="line">        <span class="comment"># 或者</span></span><br><span class="line">        additional = (额外的字段名称)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置有序输出，这种order属性</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserSchema</span><span class="params">(Schema)</span>:</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        <span class="comment"># 根据名称来对应验证</span></span><br><span class="line">        fields = (字段名称)</span><br><span class="line">        ordered = <span class="literal">True</span></span><br></pre></td></tr></table></figure>
+<h2 id="marshmallow进阶"><a href="#marshmallow进阶" class="headerlink" title="marshmallow进阶"></a>marshmallow进阶</h2></li>
+<li><p>嵌套模式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 嵌套使用</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Schema_a</span><span class="params">(Schema)</span>:</span></span><br><span class="line">    <span class="comment"># 若为collection，则设置many=True</span></span><br><span class="line">    field = fields.Nested(Schema_b)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置只序列化哪些字段</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Schema_a</span><span class="params">(Schema)</span>:</span></span><br><span class="line">    field = fields.Nested(Schema_b, only=[字段名称])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 互相引用</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Schema_a</span><span class="params">(Schema)</span>:</span></span><br><span class="line">    <span class="comment"># 防止循环引用，也可填写路径path.Schema_b</span></span><br><span class="line">    field = fields.Nested(<span class="string">'Schema_b'</span>, only=[字段名称])</span><br><span class="line">    </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Schema_b</span><span class="params">(Schema)</span>:</span></span><br><span class="line">    field = fields.Nested(Schema_a, only=[字段名称])</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 引用自身</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Schema_b</span><span class="params">(Schema)</span>:</span></span><br><span class="line">    field = fields.Nested(<span class="string">'self'</span>, only=[字段名称],many=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>自定义字段</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 采用创建字段类：继承继承fields.Field，实现_serialize或_deserialize方法。</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExampleCased</span><span class="params">(fields.Field)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_serialize</span><span class="params">(self, value, attr, obj)</span>:</span></span><br><span class="line">		done</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_deserialize</span><span class="params">(self, value, attr, data)</span>:</span></span><br><span class="line">		done</span><br><span class="line"><span class="comment"># 通过方法创建</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExampleSchema</span><span class="params">(Schema)</span>:</span></span><br><span class="line">    <span class="comment"># 默认指定的是序列化的方法，还可以指定反序列化的方法，通过deserialize关键字</span></span><br><span class="line">    field = fields.Method(<span class="string">"method"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">method</span><span class="params">(self, obj)</span>:</span></span><br><span class="line">		done</span><br><span class="line">        </span><br><span class="line"><span class="comment"># 通过函数创建</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExampleSchema</span><span class="params">(Schema)</span>:</span></span><br><span class="line">    field = fields.Function(函数名或lamaba表达式)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获得上下文</span></span><br><span class="line">self.context</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定制错误信息</span></span><br><span class="line">field = fields.类型名称( error_messages=&#123;<span class="string">'错误的类型，如require'</span>: <span class="string">'message'</span>&#125; )</span><br><span class="line"></span><br><span class="line"><span class="comment"># 类层次的错误信息</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyDate</span><span class="params">(fields.字段类型)</span>:</span></span><br><span class="line">    <span class="comment"># 将于父类的相合并</span></span><br><span class="line">    default_error_messages = &#123;</span><br><span class="line">        <span class="string">'invalid'</span>: <span class="string">'Please provide a valid date.'</span>,</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>数据处理扩展</p>
+<ul>
+<li><code>pre_load(self,value)</code>:序列化之前的操作</li>
+<li><code>post_load(self,value)</code>:序列化之后的操作</li>
+<li><code>pre_dump(self,value)</code>:反序列化之前的操作</li>
+<li><code>post_dump(self,value)</code>:反序列化后的操作</li>
+<li>在<code>pre</code>和<code>post</code>的处理中，可以出发<code>ValidationError</code>。</li>
+<li>当有多个处理的时候应该让其他的处理在第一个处理中调用，而不是使用这些装饰器多次。</li>
+<li>处理在<code>dump</code>和<code>load</code>中触发的<code>ValidationError</code>：定义<code>handle_error(self, exc, data)</code></li>
+</ul>
+</li>
+</ul>
+<p>PS:新人学习，新人写文章，若有不足，望请指出。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/Python%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93/" rel="tag"># Python第三方库</a>
+              <a href="/tags/marshmallow/" rel="tag"># marshmallow</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2018/04/21/marshmallow%E8%BF%9B%E9%98%B6%E5%AD%A6%E4%B9%A0/" rel="next" title="marshmallow进阶学习">
+                  <i class="fa fa-chevron-left"></i> marshmallow进阶学习
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2018/05/10/%E9%98%85%E8%AF%BB/%E3%80%8A%E5%A6%82%E4%BD%95%E6%9C%89%E6%95%88%E9%98%85%E8%AF%BB%E4%B8%80%E6%9C%AC%E4%B9%A6%E3%80%8B%E8%AF%BB%E5%90%8E%E6%84%9F/" rel="prev" title="《如何有效阅读一本书》读后感">
+                  《如何有效阅读一本书》读后感 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#marshmallow基础"><span class="nav-number">1.</span> <span class="nav-text">marshmallow基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#marshmallow进阶"><span class="nav-number">2.</span> <span class="nav-text">marshmallow进阶</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="Martin"
+    src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Martin</p>
+  <div class="site-description" itemprop="description">一只奔跑在代码之道上的猪</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备16004961号 </a><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=null" rel="noopener" target="_blank">null </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Martin</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

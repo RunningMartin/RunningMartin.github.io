@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="这份笔记将记录在雨痕大大的《Python3 学习笔记》一书中学到有关Python3表达式的知识。">
+<meta name="keywords" content="学习笔记,Python,Python基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python3学习笔记-表达式">
+<meta property="og:url" content="http:&#x2F;&#x2F;fangjieblog.cn&#x2F;2018&#x2F;05&#x2F;20&#x2F;Python3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E8%A1%A8%E8%BE%BE%E5%BC%8F&#x2F;index.html">
+<meta property="og:site_name" content="随遇而安">
+<meta property="og:description" content="这份笔记将记录在雨痕大大的《Python3 学习笔记》一书中学到有关Python3表达式的知识。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-26T13:20:08.000Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://fangjieblog.cn/2018/05/20/Python3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Python3学习笔记-表达式 | 随遇而安</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">随遇而安</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">淡泊明志，宁静致远</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://fangjieblog.cn/2018/05/20/Python3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Martin">
+      <meta itemprop="description" content="一只奔跑在代码之道上的猪">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="随遇而安">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python3学习笔记-表达式
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-20 22:42:47" itemprop="dateCreated datePublished" datetime="2018-05-20T22:42:47+08:00">2018-05-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-10-26 21:20:08" itemprop="dateModified" datetime="2019-10-26T21:20:08+08:00">2019-10-26</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python3-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index">
+                    <span itemprop="name">Python3 学习笔记</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这份笔记将记录在雨痕大大的《Python3 学习笔记》一书中学到有关Python3表达式的知识。</p>
+<a id="more"></a>
+<h2 id="词法"><a href="#词法" class="headerlink" title="词法"></a>词法</h2><ul>
+<li>设置Shebang</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#！/usr/bin/env python3 -O </span></span><br><span class="line">-O：指定为从当前环境设置中查找</span><br></pre></td></tr></table></figure>
+<ul>
+<li>命令行</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import sys</span><br><span class="line"><span class="built_in">print</span>(sys.flags.optimize)   <span class="comment"># 解释器参数</span></span><br><span class="line"><span class="built_in">print</span>(sys.argv)             <span class="comment"># 程序参数</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(venv) ➜  src python -OO main.py 1 2 <span class="string">"hello world"</span> </span><br><span class="line">2</span><br><span class="line">[<span class="string">'main.py'</span>, <span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'hello world'</span>]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>中止进程：<code>sys.exit</code>，应该为exit()中返回状态码，可以由os获得，方便管理工具识别。</li>
+<li>异常清理：<code>finally</code></li>
+<li>进程清理：<code>atexit</code></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> atexit</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line">atexit.register(<span class="keyword">print</span>,<span class="string">"atexit"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    sys.exit()</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    print(<span class="string">"finally"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 结果</span></span><br><span class="line"><span class="keyword">finally</span></span><br><span class="line">atexit</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>在内置模块中起别名：<code>builtins.end=None</code>:在内置模块中，给None起个别名为None。</p>
+</li>
+<li><p>文档：</p>
+<ul>
+<li><p>为模块中所有的public对象添加文档，<code>&quot;&quot;&quot;文档信息&quot;&quot;&quot;</code>用三引号格式。</p>
+</li>
+<li><p>生成文档<code>python3 -m pydoc -w ./filename.py filename.html</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""模块帮助信息"""</span></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">flags</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    解释器参数</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    print(sys.flags)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">argv</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    程序参数</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    print(sys.argv)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>还可以使用<code>sphinx</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="命令行工具"><a href="#命令行工具" class="headerlink" title="命令行工具"></a>命令行工具</h2><ul>
+<li><p>click模块</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> click</span><br><span class="line"></span><br><span class="line"><span class="meta">@click.command()</span></span><br><span class="line"><span class="meta">@click.argument('name')</span></span><br><span class="line"><span class="meta">@click.option('--a', default=1, help='number of greetings')</span></span><br><span class="line"><span class="meta">@click.option('--b', default=1, help='number of greetings')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(name, a, b)</span>:</span></span><br><span class="line">    print(name)</span><br><span class="line">    print(a + b)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    add()</span><br><span class="line"><span class="comment"># 调用：python3 command.py jiafa --a=1 --b=2</span></span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<ul>
+<li><p>设置group</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> click</span><br><span class="line"></span><br><span class="line"><span class="meta">@click.group()</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cli</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@click.command()</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">initdb</span><span class="params">()</span>:</span></span><br><span class="line">    click.echo(<span class="string">'Initialized the database'</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@click.command()</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dropdb</span><span class="params">()</span>:</span></span><br><span class="line">    click.echo(<span class="string">'Dropped the database'</span>)</span><br><span class="line"></span><br><span class="line">cli.add_command(initdb)</span><br><span class="line">cli.add_command(dropdb)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    cli()</span><br><span class="line"><span class="comment"># 调用python3 command.py dropdb</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 还可以使用装饰器</span></span><br><span class="line"><span class="meta">@click.group()</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cli</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@cli.command()</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">initdb</span><span class="params">()</span>:</span></span><br><span class="line">    click.echo(<span class="string">'Initialized the database'</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@cli.command()</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dropdb</span><span class="params">()</span>:</span></span><br><span class="line">    click.echo(<span class="string">'Dropped the database'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>​</p>
+</li>
+</ul>
+<h2 id="赋值"><a href="#赋值" class="headerlink" title="赋值"></a>赋值</h2><ul>
+<li><p>增量表达式：在目标对象允许的情况下，直接修改原对象的内容，实现累加的效果，但是若不允许，则为赋值操作。<code>+=</code>对应<code>__iadd__</code>方法，若没有，则尝试执行<code>__add__</code>方法。</p>
+<ul>
+<li><p>示例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">a=b=[]</span><br><span class="line">a+=[<span class="number">1</span>,<span class="number">2</span>]</span><br><span class="line"><span class="comment"># True</span></span><br><span class="line">print(a <span class="keyword">is</span> b)</span><br><span class="line">c=d=()</span><br><span class="line">c+=(<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line"><span class="comment"># False</span></span><br><span class="line">print(c <span class="keyword">is</span> d)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译分析</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> dis</span><br><span class="line">a=[]</span><br><span class="line">dis.dis(compile(<span class="string">"a+=[1,2]"</span>,<span class="string">""</span>,<span class="string">"exec"</span>))</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">  1           0 LOAD_NAME                0 (a)</span></span><br><span class="line"><span class="string">              2 LOAD_CONST               0 (1)</span></span><br><span class="line"><span class="string">              4 LOAD_CONST               1 (2)</span></span><br><span class="line"><span class="string">              6 BUILD_LIST               2</span></span><br><span class="line"><span class="string">              8 INPLACE_ADD</span></span><br><span class="line"><span class="string">             10 STORE_NAME               0 (a)</span></span><br><span class="line"><span class="string">             12 LOAD_CONST               2 (None)</span></span><br><span class="line"><span class="string">             14 RETURN_VALUE</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line">a=()</span><br><span class="line">dis.dis(compile(<span class="string">"a+=(1,2)"</span>,<span class="string">""</span>,<span class="string">"exec"</span>))</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string"> 1           0 LOAD_NAME                0 (a)</span></span><br><span class="line"><span class="string">              2 LOAD_CONST               3 ((1, 2))</span></span><br><span class="line"><span class="string">              4 INPLACE_ADD</span></span><br><span class="line"><span class="string">              6 STORE_NAME               0 (a)</span></span><br><span class="line"><span class="string">              8 LOAD_CONST               2 (None)</span></span><br><span class="line"><span class="string">             10 RETURN_VALUE</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">"__iadd__"</span> <span class="keyword">in</span> dir((<span class="number">1</span>,<span class="number">2</span>))</span><br><span class="line"><span class="comment"># False</span></span><br><span class="line"><span class="string">"__iadd__"</span> <span class="keyword">in</span> dir([<span class="number">1</span>,<span class="number">2</span>])</span><br><span class="line"><span class="comment"># True</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="解包"><a href="#解包" class="headerlink" title="解包"></a>解包</h3><ul>
+<li><p>交换变量，3个以内，优化为ROT指令，直接交换栈帧数据。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">a,b,c=<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span></span><br><span class="line">dis.dis(compile(<span class="string">"a,b,c=c,b,a"</span>,<span class="string">""</span>,<span class="string">"exec"</span>))</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">  1           0 LOAD_NAME                0 (c)</span></span><br><span class="line"><span class="string">              2 LOAD_NAME                1 (b)</span></span><br><span class="line"><span class="string">              4 LOAD_NAME                2 (a)</span></span><br><span class="line"><span class="string">              6 ROT_THREE</span></span><br><span class="line"><span class="string">              8 ROT_TWO</span></span><br><span class="line"><span class="string">             10 STORE_NAME               2 (a)</span></span><br><span class="line"><span class="string">             12 STORE_NAME               1 (b)</span></span><br><span class="line"><span class="string">             14 STORE_NAME               0 (c)</span></span><br><span class="line"><span class="string">             16 LOAD_CONST               0 (None)</span></span><br><span class="line"><span class="string">             18 RETURN_VALUE</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>大于3个，则建立元组，进行解包来实现。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">a,b,c,d=<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span></span><br><span class="line">dis.dis(compile(<span class="string">"a,b,c,d=d,c,b,a"</span>,<span class="string">""</span>,<span class="string">"exec"</span>))</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string"> 1           0 LOAD_NAME                0 (d)</span></span><br><span class="line"><span class="string">              2 LOAD_NAME                1 (c)</span></span><br><span class="line"><span class="string">              4 LOAD_NAME                2 (b)</span></span><br><span class="line"><span class="string">              6 LOAD_NAME                3 (a)</span></span><br><span class="line"><span class="string">              8 BUILD_TUPLE              4			# 建立元组</span></span><br><span class="line"><span class="string">             10 UNPACK_SEQUENCE          4</span></span><br><span class="line"><span class="string">             12 STORE_NAME               3 (a)</span></span><br><span class="line"><span class="string">             14 STORE_NAME               2 (b)</span></span><br><span class="line"><span class="string">             16 STORE_NAME               1 (c)</span></span><br><span class="line"><span class="string">             18 STORE_NAME               0 (d)</span></span><br><span class="line"><span class="string">             20 LOAD_CONST               0 (None)</span></span><br><span class="line"><span class="string">             22 RETURN_VALUE</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="星号收集"><a href="#星号收集" class="headerlink" title="星号收集"></a>星号收集</h3><ul>
+<li><p>一个<code>*</code>代表列表，两个<code>*</code>代表字典。收集的时候优先满足非<code>*</code>的参数。</p>
+</li>
+<li><p>使用时，只能有一个星号，不能出现多个星号，因为不能确定范围。</p>
+</li>
+<li><p>星号不能单独出现。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a,*b,c,d=range(<span class="number">5</span>)</span><br><span class="line">print(a,b,c,d)</span><br><span class="line"><span class="comment"># 0 [1, 2] 3 4</span></span><br><span class="line">[*a]=<span class="number">1</span>,<span class="number">2</span></span><br><span class="line">print(a)</span><br><span class="line"><span class="comment"># [1, 2]</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="星号展开"><a href="#星号展开" class="headerlink" title="星号展开"></a>星号展开</h3><ul>
+<li><p>可以用来展开可迭代对象。</p>
+</li>
+<li><p>对于字典而言，一个<code>*</code>展开主键，两个<code>*</code>展开键值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">b=(<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>)</span><br><span class="line">[*a,*b]</span><br><span class="line"><span class="comment"># [1, 2, 3, 4, 5, 6]</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h3><ul>
+<li><p>所有的操作默认为本地名字空间。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></span><br><span class="line">    print(x)</span><br><span class="line">    x+=<span class="number">1</span></span><br><span class="line">    </span><br><span class="line">dis.dis(test)</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">  2           0 LOAD_GLOBAL              0 (print)</span></span><br><span class="line"><span class="string">              2 LOAD_FAST                0 (x)		# 加载的本地变量x</span></span><br><span class="line"><span class="string">              4 CALL_FUNCTION            1</span></span><br><span class="line"><span class="string">              6 POP_TOP</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  3           8 LOAD_FAST                0 (x)</span></span><br><span class="line"><span class="string">             10 LOAD_CONST               1 (1)</span></span><br><span class="line"><span class="string">             12 INPLACE_ADD</span></span><br><span class="line"><span class="string">             14 STORE_FAST               0 (x)</span></span><br><span class="line"><span class="string">             16 LOAD_CONST               0 (None)</span></span><br><span class="line"><span class="string">             18 RETURN_VALUE</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>声明调用全局名字空间的变量:<code>global x</code>。</p>
+</li>
+<li><p>声明调用非本地名字空间的变量:<code>nonlocal x</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">g=<span class="number">1</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">outer</span><span class="params">()</span>:</span></span><br><span class="line">    e=<span class="number">2</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="keyword">global</span> g</span><br><span class="line">        <span class="keyword">nonlocal</span> e</span><br><span class="line">        g=<span class="number">10</span></span><br><span class="line">        e=<span class="number">20</span></span><br><span class="line">        <span class="keyword">return</span> e</span><br><span class="line">    </span><br><span class="line">    inner()</span><br><span class="line">    <span class="keyword">return</span> e</span><br><span class="line">print(<span class="string">"nonlocal e"</span>,outer())</span><br><span class="line">print(<span class="string">"global"</span>,g)</span><br><span class="line"><span class="comment"># nonlocal e 20</span></span><br><span class="line"><span class="comment"># global 10</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>nonlocal</code>自内向外依次检索嵌套函数。但是不包括全局名字空间。由于其是在编译期绑定的，因此目标变量必须提前存在。</p>
+</li>
+<li><p>可以采用<code>global</code>创建全局变量。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">global</span> x</span><br><span class="line">    x=<span class="number">10</span></span><br><span class="line">dis.dis(test)</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string"> 3           0 LOAD_CONST               1 (10)</span></span><br><span class="line"><span class="string">              2 STORE_GLOBAL             0 (x)</span></span><br><span class="line"><span class="string">              4 LOAD_CONST               0 (None)</span></span><br><span class="line"><span class="string">              6 RETURN_VALUE</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>不能采用<code>nonlocal</code>创建非本地名字空间变量。</p>
+</li>
+</ul>
+<h3 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h3><ul>
+<li><p><code>@functools.total_ordering</code>:基于<code>__eq__</code>和<code>__lt__</code>，补全<code>__lt__()</code>,<code>__le__()</code>, <code>__gt__()</code>和 <code>__ge__()</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_is_valid_operand</span><span class="params">(self, other)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> (hasattr(other, <span class="string">"lastname"</span>) <span class="keyword">and</span></span><br><span class="line">                hasattr(other, <span class="string">"firstname"</span>))</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__eq__</span><span class="params">(self, other)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> self._is_valid_operand(other):</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">NotImplemented</span></span><br><span class="line">        <span class="keyword">return</span> ((self.lastname.lower(), self.firstname.lower()) ==</span><br><span class="line">                (other.lastname.lower(), other.firstname.lower()))</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__lt__</span><span class="params">(self, other)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> self._is_valid_operand(other):</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">NotImplemented</span></span><br><span class="line">        <span class="keyword">return</span> ((self.lastname.lower(), self.firstname.lower()) &lt;</span><br><span class="line">                (other.lastname.lower(), other.firstname.lower()))</span><br></pre></td></tr></table></figure>
+<h4 id="逻辑运算"><a href="#逻辑运算" class="headerlink" title="逻辑运算"></a>逻辑运算</h4></li>
+<li><p><code>and</code>:返回最后或导致短路的操作数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="number">1</span> <span class="keyword">and</span> <span class="number">2</span>)</span><br><span class="line"><span class="comment"># 2</span></span><br><span class="line">print(<span class="number">1</span> <span class="keyword">and</span> <span class="number">0</span> <span class="keyword">and</span> <span class="number">2</span>)</span><br><span class="line"><span class="comment"># 0</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>or</code>:返回第一真值或最后的操作数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="number">1</span> <span class="keyword">or</span> <span class="number">0</span>)</span><br><span class="line"><span class="comment"># 1</span></span><br><span class="line">print(<span class="number">0</span> <span class="keyword">or</span> <span class="number">1</span> <span class="keyword">or</span> <span class="number">2</span>)</span><br><span class="line"><span class="comment"># 1</span></span><br><span class="line">print(<span class="number">0</span> <span class="keyword">or</span> [])</span><br><span class="line"><span class="comment"># []</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译分析<code>and</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">dis.dis(compile(<span class="string">"0 and 1 and 2 and 3"</span>,<span class="string">""</span>,<span class="string">"exec"</span>))</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">  1           0 LOAD_CONST               0 (0)</span></span><br><span class="line"><span class="string">              2 JUMP_IF_FALSE_OR_POP    14</span></span><br><span class="line"><span class="string">              4 LOAD_CONST               1 (1)</span></span><br><span class="line"><span class="string">              6 JUMP_IF_FALSE_OR_POP    14</span></span><br><span class="line"><span class="string">              8 LOAD_CONST               2 (2)</span></span><br><span class="line"><span class="string">             10 JUMP_IF_FALSE_OR_POP    14</span></span><br><span class="line"><span class="string">             12 LOAD_CONST               3 (3)</span></span><br><span class="line"><span class="string">        &gt;&gt;   14 POP_TOP</span></span><br><span class="line"><span class="string">             16 LOAD_CONST               4 (None)</span></span><br><span class="line"><span class="string">             18 RETURN_VALUE</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译分析<code>or</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">dis.dis(compile(<span class="string">"1 or 2 or 3 or 4"</span>,<span class="string">""</span>,<span class="string">"exec"</span>))</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string"> 1           0 LOAD_CONST               0 (1)</span></span><br><span class="line"><span class="string">              2 JUMP_IF_TRUE_OR_POP     14</span></span><br><span class="line"><span class="string">              4 LOAD_CONST               1 (2)</span></span><br><span class="line"><span class="string">              6 JUMP_IF_TRUE_OR_POP     14</span></span><br><span class="line"><span class="string">              8 LOAD_CONST               2 (3)</span></span><br><span class="line"><span class="string">             10 JUMP_IF_TRUE_OR_POP     14</span></span><br><span class="line"><span class="string">             12 LOAD_CONST               3 (4)</span></span><br><span class="line"><span class="string">        &gt;&gt;   14 POP_TOP</span></span><br><span class="line"><span class="string">             16 LOAD_CONST               4 (None)</span></span><br><span class="line"><span class="string">             18 RETURN_VALUE</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="条件表达式"><a href="#条件表达式" class="headerlink" title="条件表达式"></a>条件表达式</h4><ul>
+<li>表达式:<code>T if x else f</code>,如果x为真则返回T，否则返回F。</li>
+</ul>
+<h3 id="控制语句"><a href="#控制语句" class="headerlink" title="控制语句"></a>控制语句</h3><ul>
+<li><p>选择语句：需要通过各种方法来减少选择语句和分支，减少缩进层次。</p>
+<ul>
+<li><p>将过长的选择语句或分支变为函数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">actions=[brake,reversing_light]</span><br><span class="line"><span class="comment"># 采用map替代for循环。</span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> all(map(<span class="keyword">lambda</span> do:do(),actions)):</span><br><span class="line">    <span class="keyword">raise</span> Exception</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>借助代码分析来去除死代码。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> x&gt;<span class="number">0</span>:</span><br><span class="line">        print(<span class="string">'a'</span>)</span><br><span class="line">    <span class="keyword">elif</span> x&gt;<span class="number">5</span>:</span><br><span class="line">        print(<span class="string">'b'</span>)</span><br><span class="line"></span><br><span class="line">dis.dis(test)</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string"> 2           0 LOAD_FAST                0 (x)</span></span><br><span class="line"><span class="string">              2 LOAD_CONST               1 (0)</span></span><br><span class="line"><span class="string">              4 COMPARE_OP               4 (&gt;)</span></span><br><span class="line"><span class="string">              6 POP_JUMP_IF_FALSE       18</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  3           8 LOAD_GLOBAL              0 (print)</span></span><br><span class="line"><span class="string">             10 LOAD_CONST               2 ('a')</span></span><br><span class="line"><span class="string">             12 CALL_FUNCTION            1</span></span><br><span class="line"><span class="string">             14 POP_TOP</span></span><br><span class="line"><span class="string">             16 JUMP_FORWARD            16 (to 34)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  4     &gt;&gt;   18 LOAD_FAST                0 (x)</span></span><br><span class="line"><span class="string">             20 LOAD_CONST               3 (5)</span></span><br><span class="line"><span class="string">             22 COMPARE_OP               4 (&gt;)</span></span><br><span class="line"><span class="string">             24 POP_JUMP_IF_FALSE       34</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  5          26 LOAD_GLOBAL              0 (print)</span></span><br><span class="line"><span class="string">             28 LOAD_CONST               4 ('b')</span></span><br><span class="line"><span class="string">             30 CALL_FUNCTION            1</span></span><br><span class="line"><span class="string">             32 POP_TOP</span></span><br><span class="line"><span class="string">        &gt;&gt;   34 LOAD_CONST               0 (None)</span></span><br><span class="line"><span class="string">             36 RETURN_VALUE</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>循环<ul>
+<li><code>for</code>：对对象进行迭代。</li>
+<li><code>while</code>:执行逻辑循环。在while中可以采用<code>else</code>，在<code>while</code>正常结束后会执行(不是采用break、return进行中断)。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="推导式性能分析"><a href="#推导式性能分析" class="headerlink" title="推导式性能分析"></a>推导式性能分析</h3><ul>
+<li>编译器将推导式编译为函数，然后通过<code>LIST_APPEND</code>指令直接添加数据。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_comp</span><span class="params">(data)</span>:</span></span><br><span class="line"><span class="keyword">return</span> [x <span class="keyword">for</span> x <span class="keyword">in</span> data]</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_append</span><span class="params">(data)</span>:</span></span><br><span class="line">l=[]</span><br><span class="line">append = l.append</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> data:</span><br><span class="line">append(x)</span><br><span class="line"><span class="keyword">return</span> l</span><br><span class="line">data = list(range(<span class="number">10000</span>))</span><br><span class="line">%timeit test_comp(data)</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">164 µs ± 937 ns per loop (mean ± std. dev. of 7 runs, 10000 loops each)</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line">%timeit test_append(data)</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">303 µs ± 2.08 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line">dis.dis(test_comp)</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">2           0 LOAD_CONST               1 (&lt;code object &lt;listcomp&gt; at 0x7f0370626c90, file "&lt;ipython-input-44-4a35bdc4acf7&gt;", line 2&gt;)</span></span><br><span class="line"><span class="string">2 LOAD_CONST               2 ('test_comp.&lt;locals&gt;.&lt;listcomp&gt;')</span></span><br><span class="line"><span class="string">4 MAKE_FUNCTION            0</span></span><br><span class="line"><span class="string">6 LOAD_FAST                0 (data)</span></span><br><span class="line"><span class="string">8 GET_ITER</span></span><br><span class="line"><span class="string">10 CALL_FUNCTION            1</span></span><br><span class="line"><span class="string">12 RETURN_VALUE</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line">dis.dis(test_comp.__code__.co_consts[<span class="number">1</span>])</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">2           0 BUILD_LIST               0</span></span><br><span class="line"><span class="string">2 LOAD_FAST                0 (.0)</span></span><br><span class="line"><span class="string">&gt;&gt;    4 FOR_ITER                 8 (to 14)</span></span><br><span class="line"><span class="string">6 STORE_FAST               1 (x)</span></span><br><span class="line"><span class="string">8 LOAD_FAST                1 (x)</span></span><br><span class="line"><span class="string">10 LIST_APPEND              2</span></span><br><span class="line"><span class="string">12 JUMP_ABSOLUTE            4</span></span><br><span class="line"><span class="string">&gt;&gt;   14 RETURN_VALUE</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+
+<p>​</p>
+</li>
+</ul>
+<hr>
+<p>PS:新人学习，新人写文章，若有不足，望请指出。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/Python%E5%9F%BA%E7%A1%80/" rel="tag"># Python基础</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2018/05/11/Python3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E7%B1%BB%E5%9E%8B/" rel="next" title="Python3学习笔记-类型">
+                  <i class="fa fa-chevron-left"></i> Python3学习笔记-类型
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2018/05/20/Cassandra%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/" rel="prev" title="Cassandra学习-基本命令">
+                  Cassandra学习-基本命令 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#词法"><span class="nav-number">1.</span> <span class="nav-text">词法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令行工具"><span class="nav-number">2.</span> <span class="nav-text">命令行工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#赋值"><span class="nav-number">3.</span> <span class="nav-text">赋值</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解包"><span class="nav-number">3.1.</span> <span class="nav-text">解包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#星号收集"><span class="nav-number">3.2.</span> <span class="nav-text">星号收集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#星号展开"><span class="nav-number">3.3.</span> <span class="nav-text">星号展开</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作用域"><span class="nav-number">3.4.</span> <span class="nav-text">作用域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运算符"><span class="nav-number">3.5.</span> <span class="nav-text">运算符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#逻辑运算"><span class="nav-number">3.5.1.</span> <span class="nav-text">逻辑运算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#条件表达式"><span class="nav-number">3.5.2.</span> <span class="nav-text">条件表达式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制语句"><span class="nav-number">3.6.</span> <span class="nav-text">控制语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#推导式性能分析"><span class="nav-number">3.7.</span> <span class="nav-text">推导式性能分析</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="Martin"
+    src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Martin</p>
+  <div class="site-description" itemprop="description">一只奔跑在代码之道上的猪</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备16004961号 </a><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=null" rel="noopener" target="_blank">null </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Martin</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

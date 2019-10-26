@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="记录关于Python函数调用的学习笔记。">
+<meta name="keywords" content="学习笔记,Python,Python基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python基础学习笔记——函数的调用">
+<meta property="og:url" content="http:&#x2F;&#x2F;fangjieblog.cn&#x2F;2018&#x2F;07&#x2F;01&#x2F;Python%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%87%BD%E6%95%B0%E7%9A%84%E8%B0%83%E7%94%A8&#x2F;index.html">
+<meta property="og:site_name" content="随遇而安">
+<meta property="og:description" content="记录关于Python函数调用的学习笔记。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-26T13:20:08.000Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://fangjieblog.cn/2018/07/01/Python%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%87%BD%E6%95%B0%E7%9A%84%E8%B0%83%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Python基础学习笔记——函数的调用 | 随遇而安</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">随遇而安</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">淡泊明志，宁静致远</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://fangjieblog.cn/2018/07/01/Python%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%87%BD%E6%95%B0%E7%9A%84%E8%B0%83%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Martin">
+      <meta itemprop="description" content="一只奔跑在代码之道上的猪">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="随遇而安">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python基础学习笔记——函数的调用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-07-01 20:36:12" itemprop="dateCreated datePublished" datetime="2018-07-01T20:36:12+08:00">2018-07-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-10-26 21:20:08" itemprop="dateModified" datetime="2019-10-26T21:20:08+08:00">2019-10-26</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python3-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index">
+                    <span itemprop="name">Python3 学习笔记</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>记录关于Python函数调用的学习笔记。</p>
+<a id="more"></a>
+<h2 id="调用"><a href="#调用" class="headerlink" title="调用"></a>调用</h2><ul>
+<li><p>在Python中，其字节码文件将交由解释器处理，解释器为了处理内部系统代码和用户代码数据，其分为了系统栈和用户栈，系统栈用于机器执行，而用户栈用于存储用户代码的执行状态。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> dis</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(x, y)</span>:</span></span><br><span class="line">    z = x + y</span><br><span class="line">    <span class="keyword">return</span> z</span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">  5           0 LOAD_FAST                0 (x) # 从FAST中获取参数x的值，压入用户栈</span></span><br><span class="line"><span class="string">              2 LOAD_FAST                1 (y) # 从FAST中获取参数y的值，压入用户栈</span></span><br><span class="line"><span class="string">              4 BINARY_ADD					   # 系统指令从用户栈中读取操作数，执行加法操作</span></span><br><span class="line"><span class="string">              6 STORE_FAST               2 (z) # 将结果存回FAST</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  6           8 LOAD_FAST                2 (z)</span></span><br><span class="line"><span class="string">             10 RETURN_VALUE</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line">dis.dis(add)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译器没有函数内联，没有深度优化：有空函数也会生成字节码指令，交由解释器执行。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> dis</span><br><span class="line"></span><br><span class="line">code = <span class="string">"""</span></span><br><span class="line"><span class="string">def test():pass</span></span><br><span class="line"><span class="string">test()</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">  2           0 LOAD_CONST               0 (&lt;code object test at 0x7f130edfdf60, file "", line 2&gt;)</span></span><br><span class="line"><span class="string">              2 LOAD_CONST               1 ('test')</span></span><br><span class="line"><span class="string">              4 MAKE_FUNCTION            0 # 创建函数</span></span><br><span class="line"><span class="string">              6 STORE_NAME               0 (test)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  3           8 LOAD_NAME                0 (test)</span></span><br><span class="line"><span class="string">             10 CALL_FUNCTION            0 # 调用函数</span></span><br><span class="line"><span class="string">             12 POP_TOP</span></span><br><span class="line"><span class="string">             14 LOAD_CONST               2 (None)</span></span><br><span class="line"><span class="string">             16 RETURN_VALUE</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line">dis.dis(compile(code, <span class="string">""</span>, <span class="string">"exec"</span>, optimize=<span class="number">2</span>))</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="堆栈"><a href="#堆栈" class="headerlink" title="堆栈"></a>堆栈</h2><ul>
+<li><p>通常进程的内存分作为堆内存(heap)和栈内存(stack)。</p>
+<ul>
+<li>堆内存：可以自由申请，通过指针存储自有数据。</li>
+<li>栈内存：用于指令执行，与线程绑定。</li>
+<li>函数的调用与执行依赖于线程栈内存存储上下文和执行状态:A函数调用B函数，为了确保B结束后能跳转到A，必须将A的后续指令地址存起来。</li>
+<li>线程栈内存分为FAST，DEREF，STACK FRAME三部分。可以通过<code>ulimit -s</code>指令查询操作系统对线程栈大小的限制<ul>
+<li>FAST：局部变量</li>
+<li>DEREF：外层嵌套变量和闭包。</li>
+<li>STACK FRAME：为被调用函数提供参数和返回值内存==&gt;字节码指令执行内存。变量内存通常固定不变，执行内存视具体指令重复使用。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> dis</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(x, y)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> x + y</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></span><br><span class="line">    x = <span class="number">10</span></span><br><span class="line">    y = <span class="number">20</span></span><br><span class="line">    z = add(x, y)</span><br><span class="line">    print(z)</span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string"># 解释LOAD_CONST 1 即获取CONST 1 中存储的值，1为其引用的序号</span></span><br><span class="line"><span class="string">  9           0 LOAD_CONST               1 (10)</span></span><br><span class="line"><span class="string">              2 STORE_FAST               0 (x)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"> 10           4 LOAD_CONST               2 (20)</span></span><br><span class="line"><span class="string">              6 STORE_FAST               1 (y)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"> 11           8 LOAD_GLOBAL              0 (add)	# 将待调用的函数add入栈</span></span><br><span class="line"><span class="string">             10 LOAD_FAST                0 (x)   	# 将变量x入栈</span></span><br><span class="line"><span class="string">             12 LOAD_FAST                1 (y)		# 将变量y入栈</span></span><br><span class="line"><span class="string">             14 CALL_FUNCTION            2			# 调用函数 2为参数数量</span></span><br><span class="line"><span class="string">             16 STORE_FAST               2 (z)		# 将返回值从栈中存入变量区域</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"> 12          18 LOAD_GLOBAL              1 (print)</span></span><br><span class="line"><span class="string">             20 LOAD_FAST                2 (z)</span></span><br><span class="line"><span class="string">             22 CALL_FUNCTION            1</span></span><br><span class="line"><span class="string">             24 POP_TOP								# 清空print的返回值，确保栈平衡</span></span><br><span class="line"><span class="string">             26 LOAD_CONST               0 (None)</span></span><br><span class="line"><span class="string">             28 RETURN_VALUE</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line">dis.dis(test)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>栈帧对象<code>sys._getframe(deepth)</code>访问堆栈内不同层级的栈帧对象。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> dis</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">A</span><span class="params">()</span>:</span></span><br><span class="line">    x = <span class="string">"func A"</span></span><br><span class="line">    B()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">B</span><span class="params">()</span>:</span></span><br><span class="line">    C()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">C</span><span class="params">()</span>:</span></span><br><span class="line">    f = sys._getframe(<span class="number">2</span>)	<span class="comment"># 0为当前，1为向上一层</span></span><br><span class="line">    <span class="comment"># &lt;code object A&gt;</span></span><br><span class="line">    print(f.f_code)			<span class="comment"># A代码对象</span></span><br><span class="line">	<span class="comment"># &#123;'x': 'func A'&#125;</span></span><br><span class="line">    print(f.f_locals)		<span class="comment"># A的名字空间(运行期的)</span></span><br><span class="line">    print(f.f_globals)		<span class="comment"># 返回的globals为定义该函数模块的命名空间</span></span><br><span class="line">    <span class="comment"># 6</span></span><br><span class="line">  	print(f.f_lasti)		<span class="comment"># A最后执行指令的偏移量(用于确保继续执行的位置)</span></span><br><span class="line"></span><br><span class="line">A()</span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">  6           0 LOAD_CONST               1 ('func A')</span></span><br><span class="line"><span class="string">              2 STORE_FAST               0 (x)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  7           4 LOAD_GLOBAL              0 (B)</span></span><br><span class="line"><span class="string">              6 CALL_FUNCTION            0		# 偏移量的位置：A.lasti</span></span><br><span class="line"><span class="string">              8 POP_TOP</span></span><br><span class="line"><span class="string">             10 LOAD_CONST               0 (None)</span></span><br><span class="line"><span class="string">             12 RETURN_VALUE</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line">dis.dis(A)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>inspect模块,tractback模块只输出调用过程。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> inspect</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">A</span><span class="params">()</span>:</span></span><br><span class="line">    B()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">B</span><span class="params">()</span>:</span></span><br><span class="line">    C()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">C</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">for</span> f <span class="keyword">in</span> inspect.stack():</span><br><span class="line">        print(f.function, f.lineno)</span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">C 13</span></span><br><span class="line"><span class="string">B 9</span></span><br><span class="line"><span class="string">A 5</span></span><br><span class="line"><span class="string">&lt;module&gt; 17</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line">A()</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h2><ul>
+<li><p>设置递归深度</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看递归深度</span></span><br><span class="line">print(<span class="string">"默认的深度"</span>, sys.getrecursionlimit())</span><br><span class="line"><span class="comment"># 设置递归深度</span></span><br><span class="line">sys.setrecursionlimit(<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">(i)</span>:</span></span><br><span class="line">    print(i)</span><br><span class="line">    test(i + <span class="number">1</span>)</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">1</span></span><br><span class="line"><span class="string">2</span></span><br><span class="line"><span class="string">3</span></span><br><span class="line"><span class="string">4</span></span><br><span class="line"><span class="string">5</span></span><br><span class="line"><span class="string">6</span></span><br><span class="line"><span class="string">7</span></span><br><span class="line"><span class="string">RecursionError: maximum recursion depth exceeded while calling a Python object</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line">test(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>尾递归优化</p>
+<ul>
+<li>尾递归：一个函数中所有递归形式的调用都出现在函数的末尾，我们称这个递归函数是尾递归的。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">normal_recursion</span><span class="params">(n)</span>:</span></span><br><span class="line">  <span class="string">"""正常递归，求阶乘"""</span></span><br><span class="line">    <span class="keyword">if</span> n == <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> n * normal_recursion(n - <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 120</span></span><br><span class="line">print(normal_recursion(<span class="number">5</span>))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">tail_recursion</span><span class="params">(n, result)</span>:</span></span><br><span class="line">  <span class="string">"""尾递归形式"""</span></span><br><span class="line">    <span class="keyword">if</span> n == <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> tail_recursion(n - <span class="number">1</span>, result * n)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 120</span></span><br><span class="line">print(tail_recursion(<span class="number">5</span>, <span class="number">1</span>))</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>尾递归优势：假设A函数在最后调用了B，并直接返回了B函数的结果，那么A函数的栈帧就没有必要保存，其内存可以直接由B函数使用，并且函数调用指令可以优化为跳转指令，可以大大提升性能==&gt;尾递归优化，但是Python现不支持尾递归优化。</li>
+<li>尾递归优化实现</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TailRecurseException</span><span class="params">(BaseException)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, args, kwargs)</span>:</span></span><br><span class="line">        self.args = args</span><br><span class="line">        self.kwargs = kwargs</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">tail_call_optimized</span><span class="params">(g)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    This function decorates a function with tail call</span></span><br><span class="line"><span class="string">    optimization. It does this by throwing an exception</span></span><br><span class="line"><span class="string">    if it is it's own grandparent, and catching such</span></span><br><span class="line"><span class="string">    exceptions to fake the tail call optimization.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    This function fails if the decorated</span></span><br><span class="line"><span class="string">    function recurses in a non-tail context.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">    	<span class="string">"""</span></span><br><span class="line"><span class="string">    	原理：当递归函数被该装饰器修饰后, 递归调用在装饰器while循环内部进行, 每当产生新的递归调用栈帧时: f.f_back.f_back.f_code == f.f_code:, 就捕获当前尾调用函数的参数, 并抛出异常, 从而销毁递归栈并使用捕获的参数手动调用递归函数. 所以递归的过程中始终只存在一个栈帧对象, 达到优化的目的.</span></span><br><span class="line"><span class="string">    	"""</span></span><br><span class="line">        f = sys._getframe()</span><br><span class="line">        <span class="keyword">if</span> f.f_back <span class="keyword">and</span> f.f_back.f_back \</span><br><span class="line">                <span class="keyword">and</span> f.f_back.f_back.f_code == f.f_code:</span><br><span class="line">            <span class="comment"># 抛出异常</span></span><br><span class="line">            <span class="keyword">raise</span> TailRecurseException(args, kwargs)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">                <span class="keyword">try</span>:</span><br><span class="line">                    <span class="keyword">return</span> g(*args, **kwargs)</span><br><span class="line">                <span class="keyword">except</span> TailRecurseException <span class="keyword">as</span> e:</span><br><span class="line">                    args = e.args</span><br><span class="line">                    kwargs = e.kwargs</span><br><span class="line"></span><br><span class="line">    func.__doc__ = g.__doc__</span><br><span class="line">    <span class="keyword">return</span> func</span><br><span class="line"></span><br><span class="line"><span class="meta">@tail_call_optimized</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">factorial</span><span class="params">(n, acc=<span class="number">1</span>)</span>:</span></span><br><span class="line">    <span class="string">"""calculate a factorial"""</span></span><br><span class="line">    <span class="keyword">if</span> n == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> acc</span><br><span class="line">    <span class="keyword">return</span> factorial(n - <span class="number">1</span>, n * acc)</span><br><span class="line"></span><br><span class="line">print(factorial(<span class="number">10000</span>))</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="包装"><a href="#包装" class="headerlink" title="包装"></a>包装</h2><ul>
+<li><p>对已有的函数，可以通过包装改变其参数列表，使其符合特定调用接口。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> functools</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">(a, b, c)</span>:</span></span><br><span class="line">    print(locals())</span><br><span class="line"></span><br><span class="line">t = functools.partial(test, b=<span class="number">2</span>, c=<span class="number">3</span>)</span><br><span class="line">t(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>原理：包装函数将相关的参数合并后，在调用原目标。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">partial</span><span class="params">(func, *args, **keywords)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">newfunc</span><span class="params">(*fargs, **fkeywords)</span>:</span></span><br><span class="line">        newkeywords = keywords.copy() <span class="comment"># 复制包装键值参数</span></span><br><span class="line">        newkeywords.update(fkeywords) <span class="comment"># 使用调用键值参数更新包装键值参数</span></span><br><span class="line">        <span class="keyword">return</span> func(*args, *fargs, **newkeywords) <span class="comment"># 按序展开</span></span><br><span class="line">    newfunc.func = func</span><br><span class="line">    newfunc.args = args</span><br><span class="line">    newfunc.keywords = keywords</span><br><span class="line">    <span class="keyword">return</span> newfunc</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>合并原则</p>
+<ul>
+<li>包装位置参数优先。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> In[<span class="number">7</span>]: functools.partial(test,b=<span class="number">2</span>,c=<span class="number">3</span>)(<span class="number">1</span>)</span><br><span class="line">&#123;<span class="string">'c'</span>: <span class="number">3</span>, <span class="string">'b'</span>: <span class="number">2</span>, <span class="string">'a'</span>: <span class="number">1</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>调用键值参数覆盖包装参数。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">In[<span class="number">8</span>]: functools.partial(test,b=<span class="number">2</span>,c=<span class="number">3</span>)(<span class="number">1</span>,c=<span class="number">4</span>)</span><br><span class="line">&#123;<span class="string">'c'</span>: <span class="number">4</span>, <span class="string">'b'</span>: <span class="number">2</span>, <span class="string">'a'</span>: <span class="number">1</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>合并后不能对单个目标参数多次赋值。</li>
+</ul>
+</li>
+</ul>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><a href="https://item.jd.com/12261161.html" target="_blank" rel="noopener">《Python 3学习笔记（上卷》  雨痕</a></li>
+<li><a href="https://segmentfault.com/a/1190000007641519" target="_blank" rel="noopener">Python开启尾递归优化!</a></li>
+</ul>
+<p>PS:新人学习，新人写文章，若有不足，望请指出。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/Python%E5%9F%BA%E7%A1%80/" rel="tag"># Python基础</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2018/07/01/Python%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%87%BD%E6%95%B0%E7%9A%84%E4%BD%9C%E7%94%A8%E5%9F%9F/" rel="next" title="Python基础学习笔记——函数的作用域">
+                  <i class="fa fa-chevron-left"></i> Python基础学习笔记——函数的作用域
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2018/07/09/%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86/Python/Python%E7%B1%BB%E4%B9%8B%E5%AE%9A%E4%B9%89/" rel="prev" title="每日新知识--Python类之定义">
+                  每日新知识--Python类之定义 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#调用"><span class="nav-number">1.</span> <span class="nav-text">调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#堆栈"><span class="nav-number">2.</span> <span class="nav-text">堆栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#递归"><span class="nav-number">3.</span> <span class="nav-text">递归</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#包装"><span class="nav-number">4.</span> <span class="nav-text">包装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">5.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="Martin"
+    src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Martin</p>
+  <div class="site-description" itemprop="description">一只奔跑在代码之道上的猪</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备16004961号 </a><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=null" rel="noopener" target="_blank">null </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Martin</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

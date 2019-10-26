@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="文章摘要">
+<meta name="keywords" content="学习笔记,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="每日新知识--Python类的开放类">
+<meta property="og:url" content="http:&#x2F;&#x2F;fangjieblog.cn&#x2F;2018&#x2F;07&#x2F;12&#x2F;%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86&#x2F;Python&#x2F;Python%E7%B1%BB%E4%B9%8B%E5%BC%80%E6%94%BE%E7%B1%BB&#x2F;index.html">
+<meta property="og:site_name" content="随遇而安">
+<meta property="og:description" content="文章摘要">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-26T13:20:08.000Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://fangjieblog.cn/2018/07/12/%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86/Python/Python%E7%B1%BB%E4%B9%8B%E5%BC%80%E6%94%BE%E7%B1%BB/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>每日新知识--Python类的开放类 | 随遇而安</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">随遇而安</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">淡泊明志，宁静致远</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://fangjieblog.cn/2018/07/12/%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86/Python/Python%E7%B1%BB%E4%B9%8B%E5%BC%80%E6%94%BE%E7%B1%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Martin">
+      <meta itemprop="description" content="一只奔跑在代码之道上的猪">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="随遇而安">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          每日新知识--Python类的开放类
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-07-12 23:50:06" itemprop="dateCreated datePublished" datetime="2018-07-12T23:50:06+08:00">2018-07-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-10-26 21:20:08" itemprop="dateModified" datetime="2019-10-26T21:20:08+08:00">2019-10-26</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86/" itemprop="url" rel="index">
+                    <span itemprop="name">每日新知识</span>
+                  </a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index">
+                    <span itemprop="name">Python基础</span>
+                  </a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E3%80%8APython3-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index">
+                    <span itemprop="name">《Python3 学习笔记》阅读笔记</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>文章摘要</p>
+<a id="more"></a>
+<h2 id="开放类"><a href="#开放类" class="headerlink" title="开放类"></a>开放类</h2><p>Python可以在运行期动态向实例或类型添加成员甚至是方法。</p>
+<ul>
+<li><p>成员：通过类型或者实例直接进行赋值即可加入到相应的名字空间中。</p>
+</li>
+<li><p>方法：方法只能添加到类的名字空间中。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>:</span> <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">A.a = <span class="keyword">lambda</span> self: print(<span class="string">f"instance method:<span class="subst">&#123;self&#125;</span>"</span>)</span><br><span class="line">A.b = classmethod(<span class="keyword">lambda</span> cls: print(<span class="string">f"class method:<span class="subst">&#123;cls&#125;</span>"</span>))</span><br><span class="line">A.c = staticmethod(<span class="keyword">lambda</span>: print(<span class="string">f"static method"</span>))</span><br><span class="line"></span><br><span class="line">o=A()</span><br><span class="line"></span><br><span class="line"><span class="comment"># instance method:&lt;__main__.A object at 0x7f8a3ae0b668&gt;</span></span><br><span class="line">o.a()</span><br><span class="line"><span class="comment"># class method:&lt;class '__main__.A'&gt;</span></span><br><span class="line">o.b()</span><br><span class="line"><span class="comment"># static method</span></span><br><span class="line">o.c()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>但是对于祖先根类object来说，是无法向其类型或实例添加新的成员的，因为其根本没有<code>__dict__</code>。但是可以通过SimpleNamespace(对object的简单继承)来直接创建实例。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> types <span class="keyword">import</span> SimpleNamespace</span><br><span class="line"></span><br><span class="line">o = SimpleNamespace(a=<span class="number">1</span>,b=<span class="string">"231"</span>)</span><br><span class="line">o.c=<span class="string">'c'</span></span><br><span class="line"><span class="comment"># &#123;'a': 1, 'b': '231', 'c': 'c'&#125;</span></span><br><span class="line">print(o.__dict__)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="slots"><a href="#slots" class="headerlink" title="__slots__"></a><code>__slots__</code></h2><ul>
+<li><p>名字空间字典虽然带来了很多便利，但是对于需要创建海量实例的类型来说，这会造成很严重的内存和性能问题，因此可以通过<code>__slots__</code>来进行固话处理。解释器会阻止实例创建<code>__dict__</code>等成员，仅仅为指定成员分配空间，如果添加任何未预置的属性则会引发异常。其原理是：解释器在创建类型对象时，会直接将指定成员包装成描述符静态分配到类型对象的尾部。实例字段不再存储到<code>__dict__</code>中，而是直接分配引用的内存。因此只能修改引用的内容，而无法改变成员的名字。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>:</span></span><br><span class="line">    __slots__ = (<span class="string">"x"</span>,<span class="string">"y"</span>)</span><br><span class="line"></span><br><span class="line">o=A()</span><br><span class="line">o.x=<span class="number">100</span></span><br><span class="line"><span class="comment"># AttributeError: 'A' object has no attribute 'z'</span></span><br><span class="line">o.z=<span class="number">1</span></span><br><span class="line"><span class="comment"># AttributeError: 'A' object has no attribute '__dict__'</span></span><br><span class="line">print(o.__dict__)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>__slots</code>只能用于约束实例，而且不能将<code>__dict__</code>放入其中。</p>
+</li>
+<li><p>如继承的父类中设置了<code>__slots__</code>，子类不设置的话，则实例会创建<code>__dict__</code>。若设置了，则向父类<code>__slots__</code>的追加。</p>
+</li>
+<li><p>性能分析</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pympler.asizeof <span class="keyword">import</span> asized</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, x, y)</span>:</span></span><br><span class="line">        self.x = x</span><br><span class="line">        self.y = y</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span>:</span></span><br><span class="line">    __slots__ = (<span class="string">'x'</span>, <span class="string">'y'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, x, y)</span>:</span></span><br><span class="line">        self.x = x</span><br><span class="line">        self.y = y</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">&lt;__main__.A object at 0x7f9f8aabe668&gt; size=344 flat=56</span></span><br><span class="line"><span class="string">    __dict__ size=288 flat=112</span></span><br><span class="line"><span class="string">        [K] x size=56 flat=56</span></span><br><span class="line"><span class="string">        [K] y size=56 flat=56</span></span><br><span class="line"><span class="string">        [V] x: 1 size=32 flat=32</span></span><br><span class="line"><span class="string">        [V] y: 2 size=32 flat=32</span></span><br><span class="line"><span class="string">    __class__ size=0 flat=0</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line">print(asized(A(<span class="number">1</span>,<span class="number">2</span>),detail=<span class="number">2</span>).format())</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">&lt;__main__.B object at 0x7f9f8aabe940&gt; size=192 flat=56</span></span><br><span class="line"><span class="string">    __slots__ size=72 flat=72</span></span><br><span class="line"><span class="string">    x size=32 flat=32</span></span><br><span class="line"><span class="string">    y size=32 flat=32</span></span><br><span class="line"><span class="string">    __class__ size=0 flat=0</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line">print(asized(B(<span class="number">1</span>,<span class="number">2</span>),detail=<span class="number">2</span>).format())</span><br><span class="line"></span><br><span class="line"><span class="meta">@profile</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></span><br><span class="line">    x=range(<span class="number">1000000</span>)</span><br><span class="line">    a=[A(<span class="number">1</span>,<span class="number">2</span>) <span class="keyword">for</span> i <span class="keyword">in</span> x]</span><br><span class="line">    b=[B(<span class="number">1</span>,<span class="number">2</span>) <span class="keyword">for</span> i <span class="keyword">in</span> x]</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    test()</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 安装pip3 install line_profiler，执行kernprof -l -v analyse.py </span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">Line #      Hits         Time  Per Hit   % Time  Line Contents</span></span><br><span class="line"><span class="string">==============================================================</span></span><br><span class="line"><span class="string">    18                                           @profile</span></span><br><span class="line"><span class="string">    19                                           def test():</span></span><br><span class="line"><span class="string">    20         1          3.0      3.0      0.0      x=range(1000000)</span></span><br><span class="line"><span class="string">    21         1    1090771.0 1090771.0     52.5      a=[A(1,2) for i in x]</span></span><br><span class="line"><span class="string">    22         1     985440.0 985440.0     47.5      b=[B(1,2) for i in x]</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装 pip install memory_profiler，执行python3 -m memory_profiler analyse.py</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">Line #    Mem usage    Increment   Line Contents</span></span><br><span class="line"><span class="string">================================================</span></span><br><span class="line"><span class="string">    18   32.297 MiB   32.297 MiB   @profile</span></span><br><span class="line"><span class="string">    19                             def test():</span></span><br><span class="line"><span class="string">    20   32.297 MiB    0.000 MiB       x=range(1000000)</span></span><br><span class="line"><span class="string">    21  203.027 MiB  170.730 MiB       a=[A(1,2) for i in x]</span></span><br><span class="line"><span class="string">    22  264.941 MiB   61.914 MiB       b=[B(1,2) for i in x]</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://item.jd.com/12261161.html" target="_blank" rel="noopener">《Python 3学习笔记（上卷》  雨痕</a></li>
+</ul>
+<p>PS:新人学习，新人写文章，若有不足，望请指出。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
+              <a href="/tags/Python/" rel="tag"># Python</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2018/07/12/%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86/%E7%BD%91%E7%BB%9C/PXE/" rel="next" title="每日新知识--PXE">
+                  <i class="fa fa-chevron-left"></i> 每日新知识--PXE
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2018/07/13/%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86/Python/Python%E5%BC%82%E5%B8%B8/" rel="prev" title="每日新知识--Python异常">
+                  每日新知识--Python异常 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#开放类"><span class="nav-number">1.</span> <span class="nav-text">开放类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#slots"><span class="nav-number">2.</span> <span class="nav-text">__slots__</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="Martin"
+    src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Martin</p>
+  <div class="site-description" itemprop="description">一只奔跑在代码之道上的猪</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备16004961号 </a><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=null" rel="noopener" target="_blank">null </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Martin</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="记录学习python collections模块的学习笔记。">
+<meta name="keywords" content="学习笔记,Python,Python基础,collection">
+<meta property="og:type" content="article">
+<meta property="og:title" content="collections学习笔记">
+<meta property="og:url" content="http:&#x2F;&#x2F;fangjieblog.cn&#x2F;2018&#x2F;04&#x2F;13&#x2F;collections&#x2F;index.html">
+<meta property="og:site_name" content="随遇而安">
+<meta property="og:description" content="记录学习python collections模块的学习笔记。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-26T13:20:08.000Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://fangjieblog.cn/2018/04/13/collections/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>collections学习笔记 | 随遇而安</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">随遇而安</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">淡泊明志，宁静致远</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://fangjieblog.cn/2018/04/13/collections/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Martin">
+      <meta itemprop="description" content="一只奔跑在代码之道上的猪">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="随遇而安">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          collections学习笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-04-13 22:51:05" itemprop="dateCreated datePublished" datetime="2018-04-13T22:51:05+08:00">2018-04-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-10-26 21:20:08" itemprop="dateModified" datetime="2019-10-26T21:20:08+08:00">2019-10-26</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index">
+                    <span itemprop="name">Python基础学习笔记</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>记录学习python collections模块的学习笔记。</p>
+<a id="more"></a>
+
+<h1 id="collections"><a href="#collections" class="headerlink" title="collections"></a>collections</h1><ul>
+<li>提供用于替换dict，list，set和tuple的替代品</li>
+</ul>
+<h2 id="nametuple"><a href="#nametuple" class="headerlink" title="nametuple"></a>nametuple</h2><ul>
+<li><p>作用：让元组能类似于类一样访问元素</p>
+</li>
+<li><p>namedtuple(<em>typename</em>, <em>field_names</em>, <em>*, verbose=False</em>, <em>rename=False</em>, <em>module=None</em>)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将返回一个被命名的的元组的子类，</span></span><br><span class="line"><span class="comment"># typename:返回的子类名称</span></span><br><span class="line"><span class="comment"># field_name:存储子类的属性，为list或为一个用空格作为间隔的字符串</span></span><br><span class="line"><span class="comment"># rename：是否能将无效的命名自动替换</span></span><br><span class="line"><span class="comment"># module：制定__module__</span></span><br><span class="line">In[<span class="number">2</span>]: <span class="keyword">from</span> collections <span class="keyword">import</span> namedtuple</span><br><span class="line">In[<span class="number">3</span>]: Point = namedtuple(<span class="string">"Point"</span>,[<span class="string">'x'</span>,<span class="string">'y'</span>])</span><br><span class="line">In[<span class="number">4</span>]: type(Point)</span><br><span class="line">Out[<span class="number">4</span>]: type</span><br><span class="line">In[<span class="number">5</span>]: p=Point(x=<span class="number">11</span>,y=<span class="number">12</span>)</span><br><span class="line">In[<span class="number">6</span>]: p</span><br><span class="line">Out[<span class="number">6</span>]: Point(x=<span class="number">11</span>, y=<span class="number">12</span>)</span><br><span class="line">In[<span class="number">7</span>]: p.x</span><br><span class="line">Out[<span class="number">7</span>]: <span class="number">11</span></span><br><span class="line">In[<span class="number">8</span>]: p.y</span><br><span class="line">Out[<span class="number">8</span>]: <span class="number">12</span></span><br><span class="line"><span class="comment"># 处理继承元组的方法，还支持以下三个额外的方法和两个属性</span></span><br><span class="line"><span class="comment"># _make(p)：通过p中的内容创建这个namedtuple</span></span><br><span class="line">In[<span class="number">9</span>]: p=Point._make([<span class="number">8</span>,<span class="number">9</span>])</span><br><span class="line">In[<span class="number">10</span>]: p</span><br><span class="line">Out[<span class="number">10</span>]: Point(x=<span class="number">8</span>, y=<span class="number">9</span>)</span><br><span class="line"><span class="comment"># _asdict:转换为字典 </span></span><br><span class="line">In[<span class="number">11</span>]: p._asdict()</span><br><span class="line">Out[<span class="number">11</span>]: OrderedDict([(<span class="string">'x'</span>, <span class="number">8</span>), (<span class="string">'y'</span>, <span class="number">9</span>)])</span><br><span class="line"><span class="comment"># 修改属性值</span></span><br><span class="line">In[<span class="number">12</span>]: p._replace(x=<span class="number">4</span>)</span><br><span class="line">Out[<span class="number">12</span>]: Point(x=<span class="number">4</span>, y=<span class="number">9</span>)</span><br><span class="line"><span class="comment"># 因为其为元组，所以其值是不能变的</span></span><br><span class="line">In[<span class="number">13</span>]: p.x=<span class="number">8</span></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"/home/martin/.local/lib/python3.6/site-packages/IPython/core/interactiveshell.py"</span>, line <span class="number">2910</span>, <span class="keyword">in</span> run_code</span><br><span class="line">    exec(code_obj, self.user_global_ns, self.user_ns)</span><br><span class="line">  File <span class="string">"&lt;ipython-input-13-f72b7b024aa4&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    p.x=<span class="number">8</span></span><br><span class="line">AttributeError: can<span class="string">'t set attribute</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># 获得其python源码</span></span><br><span class="line"><span class="string">In[15]: p._source</span></span><br><span class="line"><span class="string">Out[15]: "from builtins import property as _property, tuple as _tuple\nfrom operator import itemgetter as _itemgetter\nfrom collections import OrderedDict\n\nclass Point(tuple):\n    '</span>Point(x, y)<span class="string">'\n\n    __slots__ = ()\n\n    _fields = ('</span>x<span class="string">', '</span>y<span class="string">')\n\n    def __new__(_cls, x, y):\n        '</span>Create new instance of Point(x, y)<span class="string">'\n        return _tuple.__new__(_cls, (x, y))\n\n    @classmethod\n    def _make(cls, iterable, new=tuple.__new__, len=len):\n        '</span>Make a new Point object <span class="keyword">from</span> a sequence <span class="keyword">or</span> iterable<span class="string">'\n        result = new(cls, iterable)\n        if len(result) != 2:\n            raise TypeError('</span>Expected <span class="number">2</span> arguments, got %d<span class="string">' % len(result))\n        return result\n\n    def _replace(_self, **kwds):\n        '</span>Return a new Point object replacing specified fields <span class="keyword">with</span> new values<span class="string">'\n        result = _self._make(map(kwds.pop, ('</span>x<span class="string">', '</span>y<span class="string">'), _self))\n        if kwds:\n            raise ValueError('</span>Got unexpected field names: %<span class="string">r' % list(kwds))\n        return result\n\n    def __repr__(self):\n        '</span>Return a nicely formatted representation string<span class="string">'\n        return self.__class__.__name__ + '</span>(x=%r, y=%r)<span class="string">' % self\n\n    def _asdict(self):\n        '</span>Return a new OrderedDict which maps field names to their values.<span class="string">'\n        return OrderedDict(zip(self._fields, self))\n\n    def __getnewargs__(self):\n        '</span>Return self <span class="keyword">as</span> a plain tuple.  Used by copy <span class="keyword">and</span> pickle.<span class="string">'\n        return tuple(self)\n\n    x = _property(_itemgetter(0), doc='</span>Alias <span class="keyword">for</span> field number <span class="number">0</span><span class="string">')\n\n    y = _property(_itemgetter(1), doc='</span>Alias <span class="keyword">for</span> field number <span class="number">1</span><span class="string">')\n\n"</span></span><br><span class="line"><span class="string"># 获得其字段</span></span><br><span class="line"><span class="string">In[16]: p._fields</span></span><br><span class="line"><span class="string">Out[16]: ('</span>x<span class="string">', '</span>y<span class="string">')</span></span><br><span class="line"><span class="string">  </span></span><br><span class="line"><span class="string"># 能通过字典直接解析回去</span></span><br><span class="line"><span class="string">In[17]: d = &#123;'</span>x<span class="string">': 11, '</span>y<span class="string">': 22&#125;</span></span><br><span class="line"><span class="string">In[18]: Point(**d)</span></span><br><span class="line"><span class="string">Out[18]: Point(x=11, y=22)</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="deque"><a href="#deque" class="headerlink" title="deque"></a>deque</h2><ul>
+<li><p>作用：提供一个双端队列</p>
+</li>
+<li><p>方法：</p>
+<ul>
+<li>append(x)：右边添加元素。</li>
+<li>appendleft(x)：左边添加元素。</li>
+<li>clear()：清空。</li>
+<li>copy()：浅复制。</li>
+<li>count(<em>x</em>)：统计某个元素的数量。</li>
+<li>extend(iterable)：在右边扩展。</li>
+<li>extendleft(iterable)：冲左边扩展。</li>
+<li>index(x[, start[, stop]])：索引。</li>
+<li>pop()：右边pop出一个元素。</li>
+<li>popleft()：左边pop出一个元素。</li>
+<li>reverse()：反转。</li>
+<li>rotate(n=1)：n为正，将左边的n个元素旋转到左边，n为负则相反。</li>
+<li>maxlen()：最大长度。</li>
+</ul>
+</li>
+<li><p>使用</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 接受一个可迭代对象</span></span><br><span class="line">In[<span class="number">2</span>]: <span class="keyword">from</span> collections <span class="keyword">import</span> deque</span><br><span class="line">In[<span class="number">3</span>]: d = deque(<span class="string">'123'</span>)</span><br><span class="line">In[<span class="number">4</span>]: <span class="keyword">for</span> element <span class="keyword">in</span> d:</span><br><span class="line">  ...:     print(element)</span><br><span class="line">  ...:     </span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line">In[<span class="number">5</span>]: d=deque([<span class="number">1</span>,<span class="number">3</span>,<span class="number">4</span>])</span><br><span class="line">In[<span class="number">6</span>]: d</span><br><span class="line">Out[<span class="number">6</span>]: deque([<span class="number">1</span>, <span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 添加元素</span></span><br><span class="line">In[<span class="number">7</span>]: d.append(<span class="number">4</span>)</span><br><span class="line">In[<span class="number">8</span>]: d</span><br><span class="line">Out[<span class="number">8</span>]: deque([<span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>, <span class="number">4</span>])</span><br><span class="line">In[<span class="number">9</span>]: d.appendleft(<span class="number">0</span>)</span><br><span class="line">In[<span class="number">10</span>]: d</span><br><span class="line">Out[<span class="number">10</span>]: deque([<span class="number">0</span>, <span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>, <span class="number">4</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除元素</span></span><br><span class="line">In[<span class="number">11</span>]: d.pop()</span><br><span class="line">Out[<span class="number">11</span>]: <span class="number">4</span></span><br><span class="line">In[<span class="number">12</span>]: d</span><br><span class="line">Out[<span class="number">12</span>]: deque([<span class="number">0</span>, <span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>])</span><br><span class="line">In[<span class="number">13</span>]: d.popleft()</span><br><span class="line">Out[<span class="number">13</span>]: <span class="number">0</span></span><br><span class="line">In[<span class="number">14</span>]: d</span><br><span class="line">Out[<span class="number">14</span>]: deque([<span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>])</span><br><span class="line">    </span><br><span class="line"><span class="comment"># extend</span></span><br><span class="line">In[<span class="number">15</span>]: d.extend(<span class="string">'456'</span>)</span><br><span class="line">In[<span class="number">16</span>]: d</span><br><span class="line">Out[<span class="number">16</span>]: deque([<span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>, <span class="string">'4'</span>, <span class="string">'5'</span>, <span class="string">'6'</span>])</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">moving_average</span><span class="params">(iterable, n=<span class="number">3</span>)</span>:</span></span><br><span class="line">    <span class="comment"># 从左往右依次求长度为n的平均值</span></span><br><span class="line">    <span class="comment"># moving_average([40, 30, 50, 46, 39, 44]) --&gt; 40.0 42.0 45.0 43.0</span></span><br><span class="line">    <span class="comment"># http://en.wikipedia.org/wiki/Moving_average</span></span><br><span class="line">    it = iter(iterable)</span><br><span class="line">    d = deque(islice(it, n - <span class="number">1</span>))</span><br><span class="line">    d.appendleft(<span class="number">0</span>)</span><br><span class="line">    s = sum(d)</span><br><span class="line">    <span class="keyword">for</span> elem <span class="keyword">in</span> it:</span><br><span class="line">        s += elem - d.popleft()</span><br><span class="line">        d.append(elem)</span><br><span class="line">        <span class="keyword">yield</span> s / n</span><br><span class="line">        </span><br><span class="line"><span class="comment"># 删除序号为n的元素</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">delete_nth</span><span class="params">(d, n)</span>:</span></span><br><span class="line">    d.rotate(-n)</span><br><span class="line">    d.popleft()</span><br><span class="line">    d.rotate(n)</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h2 id="defaultdict"><a href="#defaultdict" class="headerlink" title="defaultdict"></a>defaultdict</h2><ul>
+<li><p>为dict的一个子类,为一个可以设置value的类型的字典</p>
+</li>
+<li><p>使用</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># defaultdict(类型)</span></span><br><span class="line">In[<span class="number">6</span>]: <span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict</span><br><span class="line">In[<span class="number">7</span>]: s = [(<span class="string">'yellow'</span>, <span class="number">1</span>), (<span class="string">'blue'</span>, <span class="number">2</span>), (<span class="string">'yellow'</span>, <span class="number">3</span>), (<span class="string">'blue'</span>, <span class="number">4</span>), (<span class="string">'red'</span>, <span class="number">1</span>)]</span><br><span class="line">In[<span class="number">8</span>]: d = defaultdict(list)</span><br><span class="line">In[<span class="number">9</span>]: <span class="keyword">for</span> k,v <span class="keyword">in</span> s:</span><br><span class="line">  ...:     d[k].append(v)</span><br><span class="line">  ...:     </span><br><span class="line">In[<span class="number">10</span>]: d</span><br><span class="line">Out[<span class="number">10</span>]: defaultdict(list, &#123;<span class="string">'blue'</span>: [<span class="number">2</span>, <span class="number">4</span>], <span class="string">'red'</span>: [<span class="number">1</span>], <span class="string">'yellow'</span>: [<span class="number">1</span>, <span class="number">3</span>]&#125;)</span><br><span class="line"><span class="comment"># 等价于</span></span><br><span class="line">In[<span class="number">15</span>]: d= &#123;&#125;</span><br><span class="line">In[<span class="number">16</span>]: <span class="keyword">for</span> k,v <span class="keyword">in</span> s:</span><br><span class="line">   ...:     d.setdefault(k,[]).append(v)</span><br><span class="line">   ...:     </span><br><span class="line">In[<span class="number">17</span>]: d</span><br><span class="line">Out[<span class="number">17</span>]: &#123;<span class="string">'blue'</span>: [<span class="number">2</span>, <span class="number">4</span>], <span class="string">'red'</span>: [<span class="number">1</span>], <span class="string">'yellow'</span>: [<span class="number">1</span>, <span class="number">3</span>]&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解析</span></span><br><span class="line"><span class="comment"># defaultdict有一个__missing__(key)方法，用于当缺乏这个关键字的时候设置根据default_factory属性设置value类型</span></span><br><span class="line">In[<span class="number">21</span>]: d=defaultdict(int)</span><br><span class="line">In[<span class="number">22</span>]: d[<span class="string">'1'</span>]</span><br><span class="line">Out[<span class="number">22</span>]: <span class="number">0</span></span><br><span class="line">In[<span class="number">23</span>]: d</span><br><span class="line">Out[<span class="number">23</span>]: defaultdict(int, &#123;<span class="string">'1'</span>: <span class="number">0</span>&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">#自定义default_factory</span></span><br><span class="line">In[<span class="number">24</span>]: <span class="function"><span class="keyword">def</span> <span class="title">constant_factory</span><span class="params">(value)</span>:</span></span><br><span class="line">   ...:     <span class="keyword">return</span> <span class="keyword">lambda</span>: value</span><br><span class="line">   ...: </span><br><span class="line">In[<span class="number">29</span>]: d = defaultdict(constant_factory(<span class="string">'&lt;missing&gt;'</span>))</span><br><span class="line">In[<span class="number">30</span>]: d[<span class="string">'1'</span>]</span><br><span class="line">Out[<span class="number">30</span>]: <span class="string">'&lt;missing&gt;'</span></span><br><span class="line">In[<span class="number">31</span>]: d</span><br><span class="line">Out[<span class="number">31</span>]: defaultdict(&lt;function __main__.constant_factory.&lt;locals&gt;.&lt;<span class="keyword">lambda</span>&gt;&gt;,&#123;<span class="string">'1'</span>: <span class="string">'&lt;missing&gt;'</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="ChainMap"><a href="#ChainMap" class="headerlink" title="ChainMap"></a>ChainMap</h2><ul>
+<li><p>将多个map连接在一起</p>
+</li>
+<li><p>使用</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">In[<span class="number">41</span>]: a=&#123;<span class="string">'1'</span>:<span class="number">1</span>,<span class="string">'2'</span>:<span class="number">2</span>&#125;</span><br><span class="line">In[<span class="number">42</span>]: b=&#123;<span class="string">'3'</span>:<span class="number">3</span>,<span class="string">'4'</span>:<span class="number">4</span>&#125;</span><br><span class="line">In[<span class="number">43</span>]: <span class="keyword">from</span> collections <span class="keyword">import</span> ChainMap</span><br><span class="line">In[<span class="number">44</span>]: d=ChainMap(a,b)</span><br><span class="line">In[<span class="number">45</span>]: d</span><br><span class="line">Out[<span class="number">45</span>]: ChainMap(&#123;<span class="string">'1'</span>: <span class="number">1</span>, <span class="string">'2'</span>: <span class="number">2</span>&#125;, &#123;<span class="string">'3'</span>: <span class="number">3</span>, <span class="string">'4'</span>: <span class="number">4</span>&#125;)</span><br><span class="line"><span class="comment"># maps用list存储所有可能的map</span></span><br><span class="line">In[<span class="number">46</span>]: d.maps</span><br><span class="line">Out[<span class="number">46</span>]: [&#123;<span class="string">'1'</span>: <span class="number">1</span>, <span class="string">'2'</span>: <span class="number">2</span>&#125;, &#123;<span class="string">'3'</span>: <span class="number">3</span>, <span class="string">'4'</span>: <span class="number">4</span>&#125;]</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">In[<span class="number">49</span>]: a=&#123;<span class="string">'1'</span>:<span class="number">1</span>,<span class="string">'2'</span>:<span class="number">2</span>&#125;</span><br><span class="line">In[<span class="number">50</span>]: b=&#123;<span class="string">'3'</span>:<span class="number">3</span>,<span class="string">'4'</span>:<span class="number">4</span>&#125;</span><br><span class="line">In[<span class="number">51</span>]: c=&#123;<span class="string">'5'</span>:<span class="number">5</span>,<span class="string">'6'</span>:<span class="number">6</span>&#125;</span><br><span class="line">In[<span class="number">52</span>]: <span class="keyword">from</span> collections <span class="keyword">import</span> ChainMap</span><br><span class="line">In[<span class="number">53</span>]: d=ChainMap(a,b,c)</span><br><span class="line">In[<span class="number">54</span>]: d</span><br><span class="line">Out[<span class="number">54</span>]: ChainMap(&#123;<span class="string">'1'</span>: <span class="number">1</span>, <span class="string">'2'</span>: <span class="number">2</span>&#125;, &#123;<span class="string">'3'</span>: <span class="number">3</span>, <span class="string">'4'</span>: <span class="number">4</span>&#125;, &#123;<span class="string">'5'</span>: <span class="number">5</span>, <span class="string">'6'</span>: <span class="number">6</span>&#125;)</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 返回一个新的ChainMap，这个实例排除第一个</span></span><br><span class="line">In[<span class="number">55</span>]: d.parents</span><br><span class="line">Out[<span class="number">55</span>]: ChainMap(&#123;<span class="string">'3'</span>: <span class="number">3</span>, <span class="string">'4'</span>: <span class="number">4</span>&#125;, &#123;<span class="string">'5'</span>: <span class="number">5</span>, <span class="string">'6'</span>: <span class="number">6</span>&#125;)</span><br><span class="line"><span class="comment"># 等价ChainMap(*d.maps[1:])</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="Counter"><a href="#Counter" class="headerlink" title="Counter"></a>Counter</h2><ul>
+<li><p>计数工具，返回的是一个map，为dict的子类</p>
+</li>
+<li><p>使用</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">In[<span class="number">56</span>]: <span class="keyword">from</span> collections <span class="keyword">import</span> Counter</span><br><span class="line">In[<span class="number">57</span>]: cnt = Counter()</span><br><span class="line">In[<span class="number">58</span>]: <span class="keyword">for</span> word <span class="keyword">in</span> [<span class="string">'red'</span>, <span class="string">'blue'</span>, <span class="string">'red'</span>, <span class="string">'green'</span>, <span class="string">'blue'</span>, <span class="string">'blue'</span>]:</span><br><span class="line">   ...:     cnt[word] += <span class="number">1</span></span><br><span class="line">   ...:     </span><br><span class="line">In[<span class="number">59</span>]: cnt</span><br><span class="line">Out[<span class="number">59</span>]: Counter(&#123;<span class="string">'blue'</span>: <span class="number">3</span>, <span class="string">'green'</span>: <span class="number">1</span>, <span class="string">'red'</span>: <span class="number">2</span>&#125;)</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 使用可迭代对象</span></span><br><span class="line">In[<span class="number">60</span>]: c = Counter(<span class="string">'gallahad'</span>)</span><br><span class="line">In[<span class="number">61</span>]: c</span><br><span class="line">Out[<span class="number">61</span>]: Counter(&#123;<span class="string">'a'</span>: <span class="number">3</span>, <span class="string">'d'</span>: <span class="number">1</span>, <span class="string">'g'</span>: <span class="number">1</span>, <span class="string">'h'</span>: <span class="number">1</span>, <span class="string">'l'</span>: <span class="number">2</span>&#125;)</span><br><span class="line"><span class="comment"># 没有的值默认返回0</span></span><br><span class="line">In[<span class="number">62</span>]: c[<span class="number">1</span>]</span><br><span class="line">Out[<span class="number">62</span>]: <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获得所有的元素,当value为0或负数时会被忽略</span></span><br><span class="line">In[<span class="number">64</span>]: list(c.elements())</span><br><span class="line">Out[<span class="number">64</span>]: [<span class="string">'g'</span>, <span class="string">'a'</span>, <span class="string">'a'</span>, <span class="string">'a'</span>, <span class="string">'l'</span>, <span class="string">'l'</span>, <span class="string">'h'</span>, <span class="string">'d'</span>]</span><br><span class="line"><span class="comment"># 获得前n个最多的元素，要求值可以被排序</span></span><br><span class="line">In[<span class="number">65</span>]: list(c.most_common(<span class="number">2</span>))</span><br><span class="line">Out[<span class="number">65</span>]: [(<span class="string">'a'</span>, <span class="number">3</span>), (<span class="string">'l'</span>, <span class="number">2</span>)]</span><br><span class="line"><span class="comment"># 对应元素执行减法</span></span><br><span class="line">In[<span class="number">67</span>]: c = Counter(a=<span class="number">4</span>, b=<span class="number">2</span>, c=<span class="number">0</span>, d=<span class="number">-2</span>)</span><br><span class="line">In[<span class="number">68</span>]: d = Counter(a=<span class="number">1</span>, b=<span class="number">2</span>, c=<span class="number">3</span>, d=<span class="number">4</span>)</span><br><span class="line">In[<span class="number">69</span>]: c.subtract(d)</span><br><span class="line">In[<span class="number">70</span>]: c</span><br><span class="line">Out[<span class="number">70</span>]: Counter(&#123;<span class="string">'a'</span>: <span class="number">3</span>, <span class="string">'b'</span>: <span class="number">0</span>, <span class="string">'c'</span>: <span class="number">-3</span>, <span class="string">'d'</span>: <span class="number">-6</span>&#125;)</span><br><span class="line"><span class="comment"># 更新，存在相同的key，会对其value执行+</span></span><br><span class="line">In[<span class="number">77</span>]: d.update(c)</span><br><span class="line">In[<span class="number">78</span>]: d</span><br><span class="line">Out[<span class="number">78</span>]: Counter(&#123;<span class="string">'a'</span>: <span class="number">4</span>, <span class="string">'b'</span>: <span class="number">2</span>, <span class="string">'c'</span>: <span class="number">0</span>, <span class="string">'d'</span>: <span class="number">-2</span>&#125;)</span><br><span class="line"><span class="comment"># 支持基本数学运算</span></span><br><span class="line">In[<span class="number">79</span>]: c = Counter(a=<span class="number">3</span>, b=<span class="number">1</span>)</span><br><span class="line">In[<span class="number">80</span>]: d = Counter(a=<span class="number">1</span>, b=<span class="number">2</span>)</span><br><span class="line">In[<span class="number">81</span>]: c +d</span><br><span class="line">Out[<span class="number">81</span>]: Counter(&#123;<span class="string">'a'</span>: <span class="number">4</span>, <span class="string">'b'</span>: <span class="number">3</span>&#125;)</span><br><span class="line">In[<span class="number">82</span>]: c-d</span><br><span class="line">Out[<span class="number">82</span>]: Counter(&#123;<span class="string">'a'</span>: <span class="number">2</span>&#125;)</span><br><span class="line">In[<span class="number">83</span>]: c&amp;d</span><br><span class="line">Out[<span class="number">83</span>]: Counter(&#123;<span class="string">'a'</span>: <span class="number">1</span>, <span class="string">'b'</span>: <span class="number">1</span>&#125;)</span><br><span class="line">In[<span class="number">84</span>]: c|d</span><br><span class="line">Out[<span class="number">84</span>]: Counter(&#123;<span class="string">'a'</span>: <span class="number">3</span>, <span class="string">'b'</span>: <span class="number">2</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h2 id="OrderedDict"><a href="#OrderedDict" class="headerlink" title="OrderedDict"></a>OrderedDict</h2><ul>
+<li><p>有序的字典，返回dict的子类，排序是按照第一次插入的顺序。</p>
+</li>
+<li><p>缺陷：在有序字典中，需要维护一个根据键插入顺序排序的双向列表，所以其大小为一般字典的两倍，所以在大量数据中使用时，需要考虑到其开销问题。</p>
+</li>
+<li><p>使用</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">In[<span class="number">19</span>]: <span class="keyword">from</span> collections <span class="keyword">import</span> OrderedDict</span><br><span class="line">In[<span class="number">20</span>]: d=OrderedDict()</span><br><span class="line">In[<span class="number">21</span>]: d[<span class="string">'1'</span>]=<span class="number">1</span></span><br><span class="line">In[<span class="number">22</span>]: d[<span class="string">'2'</span>]=<span class="number">2</span></span><br><span class="line">In[<span class="number">23</span>]: d[<span class="string">'3'</span>]=<span class="number">4</span></span><br><span class="line">In[<span class="number">24</span>]: d[<span class="string">'3'</span>]=<span class="number">3</span></span><br><span class="line">In[<span class="number">25</span>]: d[<span class="string">'4'</span>]=<span class="number">4</span></span><br><span class="line">In[<span class="number">26</span>]: <span class="keyword">for</span> k,v <span class="keyword">in</span> d.items():</span><br><span class="line">   ...:     print(k,v)</span><br><span class="line">   ...:     </span><br><span class="line"><span class="number">1</span> <span class="number">1</span></span><br><span class="line"><span class="number">2</span> <span class="number">2</span></span><br><span class="line"><span class="number">3</span> <span class="number">3</span></span><br><span class="line"><span class="number">4</span> <span class="number">4</span></span><br><span class="line"><span class="comment"># 可以用在json解析中，规定字段的位置</span></span><br><span class="line"><span class="comment"># 从LIFO： popitem(last=True), FIFO： popitem(False)从头pop元素</span></span><br><span class="line">In[<span class="number">28</span>]: d.popitem()</span><br><span class="line">Out[<span class="number">28</span>]: (<span class="string">'4'</span>, <span class="number">4</span>)</span><br><span class="line">In[<span class="number">29</span>]：d.popitem(<span class="literal">False</span>)</span><br><span class="line">Out[<span class="number">29</span>]: (<span class="string">'1'</span>, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将元素移动到后面</span></span><br><span class="line">In[<span class="number">34</span>]: d = OrderedDict.fromkeys(<span class="string">'abcde'</span>)</span><br><span class="line">In[<span class="number">35</span>]: d.move_to_end(<span class="string">'b'</span>)</span><br><span class="line">In[<span class="number">36</span>]: <span class="string">''</span>.join(d.keys())</span><br><span class="line">Out[<span class="number">36</span>]: <span class="string">'acdeb'</span></span><br><span class="line">In[<span class="number">37</span>]: d.move_to_end(<span class="string">'b'</span>,last=<span class="literal">False</span>)</span><br><span class="line">In[<span class="number">38</span>]: <span class="string">''</span>.join(d.keys())</span><br><span class="line">Out[<span class="number">38</span>]: <span class="string">'bacde'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 反转</span></span><br><span class="line">In[<span class="number">39</span>]: d = OrderedDict.fromkeys(<span class="string">'abcde'</span>)</span><br><span class="line">In[<span class="number">40</span>]: reversed(d)</span><br><span class="line">Out[<span class="number">40</span>]: &lt;odict_iterator at <span class="number">0x7f9570ae2a98</span>&gt;</span><br><span class="line">In[<span class="number">41</span>]: list(reversed(d))</span><br><span class="line">Out[<span class="number">41</span>]: [<span class="string">'e'</span>, <span class="string">'d'</span>, <span class="string">'c'</span>, <span class="string">'b'</span>, <span class="string">'a'</span>]</span><br></pre></td></tr></table></figure>
+<h2 id="UserDict"><a href="#UserDict" class="headerlink" title="UserDict"></a>UserDict</h2></li>
+<li><p>对dict进行了包装</p>
+</li>
+<li><p>使用</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># data属性保存数据</span></span><br><span class="line">In[<span class="number">14</span>]: <span class="keyword">from</span> collections <span class="keyword">import</span> UserDict</span><br><span class="line">In[<span class="number">15</span>]: a=UserDict(&#123;<span class="string">'1'</span>:<span class="number">1</span>,<span class="string">'2'</span>:<span class="number">2</span>&#125;)</span><br><span class="line">In[<span class="number">16</span>]: a.data</span><br><span class="line">Out[<span class="number">16</span>]: &#123;<span class="string">'1'</span>: <span class="number">1</span>, <span class="string">'2'</span>: <span class="number">2</span>&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="UserList"><a href="#UserList" class="headerlink" title="UserList"></a>UserList</h2></li>
+<li><p>将list进行了包装</p>
+</li>
+<li><p>使用</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># data属性保存数据</span></span><br><span class="line">In[<span class="number">8</span>]: <span class="keyword">from</span> collections <span class="keyword">import</span> UserList</span><br><span class="line">In[<span class="number">9</span>]: a=UserList([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br><span class="line">In[<span class="number">10</span>]: a.data</span><br><span class="line">Out[<span class="number">10</span>]: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br></pre></td></tr></table></figure>
+<h2 id="UserString"><a href="#UserString" class="headerlink" title="UserString"></a>UserString</h2></li>
+<li><p>模仿string或者Unicode string</p>
+</li>
+</ul>
+<hr>
+<p>PS:新人学习，新人写文章，若有不足，望请指出。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/Python%E5%9F%BA%E7%A1%80/" rel="tag"># Python基础</a>
+              <a href="/tags/collection/" rel="tag"># collection</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2018/04/11/%E8%BF%AD%E4%BB%A3%E5%99%A8,%E7%94%9F%E6%88%90%E5%99%A8%E4%B8%8Eitertools/" rel="next" title="迭代器,生成器与itertools">
+                  <i class="fa fa-chevron-left"></i> 迭代器,生成器与itertools
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2018/04/19/marshmallow%E5%88%9D%E6%AD%A5%E5%AD%A6%E4%B9%A0/" rel="prev" title="marshmallow初步学习">
+                  marshmallow初步学习 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#collections"><span class="nav-number">1.</span> <span class="nav-text">collections</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#nametuple"><span class="nav-number">1.1.</span> <span class="nav-text">nametuple</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#deque"><span class="nav-number">1.2.</span> <span class="nav-text">deque</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#defaultdict"><span class="nav-number">1.3.</span> <span class="nav-text">defaultdict</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ChainMap"><span class="nav-number">1.4.</span> <span class="nav-text">ChainMap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Counter"><span class="nav-number">1.5.</span> <span class="nav-text">Counter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OrderedDict"><span class="nav-number">1.6.</span> <span class="nav-text">OrderedDict</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UserDict"><span class="nav-number">1.7.</span> <span class="nav-text">UserDict</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UserList"><span class="nav-number">1.8.</span> <span class="nav-text">UserList</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UserString"><span class="nav-number">1.9.</span> <span class="nav-text">UserString</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="Martin"
+    src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Martin</p>
+  <div class="site-description" itemprop="description">一只奔跑在代码之道上的猪</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备16004961号 </a><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=null" rel="noopener" target="_blank">null </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Martin</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

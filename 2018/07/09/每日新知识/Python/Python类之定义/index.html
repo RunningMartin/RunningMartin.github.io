@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="关于Python类的定义的总结。">
+<meta name="keywords" content="学习笔记,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="每日新知识--Python类之定义">
+<meta property="og:url" content="http:&#x2F;&#x2F;fangjieblog.cn&#x2F;2018&#x2F;07&#x2F;09&#x2F;%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86&#x2F;Python&#x2F;Python%E7%B1%BB%E4%B9%8B%E5%AE%9A%E4%B9%89&#x2F;index.html">
+<meta property="og:site_name" content="随遇而安">
+<meta property="og:description" content="关于Python类的定义的总结。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-26T13:20:08.000Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://fangjieblog.cn/2018/07/09/%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86/Python/Python%E7%B1%BB%E4%B9%8B%E5%AE%9A%E4%B9%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>每日新知识--Python类之定义 | 随遇而安</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">随遇而安</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">淡泊明志，宁静致远</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://fangjieblog.cn/2018/07/09/%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86/Python/Python%E7%B1%BB%E4%B9%8B%E5%AE%9A%E4%B9%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Martin">
+      <meta itemprop="description" content="一只奔跑在代码之道上的猪">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="随遇而安">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          每日新知识--Python类之定义
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-07-09 23:01:36" itemprop="dateCreated datePublished" datetime="2018-07-09T23:01:36+08:00">2018-07-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-10-26 21:20:08" itemprop="dateModified" datetime="2019-10-26T21:20:08+08:00">2019-10-26</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86/" itemprop="url" rel="index">
+                    <span itemprop="name">每日新知识</span>
+                  </a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index">
+                    <span itemprop="name">Python基础</span>
+                  </a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E3%80%8APython3-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index">
+                    <span itemprop="name">《Python3 学习笔记》阅读笔记</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>关于Python类的定义的总结。</p>
+<a id="more"></a>
+<h2 id="类相关的概念"><a href="#类相关的概念" class="headerlink" title="类相关的概念"></a>类相关的概念</h2><ul>
+<li>定义：类封装一组相关数据，使之成为一个整体，并通过方法来展示和维护，与函数着重于处理过程不同，类更关注数据本身。</li>
+<li>类之间的关系：<ul>
+<li>继承：继承表达是什么，通过继承某个类来实现。</li>
+<li>组合：组合表达有什么，通过在类或实例中创建其实例来体现。</li>
+</ul>
+</li>
+<li>类的设计：<ul>
+<li>类应该专注于单个目标：用户类只负责用户的相关数据，但是与用户密码相关的加密算法不应该出现在用户类中，应该通过组合的方式来体现。这样即便于替换，也便于对相关的加密算法进行测试。</li>
+<li>类应该与业务逻辑相分离。<ul>
+<li>类与数据为核心，通过实例来体现差异。</li>
+<li>逻辑处理体现的是业务处理的过程，讲究的是效率和并发，应该采用函数进行分段处理，通过特定的顺序进行组装，使用模块进行存储，这样有利于将变化频繁的部分独立出来，便于今后的改良与升级。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h2><ul>
+<li><p>分析</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> dis</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">X</span>:</span></span><br><span class="line">        data = <span class="number">100</span></span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self)</span>:</span> <span class="keyword">return</span> self.data</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">  5           0 LOAD_BUILD_CLASS</span></span><br><span class="line"><span class="string">              2 LOAD_CONST               1 (&lt;code object X&gt;)</span></span><br><span class="line"><span class="string">              4 LOAD_CONST               2 ('X')</span></span><br><span class="line"><span class="string">              6 MAKE_FUNCTION            0			# 创建X函数</span></span><br><span class="line"><span class="string">              8 LOAD_CONST               2 ('X')</span></span><br><span class="line"><span class="string">             10 CALL_FUNCTION            2			# 调用builtins.__build_class__函数</span></span><br><span class="line"><span class="string">             12 STORE_FAST               0 (X)		</span></span><br><span class="line"><span class="string">             14 LOAD_CONST               0 (None)</span></span><br><span class="line"><span class="string">             16 RETURN_VALUE</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line">dis.dis(test)</span><br><span class="line"><span class="comment"># 在调用builtins.__build_class__调用X时，会提供一个字典作为堆栈帧的名字空间，用于保存类型成员。完成后，将该字典连同名字和基类传递给元类，生成目标类型对象。(元类请看后续文章)</span></span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">  5           0 LOAD_NAME                0 (__name__) # 函数的名字</span></span><br><span class="line"><span class="string">              2 STORE_NAME               1 (__module__) </span></span><br><span class="line"><span class="string">              4 LOAD_CONST               0 ('test.&lt;locals&gt;.X')</span></span><br><span class="line"><span class="string">              6 STORE_NAME               2 (__qualname__)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  6           8 LOAD_CONST               1 (100)</span></span><br><span class="line"><span class="string">             10 STORE_NAME               3 (data)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  8          12 LOAD_CONST               2 (&lt;code object get&gt;)</span></span><br><span class="line"><span class="string">             14 LOAD_CONST               3 ('test.&lt;locals&gt;.X.get')</span></span><br><span class="line"><span class="string">             16 MAKE_FUNCTION            0</span></span><br><span class="line"><span class="string">             18 STORE_NAME               4 (get)</span></span><br><span class="line"><span class="string">             20 LOAD_CONST               4 (None)</span></span><br><span class="line"><span class="string">             22 RETURN_VALUE</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line">dis.dis(test.__code__.co_consts[<span class="number">1</span>])</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><ul>
+<li><p>生命周期：</p>
+<ul>
+<li>在模块中创建，则类型对象和模块的生命周期相同。</li>
+<li>在函数中创建，则每次调用的类型对象都不同。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">X</span>:</span> <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> X()</span><br><span class="line"></span><br><span class="line">a, b = test(), test()</span><br><span class="line"><span class="comment"># False</span></span><br><span class="line">print(a.__class__ <span class="keyword">is</span> b.__class__)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>类型和实例的关系：</p>
+<ul>
+<li>类型对象：类型对象负责创建实例和定义基本操作接口(类型数据和方法是由类型对象拥有)。</li>
+<li>实例对象：只保留私有私有，通过内部引用从其父类中查找(<code>__class__</code>)</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">()</span>:</span></span><br><span class="line">    data = <span class="number">100</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, a)</span>:</span></span><br><span class="line">        self._a = a</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.data</span><br><span class="line"></span><br><span class="line">a = A(<span class="number">1</span>)</span><br><span class="line"><span class="comment"># &#123;'__module__': '__main__', 'data': 100, '__init__': &lt;function A.__init__ at 0x7fba836356a8&gt;, 'get': &lt;function A.get at 0x7fba83635730&gt;, '__dict__': &lt;attribute '__dict__' of 'A' objects&gt;, '__weakref__': &lt;attribute '__weakref__' of 'A' objects&gt;, '__doc__': None&#125;</span></span><br><span class="line">print(A.__dict__)</span><br><span class="line"><span class="comment"># &#123;'_a': 1&#125; </span></span><br><span class="line">print(a.__dict__)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="名字空间"><a href="#名字空间" class="headerlink" title="名字空间"></a>名字空间</h2><ul>
+<li><p>类型对象拥有自己的名字空间，存储当前定义的字段和方法==&gt;但是不会存储父类相关的字段(由父类的类型对象持有)，通过引用关联父类类型对象访问。而且类型的名字空间为mappingproxy类型(只读视图)。但是示例对象的名字空间是可以进行修改的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>:</span></span><br><span class="line">    a = <span class="number">100</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        self.x = x</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_x</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.x</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span><span class="params">(A)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, x, y)</span>:</span></span><br><span class="line">        super().__init__(x)</span><br><span class="line">        self.y = y</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_y</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.y</span><br><span class="line"></span><br><span class="line">o=B(<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line"><span class="comment"># &#123;'__module__': '__main__', 'a': 100, '__init__': &lt;function A.__init__ at 0x7f2c8a9fb6a8&gt;, 'get_x': &lt;function A.get_x at 0x7f2c8a9fb730&gt;, '__dict__': &lt;attribute '__dict__' of 'A' objects&gt;, '__weakref__': &lt;attribute '__weakref__' of 'A' objects&gt;, '__doc__': None&#125;</span></span><br><span class="line">print(A.__dict__)</span><br><span class="line"></span><br><span class="line"><span class="comment"># &#123;'__module__': '__main__', '__init__': &lt;function B.__init__ at 0x7f2c8a9fb7b8&gt;, 'get_y': &lt;function B.get_y at 0x7f2c8a9fb840&gt;, '__doc__': None&#125;</span></span><br><span class="line">print(B.__dict__)</span><br><span class="line"></span><br><span class="line"><span class="comment"># &#123;'x': 1, 'y': 2&#125;</span></span><br><span class="line">print(o.__dict__)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>成员的查找规则是基于继承体系的，这和LEGB(基于执行作用域)不同，当出现两个相同变量名时，使用self或cls则使用成员查找规则，否则采用LEGB。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">enclosing</span><span class="params">()</span>:</span></span><br><span class="line">    a = <span class="string">"enclosing.a"</span></span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">()</span>:</span></span><br><span class="line">        a = <span class="string">"A.a"</span></span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">            self.a = <span class="string">'self.a'</span></span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">(self)</span>:</span></span><br><span class="line">            print(a)</span><br><span class="line"></span><br><span class="line">        print(<span class="string">'A.a'</span>, a)</span><br><span class="line">        print(<span class="string">"A.locals"</span>, locals())</span><br><span class="line"></span><br><span class="line">    A().test()</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">A.a A.a</span></span><br><span class="line"><span class="string">A.locals &#123;'__module__': '__main__', '__qualname__': 'enclosing.&lt;locals&gt;.A', 'a': 'A.a', '__init__': &lt;function enclosing.&lt;locals&gt;.A.__init__ at 0x7ff0b0e88730&gt;, 'test': &lt;function enclosing.&lt;locals&gt;.A.test at 0x7ff0b0e887b8&gt;&#125;</span></span><br><span class="line"><span class="string">enclosing.a</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line">enclosing()</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://item.jd.com/12261161.html" target="_blank" rel="noopener">《Python 3学习笔记（上卷》  雨痕</a></li>
+</ul>
+<p>PS:新人学习，新人写文章，若有不足，望请指出。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
+              <a href="/tags/Python/" rel="tag"># Python</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2018/07/01/Python%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%87%BD%E6%95%B0%E7%9A%84%E8%B0%83%E7%94%A8/" rel="next" title="Python基础学习笔记——函数的调用">
+                  <i class="fa fa-chevron-left"></i> Python基础学习笔记——函数的调用
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2018/07/10/%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86/Python/Python%E7%B1%BB%E4%B9%8B%E5%AD%97%E6%AE%B5%E4%B8%8E%E5%B1%9E%E6%80%A7/" rel="prev" title="每日新知识--Python类之字段与属性">
+                  每日新知识--Python类之字段与属性 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#类相关的概念"><span class="nav-number">1.</span> <span class="nav-text">类相关的概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建"><span class="nav-number">2.</span> <span class="nav-text">创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生命周期"><span class="nav-number">3.</span> <span class="nav-text">生命周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#名字空间"><span class="nav-number">4.</span> <span class="nav-text">名字空间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="Martin"
+    src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Martin</p>
+  <div class="site-description" itemprop="description">一只奔跑在代码之道上的猪</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备16004961号 </a><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=null" rel="noopener" target="_blank">null </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Martin</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

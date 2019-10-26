@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="记录在学习数据结构的栈的笔记，采用C和Python实现。">
+<meta name="keywords" content="数据结构,《大话数据结构》">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构--栈">
+<meta property="og:url" content="http:&#x2F;&#x2F;fangjieblog.cn&#x2F;2018&#x2F;07&#x2F;23&#x2F;%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&#x2F;%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%A0%88&#x2F;index.html">
+<meta property="og:site_name" content="随遇而安">
+<meta property="og:description" content="记录在学习数据结构的栈的笔记，采用C和Python实现。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http:&#x2F;&#x2F;fangjieblog.cn&#x2F;uploads&#x2F;%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&#x2F;%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84--%E6%A0%88--%E5%85%B1%E4%BA%AB%E6%A0%88.png">
+<meta property="og:updated_time" content="2019-10-26T13:20:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;fangjieblog.cn&#x2F;uploads&#x2F;%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&#x2F;%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84--%E6%A0%88--%E5%85%B1%E4%BA%AB%E6%A0%88.png">
+
+<link rel="canonical" href="http://fangjieblog.cn/2018/07/23/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%A0%88/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>数据结构--栈 | 随遇而安</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">随遇而安</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">淡泊明志，宁静致远</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://fangjieblog.cn/2018/07/23/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%A0%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Martin">
+      <meta itemprop="description" content="一只奔跑在代码之道上的猪">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="随遇而安">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数据结构--栈
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-07-23 21:20:39" itemprop="dateCreated datePublished" datetime="2018-07-23T21:20:39+08:00">2018-07-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-10-26 21:20:08" itemprop="dateModified" datetime="2019-10-26T21:20:08+08:00">2019-10-26</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>记录在学习数据结构的栈的笔记，采用C和Python实现。</p>
+<a id="more"></a>
+<h2 id="栈的基础知识"><a href="#栈的基础知识" class="headerlink" title="栈的基础知识"></a>栈的基础知识</h2><ul>
+<li><p>定义:栈是仅限于表尾进行插入和删除操作的线性表。属于先进后出。</p>
+</li>
+<li><p>基本操作:</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">基本操作</th>
+<th align="center">C语言</th>
+<th align="center">Python</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">初始化</td>
+<td align="center">InitStack</td>
+<td align="center">init</td>
+</tr>
+<tr>
+<td align="center">清空栈</td>
+<td align="center">ClearStack</td>
+<td align="center">clear</td>
+</tr>
+<tr>
+<td align="center">判空</td>
+<td align="center">IsEmpty</td>
+<td align="center">is_empty</td>
+</tr>
+<tr>
+<td align="center">取栈顶</td>
+<td align="center">GetTop</td>
+<td align="center">get_top</td>
+</tr>
+<tr>
+<td align="center">入栈</td>
+<td align="center">Push</td>
+<td align="center">push</td>
+</tr>
+<tr>
+<td align="center">出栈</td>
+<td align="center">Pop</td>
+<td align="center">pop</td>
+</tr>
+<tr>
+<td align="center">栈长度</td>
+<td align="center">Length</td>
+<td align="center">length</td>
+</tr>
+</tbody></table>
+<h2 id="顺序存储"><a href="#顺序存储" class="headerlink" title="顺序存储"></a>顺序存储</h2><ul>
+<li><p>通过数组实现</p>
+</li>
+<li><p>C语言实现</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;malloc.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXSIZE 20</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> OK 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FALSE 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> TRUE 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ERROR 0</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> ElemType;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> Status;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    ElemType data[MAXSIZE];</span><br><span class="line">    <span class="keyword">int</span> top;</span><br><span class="line">&#125; SquenceStack;</span><br><span class="line"></span><br><span class="line"><span class="function">Status <span class="title">InitStack</span><span class="params">(SquenceStack *S)</span> </span>&#123;</span><br><span class="line">    S-&gt;top = <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Status <span class="title">ClearStack</span><span class="params">(SquenceStack *S)</span></span>&#123;</span><br><span class="line">    S-&gt;top=<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Status <span class="title">IsEmpty</span><span class="params">(SquenceStack S)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> S.top == <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Status <span class="title">GetTop</span><span class="params">(SquenceStack S,ElemType *elem)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(S.top==<span class="number">-1</span>)</span><br><span class="line">        <span class="keyword">return</span> ERROR;</span><br><span class="line">    *elem=S.data[S.top];</span><br><span class="line">    <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Status <span class="title">Push</span><span class="params">(SquenceStack *S, ElemType elem)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (S-&gt;top == MAXSIZE - <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> ERROR;</span><br><span class="line"></span><br><span class="line">    S-&gt;top++;</span><br><span class="line">    S-&gt;data[S-&gt;top] = elem;</span><br><span class="line">    <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Status <span class="title">Pop</span><span class="params">(SquenceStack *S, ElemType *elem)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (S-&gt;top == <span class="number">-1</span>)</span><br><span class="line">        <span class="keyword">return</span> ERROR;</span><br><span class="line">    *elem = S-&gt;data[S-&gt;top];</span><br><span class="line"></span><br><span class="line">    S-&gt;top--;</span><br><span class="line">    <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Length</span><span class="params">(SquenceStack S)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> S.top + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Print</span><span class="params">(SquenceStack S)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"栈的元素为：\n"</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = S.top; i &gt;=<span class="number">0</span> ; i--) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d  "</span>,S.data[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    SquenceStack S;</span><br><span class="line">    InitStack(&amp;S);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;=<span class="number">10</span> ; ++i) &#123;</span><br><span class="line">        Push(&amp;S,i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"1-10入栈：\n"</span>);</span><br><span class="line">    Print(S);</span><br><span class="line"></span><br><span class="line">    ElemType elem;</span><br><span class="line">    GetTop(S,&amp;elem);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"栈顶元素为:%d\n"</span>,elem);</span><br><span class="line"></span><br><span class="line">    Pop(&amp;S,&amp;elem);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"栈顶元素出栈"</span>);</span><br><span class="line">    Print(S);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"栈的长度：%d\n"</span>,Length(S));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"栈是否为空：%d\n"</span>,IsEmpty(S));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//1-10入栈：</span></span><br><span class="line"><span class="comment">//栈的元素为：</span></span><br><span class="line"><span class="comment">//10  9  8  7  6  5  4  3  2  1</span></span><br><span class="line"><span class="comment">//栈顶元素为:10</span></span><br><span class="line"><span class="comment">//栈顶元素出栈栈的元素为：</span></span><br><span class="line"><span class="comment">//9  8  7  6  5  4  3  2  1</span></span><br><span class="line"><span class="comment">//栈的长度：9</span></span><br><span class="line"><span class="comment">//栈是否为空：0</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Python实现</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OperateException</span><span class="params">(Exception)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">MAXSIZE = <span class="number">20</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SquenceStack</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.__data = [<span class="literal">None</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(MAXSIZE)]</span><br><span class="line">        self.__top = <span class="number">-1</span></span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">clear</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.__top = <span class="number">-1</span></span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">is_empty</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.__top == <span class="number">-1</span></span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_top</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.__data[self.__top - <span class="number">1</span>]</span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">push</span><span class="params">(self, data)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> self.__top == MAXSIZE - <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">raise</span> OperateException</span><br><span class="line">        self.__data[self.__top] = data</span><br><span class="line">        self.__top += <span class="number">1</span></span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">pop</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> self.__top == <span class="number">-1</span>:</span><br><span class="line">            <span class="keyword">raise</span> OperateException</span><br><span class="line">  </span><br><span class="line">        self.__top -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> self.__data[self.__top]</span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">length</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.__top + <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_push</span><span class="params">()</span>:</span></span><br><span class="line">    stack = SquenceStack()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">10</span>):</span><br><span class="line">        stack.push(i)</span><br><span class="line">    <span class="keyword">assert</span> stack.length() == <span class="number">9</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_pop</span><span class="params">()</span>:</span></span><br><span class="line">    stack = SquenceStack()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">10</span>):</span><br><span class="line">        stack.push(i)</span><br><span class="line"> </span><br><span class="line">    data = stack.pop()</span><br><span class="line">    <span class="keyword">assert</span> data == <span class="number">9</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_clear</span><span class="params">()</span>:</span></span><br><span class="line">    stack = SquenceStack()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">10</span>):</span><br><span class="line">        stack.push(i)</span><br><span class="line">    stack.clear()</span><br><span class="line">    <span class="keyword">assert</span> stack.length() == <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_is_empty</span><span class="params">()</span>:</span></span><br><span class="line">    stack = SquenceStack()</span><br><span class="line">    <span class="keyword">assert</span> stack.is_empty() <span class="keyword">is</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">10</span>):</span><br><span class="line">        stack.push(i)</span><br><span class="line">    <span class="keyword">assert</span> stack.is_empty() <span class="keyword">is</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_get_top</span><span class="params">()</span>:</span></span><br><span class="line">    stack = SquenceStack()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">10</span>):</span><br><span class="line">        stack.push(i)</span><br><span class="line">    data = stack.get_top()</span><br><span class="line">    <span class="keyword">assert</span> data == <span class="number">9</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    test_push()</span><br><span class="line">    test_pop()</span><br><span class="line">    test_get_top()</span><br><span class="line">    test_is_empty()</span><br><span class="line">    test_clear()</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="共享空间栈"><a href="#共享空间栈" class="headerlink" title="共享空间栈"></a>共享空间栈</h2><ul>
+<li><p>顺序栈在使用之前必须确定栈的大小，这导致可能空间浪费程度很大，因此我们可以采用将两个类型相同的栈结合在一起，节约空间。其原理采用两端分别作为两个栈的栈底，栈顶往中间移动。</p>
+<p><img src="/uploads/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84--%E6%A0%88--%E5%85%B1%E4%BA%AB%E6%A0%88.png" alt="共享栈"></p>
+</li>
+<li><p>重点：</p>
+<ul>
+<li>栈空：$$top1=-1$$ 和$$top2=n$$</li>
+<li>栈慢：$$top2=top1+1$$</li>
+</ul>
+</li>
+<li><p>C语言实现</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXSIZE 20</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> OK 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FALSE 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> TRUE 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ERROR 0</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> ElemType;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> Status;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    ElemType data[MAXSIZE];</span><br><span class="line">    <span class="keyword">int</span> top1;</span><br><span class="line">    <span class="keyword">int</span> top2;</span><br><span class="line">&#125; SquenceStack;</span><br><span class="line"></span><br><span class="line"><span class="function">Status <span class="title">InitStack</span><span class="params">(SquenceStack *S)</span> </span>&#123;</span><br><span class="line">    S-&gt;top1 = <span class="number">-1</span>;</span><br><span class="line">    S-&gt;top2 = MAXSIZE;</span><br><span class="line">    <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Status <span class="title">ClearStack</span><span class="params">(SquenceStack *S, <span class="keyword">int</span> stackNumber)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (stackNumber == <span class="number">1</span>) &#123;</span><br><span class="line">        S-&gt;top1 = <span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">return</span> OK;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (stackNumber == <span class="number">2</span>) &#123;</span><br><span class="line">        S-&gt;top2 = MAXSIZE;</span><br><span class="line">        <span class="keyword">return</span> OK;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ERROR;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Status <span class="title">IsEmpty</span><span class="params">(SquenceStack S, <span class="keyword">int</span> stackNumber)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (stackNumber == <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> S.top1 == <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">if</span> (stackNumber == <span class="number">2</span>)</span><br><span class="line">        <span class="keyword">return</span> S.top2 == MAXSIZE;</span><br><span class="line">    <span class="keyword">return</span> ERROR;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Status <span class="title">GetTop</span><span class="params">(SquenceStack S, ElemType *elem, <span class="keyword">int</span> stackNumber)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (stackNumber == <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (S.top1 == <span class="number">-1</span>)</span><br><span class="line">            <span class="keyword">return</span> ERROR;</span><br><span class="line">        *elem = S.data[S.top1];</span><br><span class="line">        <span class="keyword">return</span> OK;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (stackNumber == <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (S.top2 == MAXSIZE)</span><br><span class="line">            <span class="keyword">return</span> ERROR;</span><br><span class="line">        *elem = S.data[S.top2];</span><br><span class="line">        <span class="keyword">return</span> OK;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ERROR;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Status <span class="title">Push</span><span class="params">(SquenceStack *S, ElemType elem, <span class="keyword">int</span> stackNumber)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (S-&gt;top2 == S-&gt;top1 + <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> ERROR;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (stackNumber == <span class="number">1</span>) &#123;</span><br><span class="line">        S-&gt;top1++;</span><br><span class="line">        S-&gt;data[S-&gt;top1] = elem;</span><br><span class="line">        <span class="keyword">return</span> OK;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (stackNumber == <span class="number">2</span>) &#123;</span><br><span class="line">        S-&gt;top2--;</span><br><span class="line">        S-&gt;data[S-&gt;top2] = elem;</span><br><span class="line">        <span class="keyword">return</span> OK;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ERROR;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Status <span class="title">Pop</span><span class="params">(SquenceStack *S, ElemType *elem, <span class="keyword">int</span> stackNumber)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (stackNumber == <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (S-&gt;top1 == <span class="number">-1</span>)</span><br><span class="line">            <span class="keyword">return</span> ERROR;</span><br><span class="line">        *elem = S-&gt;data[S-&gt;top1];</span><br><span class="line"></span><br><span class="line">        S-&gt;top1--;</span><br><span class="line">        <span class="keyword">return</span> OK;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (stackNumber == <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (S-&gt;top2 == MAXSIZE)</span><br><span class="line">            <span class="keyword">return</span> ERROR;</span><br><span class="line">        *elem = S-&gt;data[S-&gt;top2];</span><br><span class="line"></span><br><span class="line">        S-&gt;top2++;</span><br><span class="line">        <span class="keyword">return</span> OK;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ERROR;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Length</span><span class="params">(SquenceStack S, <span class="keyword">int</span> stackNumber)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (stackNumber == <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> S.top1 + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span> (stackNumber == <span class="number">2</span>)</span><br><span class="line">        <span class="keyword">return</span> MAXSIZE - S.top2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Print</span><span class="params">(SquenceStack S, <span class="keyword">int</span> stackNumber)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (stackNumber == <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"栈的元素1为：\n"</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = S.top1; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d  "</span>, S.data[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (stackNumber == <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"栈的元素2为：\n"</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = S.top2; i &lt; MAXSIZE; i++) &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d  "</span>, S.data[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    SquenceStack S;</span><br><span class="line">    InitStack(&amp;S);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">5</span>; ++i) &#123;</span><br><span class="line">        Push(&amp;S, i, <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"1-5入栈1：\n"</span>);</span><br><span class="line">    Print(S, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">7</span>; i &lt;= <span class="number">10</span>; ++i) &#123;</span><br><span class="line">        Push(&amp;S, i, <span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"7-10入栈2：\n"</span>);</span><br><span class="line">    Print(S, <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">    ElemType elem;</span><br><span class="line">    GetTop(S, &amp;elem, <span class="number">1</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"栈1顶元素为:%d\n"</span>, elem);</span><br><span class="line"></span><br><span class="line">    GetTop(S, &amp;elem, <span class="number">2</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"栈2顶元素为:%d\n"</span>, elem);</span><br><span class="line"></span><br><span class="line">    Pop(&amp;S, &amp;elem, <span class="number">1</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"栈1顶元素出栈"</span>);</span><br><span class="line">    Print(S, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    Pop(&amp;S, &amp;elem, <span class="number">2</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"栈1顶元素出栈"</span>);</span><br><span class="line">    Print(S, <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"栈1的长度：%d\n"</span>, Length(S, <span class="number">1</span>));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"栈2的长度：%d\n"</span>, Length(S, <span class="number">2</span>));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"栈1是否为空：%d\n"</span>, IsEmpty(S, <span class="number">1</span>));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"栈2是否为空：%d\n"</span>, IsEmpty(S, <span class="number">2</span>));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//1-5入栈1：</span></span><br><span class="line"><span class="comment">//栈的元素1为：</span></span><br><span class="line"><span class="comment">//5  4  3  2  1</span></span><br><span class="line"><span class="comment">//7-10入栈2：</span></span><br><span class="line"><span class="comment">//栈的元素2为：</span></span><br><span class="line"><span class="comment">//10  9  8  7</span></span><br><span class="line"><span class="comment">//栈1顶元素为:5</span></span><br><span class="line"><span class="comment">//栈2顶元素为:10</span></span><br><span class="line"><span class="comment">//栈1顶元素出栈栈的元素1为：</span></span><br><span class="line"><span class="comment">//4  3  2  1</span></span><br><span class="line"><span class="comment">//栈1顶元素出栈栈的元素2为：</span></span><br><span class="line"><span class="comment">//9  8  7</span></span><br><span class="line"><span class="comment">//栈1的长度：4</span></span><br><span class="line"><span class="comment">//栈2的长度：3</span></span><br><span class="line"><span class="comment">//栈1是否为空：0</span></span><br><span class="line"><span class="comment">//栈2是否为空：0</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Python实现</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OperateException</span><span class="params">(Exception)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">MAXSIZE = <span class="number">20</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SquenceStack</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.__data = [<span class="literal">None</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(MAXSIZE)]</span><br><span class="line">        self.__top1 = <span class="number">-1</span></span><br><span class="line">        self.__top2 = MAXSIZE</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">clear</span><span class="params">(self, stack_number)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> stack_number == <span class="number">1</span>:</span><br><span class="line">            self.__top1 = <span class="number">-1</span></span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">if</span> stack_number == <span class="number">2</span>:</span><br><span class="line">            self.__top2 = MAXSIZE</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">raise</span> OperateException(<span class="string">"没有这个栈"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">is_empty</span><span class="params">(self, stack_number)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> stack_number == <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> self.__top1 == <span class="number">-1</span></span><br><span class="line">        <span class="keyword">if</span> stack_number == <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> self.__top2 == MAXSIZE</span><br><span class="line">        <span class="keyword">raise</span> OperateException(<span class="string">"没有这个栈"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_top</span><span class="params">(self, stack_number)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> stack_number == <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> self.__data[self.__top1]</span><br><span class="line">        <span class="keyword">if</span> stack_number == <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> self.__data[self.__top2]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">raise</span> OperateException(<span class="string">"没有这个栈"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">push</span><span class="params">(self, data, stack_number)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> self.__top2 == self.__top1 + <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">raise</span> OperateException(<span class="string">"栈满"</span>)</span><br><span class="line">        <span class="keyword">if</span> stack_number == <span class="number">1</span>:</span><br><span class="line">            self.__top1 += <span class="number">1</span></span><br><span class="line">            self.__data[self.__top1] = data</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> stack_number == <span class="number">2</span>:</span><br><span class="line">            self.__top2 -= <span class="number">1</span></span><br><span class="line">            self.__data[self.__top2] = data</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">raise</span> OperateException(<span class="string">"没有这个栈"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">pop</span><span class="params">(self, stack_number)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> stack_number == <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">if</span> self.__top1 == <span class="number">-1</span>:</span><br><span class="line">                <span class="keyword">raise</span> OperateException</span><br><span class="line">            data = self.__data[self.__top1]</span><br><span class="line">            self.__top1 -= <span class="number">1</span></span><br><span class="line">            <span class="keyword">return</span> data</span><br><span class="line">        <span class="keyword">if</span> stack_number == <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">if</span> self.__top2 == MAXSIZE:</span><br><span class="line">                <span class="keyword">raise</span> OperateException</span><br><span class="line">            data = self.__data[self.__top2]</span><br><span class="line">            self.__top2 += <span class="number">1</span></span><br><span class="line">            <span class="keyword">return</span> data</span><br><span class="line">        <span class="keyword">raise</span> OperateException(<span class="string">"没有这个栈"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">length</span><span class="params">(self, stack_number)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> stack_number == <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> self.__top1 + <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> stack_number == <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> MAXSIZE - self.__top2</span><br><span class="line">        <span class="keyword">raise</span> OperateException(<span class="string">"没有这个栈"</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_push</span><span class="params">()</span>:</span></span><br><span class="line">    stack = SquenceStack()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">5</span>):</span><br><span class="line">        stack.push(i, <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">assert</span> stack.length(<span class="number">1</span>) == <span class="number">4</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">7</span>, <span class="number">10</span>):</span><br><span class="line">        stack.push(i, <span class="number">2</span>)</span><br><span class="line">    <span class="keyword">assert</span> stack.length(<span class="number">2</span>) == <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_pop</span><span class="params">()</span>:</span></span><br><span class="line">    stack = SquenceStack()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">5</span>):</span><br><span class="line">        stack.push(i, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">7</span>, <span class="number">10</span>):</span><br><span class="line">        stack.push(i, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    data = stack.pop(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">assert</span> data == <span class="number">4</span></span><br><span class="line"></span><br><span class="line">    data = stack.pop(<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">assert</span> data == <span class="number">9</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_clear</span><span class="params">()</span>:</span></span><br><span class="line">    stack = SquenceStack()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">5</span>):</span><br><span class="line">        stack.push(i, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">7</span>, <span class="number">10</span>):</span><br><span class="line">        stack.push(i, <span class="number">2</span>)</span><br><span class="line">    stack.clear(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">assert</span> stack.length(<span class="number">1</span>) == <span class="number">0</span></span><br><span class="line">    <span class="keyword">assert</span> stack.length(<span class="number">2</span>) == <span class="number">3</span></span><br><span class="line">    stack.clear(<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">assert</span> stack.length(<span class="number">2</span>) == <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_is_empty</span><span class="params">()</span>:</span></span><br><span class="line">    stack = SquenceStack()</span><br><span class="line">    <span class="keyword">assert</span> stack.is_empty(<span class="number">1</span>) <span class="keyword">is</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">assert</span> stack.is_empty(<span class="number">2</span>) <span class="keyword">is</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">5</span>):</span><br><span class="line">        stack.push(i, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">7</span>, <span class="number">10</span>):</span><br><span class="line">        stack.push(i, <span class="number">2</span>)</span><br><span class="line">    <span class="keyword">assert</span> stack.is_empty(<span class="number">1</span>) <span class="keyword">is</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">assert</span> stack.is_empty(<span class="number">2</span>) <span class="keyword">is</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_get_top</span><span class="params">()</span>:</span></span><br><span class="line">    stack = SquenceStack()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">5</span>):</span><br><span class="line">        stack.push(i, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">7</span>, <span class="number">10</span>):</span><br><span class="line">        stack.push(i, <span class="number">2</span>)</span><br><span class="line">    data = stack.get_top(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">assert</span> data == <span class="number">4</span></span><br><span class="line">    data = stack.get_top(<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">assert</span> data == <span class="number">9</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    test_push()</span><br><span class="line">    test_pop()</span><br><span class="line">    test_get_top()</span><br><span class="line">    test_is_empty()</span><br><span class="line">    test_clear()</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="链式存储"><a href="#链式存储" class="headerlink" title="链式存储"></a>链式存储</h2><ul>
+<li><p>为了避免空间浪费，采用链式存储。由于栈顶指针指向栈顶元素，因此不需要头结点。插入采用头插法。</p>
+</li>
+<li><p>C语言实现</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;malloc.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXSIZE 20</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> OK 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FALSE 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> TRUE 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ERROR 0</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> ElemType;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> Status;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">StackNode</span>&#123;</span></span><br><span class="line">    ElemType data;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">StackNode</span> *<span class="title">next</span>;</span></span><br><span class="line">&#125;StackNode,*LinkStackPtr;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    LinkStackPtr top;</span><br><span class="line">    <span class="keyword">int</span> count;</span><br><span class="line">&#125; LinkStack;</span><br><span class="line"></span><br><span class="line"><span class="function">Status <span class="title">InitStack</span><span class="params">(LinkStack *S)</span> </span>&#123;</span><br><span class="line">    S-&gt;top = <span class="literal">NULL</span>;</span><br><span class="line">    S-&gt;count=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Status <span class="title">ClearStack</span><span class="params">(LinkStack *S)</span></span>&#123;</span><br><span class="line">    S-&gt;top=<span class="literal">NULL</span>;</span><br><span class="line">    S-&gt;count=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Status <span class="title">IsEmpty</span><span class="params">(LinkStack S)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> S.count == <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Status <span class="title">GetTop</span><span class="params">(LinkStack S,ElemType *elem)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(S.count==<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> ERROR;</span><br><span class="line"></span><br><span class="line">    *elem=S.top-&gt;data;</span><br><span class="line">    <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Status <span class="title">Push</span><span class="params">(LinkStack *S, ElemType elem)</span> </span>&#123;</span><br><span class="line">    LinkStackPtr node =(LinkStackPtr)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(StackNode));</span><br><span class="line">    node-&gt;data=elem;</span><br><span class="line">    node-&gt;next=S-&gt;top;</span><br><span class="line">    S-&gt;top=node;</span><br><span class="line">    S-&gt;count++;</span><br><span class="line">    <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Status <span class="title">Pop</span><span class="params">(LinkStack *S, ElemType *elem)</span> </span>&#123;</span><br><span class="line">    *elem=S-&gt;top-&gt;data;</span><br><span class="line">    LinkStackPtr p;</span><br><span class="line">    p=S-&gt;top;</span><br><span class="line">    S-&gt;top=S-&gt;top-&gt;next;</span><br><span class="line">    <span class="built_in">free</span>(p);</span><br><span class="line">    S-&gt;count--;</span><br><span class="line">    <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Length</span><span class="params">(LinkStack S)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> S.count;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Print</span><span class="params">(LinkStack S)</span> </span>&#123;</span><br><span class="line">    LinkStackPtr p;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"栈的元素为：\n"</span>);</span><br><span class="line">    p=S.top;</span><br><span class="line">    <span class="keyword">while</span>(p!=<span class="literal">NULL</span>)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d  "</span>,p-&gt;data);</span><br><span class="line">        p=p-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span>  </span>&#123;</span><br><span class="line">    LinkStack S;</span><br><span class="line">    InitStack(&amp;S);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;=<span class="number">10</span> ; ++i) &#123;</span><br><span class="line">        Push(&amp;S,i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"1-10入栈：\n"</span>);</span><br><span class="line">    Print(S);</span><br><span class="line"></span><br><span class="line">    ElemType elem;</span><br><span class="line">    GetTop(S,&amp;elem);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"栈顶元素为:%d\n"</span>,elem);</span><br><span class="line"></span><br><span class="line">    Pop(&amp;S,&amp;elem);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"栈顶元素出栈"</span>);</span><br><span class="line">    Print(S);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"栈的长度：%d\n"</span>,Length(S));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"栈是否为空：%d\n"</span>,IsEmpty(S));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//1-10入栈：</span></span><br><span class="line"><span class="comment">//栈的元素为：</span></span><br><span class="line"><span class="comment">//10  9  8  7  6  5  4  3  2  1</span></span><br><span class="line"><span class="comment">//栈顶元素为:10</span></span><br><span class="line"><span class="comment">//栈顶元素出栈栈的元素为：</span></span><br><span class="line"><span class="comment">//9  8  7  6  5  4  3  2  1</span></span><br><span class="line"><span class="comment">//栈的长度：9</span></span><br><span class="line"><span class="comment">//栈是否为空：0</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Python实现</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OperateException</span><span class="params">(Exception)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Node</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, data)</span>:</span></span><br><span class="line">        self.__data = data</span><br><span class="line">        self.__next = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">data</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.__data</span><br><span class="line"></span><br><span class="line"><span class="meta">    @data.setter</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">data</span><span class="params">(self, data)</span>:</span></span><br><span class="line">        self.__data = data</span><br><span class="line"></span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">next</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.__next</span><br><span class="line"></span><br><span class="line"><span class="meta">    @next.setter</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">next</span><span class="params">(self, node)</span>:</span></span><br><span class="line">        self.__next = node</span><br><span class="line">        </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LinkStack</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.__top = <span class="literal">None</span></span><br><span class="line">        self.__count = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">push</span><span class="params">(self, elem)</span>:</span></span><br><span class="line">        node = Node(elem)</span><br><span class="line">        node.next = self.__top</span><br><span class="line">        self.__top = node</span><br><span class="line">        self.__count += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">pop</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> self.__count == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">raise</span> OperateException(<span class="string">"栈空了"</span>)</span><br><span class="line">        data = self.__top.data</span><br><span class="line">        self.__top = self.__top.next</span><br><span class="line">        self.__count -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> data</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_top</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> self.__count == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">raise</span> OperateException(<span class="string">"栈空了"</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> self.__top.data</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">clear</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.__top = <span class="literal">None</span></span><br><span class="line">        self.__count = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">is_empty</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.__count == <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">length</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.__count</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_init</span><span class="params">()</span>:</span></span><br><span class="line">    link_stack = LinkStack()</span><br><span class="line">    <span class="keyword">assert</span> link_stack.length() == <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_insert</span><span class="params">()</span>:</span></span><br><span class="line">    link_stack = LinkStack()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">10</span>):</span><br><span class="line">        link_stack.push(i)</span><br><span class="line">    <span class="keyword">assert</span> link_stack.length() == <span class="number">9</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_delete</span><span class="params">()</span>:</span></span><br><span class="line">    link_stack = LinkStack()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">10</span>):</span><br><span class="line">        link_stack.push(i)</span><br><span class="line">    <span class="keyword">assert</span> link_stack.pop() == <span class="number">9</span></span><br><span class="line">    <span class="keyword">assert</span> link_stack.length() == <span class="number">8</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_get</span><span class="params">()</span>:</span></span><br><span class="line">    link_stack = LinkStack()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">10</span>):</span><br><span class="line">        link_stack.push(i)</span><br><span class="line">    <span class="keyword">assert</span> link_stack.get_top() == <span class="number">9</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_clear</span><span class="params">()</span>:</span></span><br><span class="line">    link_stack = LinkStack()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">10</span>):</span><br><span class="line">        link_stack.push(i)</span><br><span class="line">    link_stack.clear()</span><br><span class="line">    <span class="keyword">assert</span> link_stack.length() == <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_is_empty</span><span class="params">()</span>:</span></span><br><span class="line">    link_stack = LinkStack()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">10</span>):</span><br><span class="line">        link_stack.push(i)</span><br><span class="line">    <span class="keyword">assert</span> link_stack.is_empty() <span class="keyword">is</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    test_init()</span><br><span class="line">    test_insert()</span><br><span class="line">    test_delete()</span><br><span class="line">    test_get()</span><br><span class="line">    test_clear()</span><br><span class="line">    test_is_empty()</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><h3 id="斐波那契数列"><a href="#斐波那契数列" class="headerlink" title="斐波那契数列"></a>斐波那契数列</h3><ul>
+<li>问题描述:给出一个数列[1,1,2,3,5,8,13….]，遵循前两项的和为下一项，公式表达为:</li>
+</ul>
+<p>$$<br>  f(x)=\left{<br>  \begin{array}{rcl}<br>  0     &amp;      &amp; {x=0}\<br>  1     &amp;      &amp; {x=1}\<br>  f(x-1)+f(x-2)     &amp;      &amp; {x&gt;1}\<br>  \end{array} \right.<br>$$</p>
+<h4 id="非递归实现"><a href="#非递归实现" class="headerlink" title="非递归实现"></a>非递归实现</h4><ul>
+<li><p>C语言</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Fbi</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">0</span>,b=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> next=<span class="number">0</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d  "</span>,b);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;=n ; ++i) &#123;</span><br><span class="line">        next=a+b;a=b;b=next;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d  "</span>,next);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Python实现</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fbi</span><span class="params">(number)</span>:</span></span><br><span class="line">    a = <span class="number">0</span></span><br><span class="line">    b = <span class="number">1</span></span><br><span class="line">    result = [b]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>, number + <span class="number">1</span>):</span><br><span class="line">        next = a + b</span><br><span class="line">        a = b</span><br><span class="line">        b = next</span><br><span class="line">        result.append(next)</span><br><span class="line">    print(result)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="递归实现"><a href="#递归实现" class="headerlink" title="递归实现"></a>递归实现</h4><ul>
+<li><p>递归:直接或间接调用自己的函数称之为递归函数。</p>
+</li>
+<li><p>递归的要求:</p>
+<ul>
+<li>需要一个递归结束条件。</li>
+<li>递归往结束条件方向移动。</li>
+</ul>
+</li>
+<li><p>递归优缺点</p>
+<ul>
+<li>优点:代码简洁，易懂。</li>
+<li>缺点:会建立大量的函数副本，内存和时间消耗大。</li>
+</ul>
+</li>
+<li><p>实现原理:在往已知条件前进时，将当前的状态压入栈中，在执行到结束条件后，退回时，依次退栈，获得之前的状态和后面还未执行的代码。</p>
+</li>
+<li><p>尾递归（由于尾递归总是能写成迭代方法，因此很多编译器自动实现了尾递归转换为迭代方法。）:递归调用放在最后一个语句，通过将当前的状态传入下一次递归，这样的话对于下一层调用来说，本层的状态已经无用，可以不在保存栈空间，从而提高了效率。（实现阶乘的递归，尾递归，迭代方案）</p>
+</li>
+<li><p>C语言</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">FbiStack</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(n&lt;<span class="number">2</span>)</span><br><span class="line">        <span class="keyword">return</span> n==<span class="number">1</span>?<span class="number">1</span>:<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> FbiStack(n<span class="number">-1</span>)+FbiStack(n<span class="number">-2</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">use_stack</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;=<span class="number">10</span> ; ++i) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d  "</span>,FbiStack(i));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Python</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fbi_stack</span><span class="params">(number)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> number==<span class="number">0</span> <span class="keyword">or</span> number==<span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> number</span><br><span class="line">    <span class="keyword">return</span> fbi_stack(number<span class="number">-1</span>)+fbi_stack(number<span class="number">-2</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    print([fbi_stack(i) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">11</span>)])</span><br><span class="line"><span class="comment"># [1, 1, 2, 3, 5, 8, 13, 21, 34, 55]</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="四则运算表达式求值"><a href="#四则运算表达式求值" class="headerlink" title="四则运算表达式求值"></a>四则运算表达式求值</h3><h4 id="逆波兰表达式"><a href="#逆波兰表达式" class="headerlink" title="逆波兰表达式"></a>逆波兰表达式</h4><ul>
+<li><p>逆波兰表达式(后缀表达式):通过语法树的后缀表达式来去除掉表达式中的括号，从而能更好地使用栈来进行四则运算表达式求值。</p>
+<ul>
+<li>四则运算表达式<br>$$9+(3-1)*3+10/2$$</li>
+<li>逆波兰表达式<br>$$9 3 1-3 *+10 2 / +$$</li>
+</ul>
+</li>
+<li><p>实现原理:通过对逆波兰式进行遍历，遇到数字则入栈，遇到运算符则从栈中出栈相应个数的数字，进行运算，然后结果入栈，依次类推，直到遍历完毕，栈底元素为结果。</p>
+</li>
+<li><p>Python实现</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calculate_postfix</span><span class="params">(postfix_expression)</span>:</span></span><br><span class="line">    arithemtics = [<span class="string">'+'</span>, <span class="string">'-'</span>, <span class="string">'*'</span>, <span class="string">'/'</span>]</span><br><span class="line">    stack = SquenceStack()</span><br><span class="line">    <span class="keyword">for</span> s <span class="keyword">in</span> postfix_expression:</span><br><span class="line">        <span class="keyword">if</span> s <span class="keyword">not</span> <span class="keyword">in</span> arithemtics:</span><br><span class="line">            stack.push(s)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            a = stack.pop()</span><br><span class="line">            b = stack.pop()</span><br><span class="line">            <span class="comment"># 如果不想用eval，可以采用添加一个计算函数</span></span><br><span class="line">            stack.push(str(eval(b + s + a)))</span><br><span class="line">    <span class="keyword">return</span> stack.pop()</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="中缀表达式（常见的标准四则运算）转换为后缀表达式。"><a href="#中缀表达式（常见的标准四则运算）转换为后缀表达式。" class="headerlink" title="中缀表达式（常见的标准四则运算）转换为后缀表达式。"></a>中缀表达式（常见的标准四则运算）转换为后缀表达式。</h4><ul>
+<li><p>原理:遍历中缀表达式。</p>
+<ul>
+<li>遇到数字则输出。</li>
+<li>如果遇到运算符:<ul>
+<li>若为右括号，则一直退栈，直到左括号退出位置。</li>
+<li>若为其它运算符，则与栈顶元素比较:<ul>
+<li>优先级大于栈顶元素直接入栈。</li>
+<li>优先级小于栈顶，则将栈顶元素退出，一直到有小于的为止，然后运算符入栈。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>遍历完毕后，将栈中所有运算符退出即可。</li>
+</ul>
+</li>
+<li><p>Python实现</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> src.Stack.SquenceStack <span class="keyword">import</span> SquenceStack</span><br><span class="line"></span><br><span class="line">highs = &#123;<span class="string">'('</span>: <span class="number">0</span>, <span class="string">"+"</span>: <span class="number">1</span>, <span class="string">'-'</span>: <span class="number">1</span>, <span class="string">"*"</span>: <span class="number">2</span>, <span class="string">"/"</span>: <span class="number">2</span>, <span class="string">")"</span>: <span class="number">3</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">converse</span><span class="params">(expression)</span>:</span></span><br><span class="line">    _expression = expression.split(<span class="string">" "</span>)</span><br><span class="line">    arithemtics = list(highs)</span><br><span class="line">    result = []</span><br><span class="line">    operators = SquenceStack()</span><br><span class="line">    <span class="keyword">for</span> s <span class="keyword">in</span> _expression:</span><br><span class="line">        <span class="keyword">if</span> s <span class="keyword">not</span> <span class="keyword">in</span> arithemtics:</span><br><span class="line">            result.append(s)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> s == <span class="string">')'</span>:</span><br><span class="line">                <span class="keyword">for</span> i <span class="keyword">in</span> range(operators.length()):</span><br><span class="line">                    op = operators.pop()</span><br><span class="line">                    <span class="keyword">if</span> op == <span class="string">'('</span>:</span><br><span class="line">                        <span class="keyword">break</span></span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        result.append(op)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">if</span> operators.is_empty() <span class="keyword">or</span> s <span class="keyword">is</span> <span class="string">'('</span>:</span><br><span class="line">                    operators.push(s)</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    op = operators.get_top()</span><br><span class="line">                    <span class="keyword">if</span> highs[s] &gt; highs[op]:</span><br><span class="line">                        operators.push(s)</span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        <span class="keyword">for</span> i <span class="keyword">in</span> range(operators.length()):</span><br><span class="line">                            op = operators.pop()</span><br><span class="line">                            <span class="keyword">if</span> highs[op] &gt;= highs[s]:</span><br><span class="line">                                result.append(op)</span><br><span class="line">                            <span class="keyword">else</span>:</span><br><span class="line">                                operators.push(s)</span><br><span class="line">                                <span class="keyword">break</span></span><br><span class="line">                        <span class="keyword">if</span> operators.is_empty():</span><br><span class="line">                            operators.push(s)</span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> operators.is_empty():</span><br><span class="line">        result.append(operators.pop())</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calculate_postfix</span><span class="params">(postfix_expression)</span>:</span></span><br><span class="line">    arithemtics = [<span class="string">'+'</span>, <span class="string">'-'</span>, <span class="string">'*'</span>, <span class="string">'/'</span>]</span><br><span class="line">    stack = SquenceStack()</span><br><span class="line">    <span class="keyword">for</span> s <span class="keyword">in</span> postfix_expression:</span><br><span class="line">        <span class="keyword">if</span> s <span class="keyword">not</span> <span class="keyword">in</span> arithemtics:</span><br><span class="line">            stack.push(s)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            a = stack.pop()</span><br><span class="line">            b = stack.pop()</span><br><span class="line">            <span class="comment"># 如果不想用eval，可以采用添加一个计算函数</span></span><br><span class="line">            stack.push(str(eval(b + s + a)))</span><br><span class="line">    <span class="keyword">return</span> stack.pop()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    expression = <span class="string">'9 + ( 3 - 1 ) * 3 + 10 / 2'</span></span><br><span class="line">    postfix_expression = converse(expression)</span><br><span class="line">    <span class="keyword">assert</span> postfix_expression == [<span class="string">'9'</span>, <span class="string">'3'</span>, <span class="string">'1'</span>, <span class="string">'-'</span>, <span class="string">'3'</span>, <span class="string">'*'</span>, <span class="string">'+'</span>, <span class="string">'10'</span>, <span class="string">'2'</span>,</span><br><span class="line">                                  <span class="string">'/'</span>, <span class="string">'+'</span>]</span><br><span class="line">    a=calculate_postfix(postfix_expression)</span><br><span class="line">    <span class="keyword">assert</span> calculate_postfix(postfix_expression) == <span class="string">'20.0'</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li>《大话数据结构》</li>
+</ul>
+<p>PS:新人学习，新人写文章，若有不足，望请指出。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag"># 数据结构</a>
+              <a href="/tags/%E3%80%8A%E5%A4%A7%E8%AF%9D%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%8B/" rel="tag"># 《大话数据结构》</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2018/07/22/%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86/Linux/Linux-%E6%96%87%E4%BB%B6%E4%B8%8E%E7%9B%AE%E5%BD%95%E7%AE%A1%E7%90%86/" rel="next" title="Linux--文件与目录管理">
+                  <i class="fa fa-chevron-left"></i> Linux--文件与目录管理
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2018/07/23/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E9%98%9F%E5%88%97/" rel="prev" title="数据结构--队列">
+                  数据结构--队列 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#栈的基础知识"><span class="nav-number">1.</span> <span class="nav-text">栈的基础知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#顺序存储"><span class="nav-number">2.</span> <span class="nav-text">顺序存储</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#共享空间栈"><span class="nav-number">3.</span> <span class="nav-text">共享空间栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#链式存储"><span class="nav-number">4.</span> <span class="nav-text">链式存储</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用"><span class="nav-number">5.</span> <span class="nav-text">应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#斐波那契数列"><span class="nav-number">5.1.</span> <span class="nav-text">斐波那契数列</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#非递归实现"><span class="nav-number">5.1.1.</span> <span class="nav-text">非递归实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#递归实现"><span class="nav-number">5.1.2.</span> <span class="nav-text">递归实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四则运算表达式求值"><span class="nav-number">5.2.</span> <span class="nav-text">四则运算表达式求值</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#逆波兰表达式"><span class="nav-number">5.2.1.</span> <span class="nav-text">逆波兰表达式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#中缀表达式（常见的标准四则运算）转换为后缀表达式。"><span class="nav-number">5.2.2.</span> <span class="nav-text">中缀表达式（常见的标准四则运算）转换为后缀表达式。</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="Martin"
+    src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Martin</p>
+  <div class="site-description" itemprop="description">一只奔跑在代码之道上的猪</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备16004961号 </a><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=null" rel="noopener" target="_blank">null </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Martin</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

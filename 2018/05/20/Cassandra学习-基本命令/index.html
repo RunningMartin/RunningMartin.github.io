@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="关于Cassandra基本命令的学习笔记。">
+<meta name="keywords" content="Cassandra,数据库,学习笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cassandra学习-基本命令">
+<meta property="og:url" content="http:&#x2F;&#x2F;fangjieblog.cn&#x2F;2018&#x2F;05&#x2F;20&#x2F;Cassandra%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4&#x2F;index.html">
+<meta property="og:site_name" content="随遇而安">
+<meta property="og:description" content="关于Cassandra基本命令的学习笔记。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-26T13:20:08.000Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://fangjieblog.cn/2018/05/20/Cassandra%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Cassandra学习-基本命令 | 随遇而安</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">随遇而安</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">淡泊明志，宁静致远</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://fangjieblog.cn/2018/05/20/Cassandra%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Martin">
+      <meta itemprop="description" content="一只奔跑在代码之道上的猪">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="随遇而安">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Cassandra学习-基本命令
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-20 23:34:23" itemprop="dateCreated datePublished" datetime="2018-05-20T23:34:23+08:00">2018-05-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-10-26 21:20:08" itemprop="dateModified" datetime="2019-10-26T21:20:08+08:00">2019-10-26</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Cassandra/" itemprop="url" rel="index">
+                    <span itemprop="name">Cassandra</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>关于Cassandra基本命令的学习笔记。</p>
+<a id="more"></a>
+
+<p><a href="https://academy.datastax.com/resources/ds201-foundations-apache-cassandra" target="_blank" rel="noopener">Cassandra ds201课程地址</a></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><ul>
+<li>常规安装Cassandra。<br><a href="http://cassandra.apache.org/" target="_blank" rel="noopener">请移步官网，结合自己的需求进行安装</a></li>
+<li>docker安装Cassandra。<a href="">docker安装</a><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 拉取镜像</span></span><br><span class="line">docker pull cassandra</span><br><span class="line"><span class="comment"># 安装镜像</span></span><br><span class="line">docker run —name=cass -d -p 9042:9042 cassandra</span><br></pre></td></tr></table></figure>
+<h2 id="CQL"><a href="#CQL" class="headerlink" title="CQL"></a>CQL</h2><h3 id="数据定义"><a href="#数据定义" class="headerlink" title="数据定义"></a>数据定义</h3><h4 id="键空间操作"><a href="#键空间操作" class="headerlink" title="键空间操作"></a>键空间操作</h4></li>
+<li>创建keyspace<ul>
+<li>replication：设置备份策略。<ul>
+<li>SimpleStrategy:允许用Integer来定义<code>replication_factor</code>,例如<code>replication_factor</code>为3，则会有三个不同的节点存储主节点的备份。</li>
+<li>NetworkTopologyStrategy:采用不同的DC的不同节点来进行备份。</li>
+</ul>
+</li>
+<li>durable_writes：是否采用<a href="http://cassandra.apache.org/doc/latest/architecture/storage_engine.html#commitlog" target="_blank" rel="noopener">CommitLog</a> 来更新。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 语法:</span></span><br><span class="line"><span class="comment"># create_keyspace_statement ::=  CREATE KEYSPACE [ IF NOT EXISTS ] keyspace_name WITH options;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例:</span></span><br><span class="line"><span class="comment"># 采用SimpleStrategy策略 </span></span><br><span class="line">cqlsh&gt; CREATE KEYSPACE Excelsior WITH replication = &#123;<span class="string">'class'</span>: <span class="string">'SimpleStrategy'</span>, <span class="string">'replication_factor'</span> : 3&#125;;</span><br><span class="line">cqlsh&gt; DESCRIBE KEYSPACES ;</span><br><span class="line"></span><br><span class="line">rating         system_auth  excelsior           system_traces</span><br><span class="line">system_schema  system       system_distributed</span><br><span class="line"></span><br><span class="line"><span class="comment">#采用NetworkTopologyStrategy策略 </span></span><br><span class="line">cqlsh&gt; CREATE KEYSPACE Excalibur WITH replication = &#123;<span class="string">'class'</span>: <span class="string">'NetworkTopologyStrategy'</span>,<span class="string">'DC1'</span>:1&#125; AND durable_writes = <span class="literal">false</span>;</span><br><span class="line">cqlsh&gt; DESCRIBE KEYSPACES ;</span><br><span class="line"></span><br><span class="line">excalibur  system_schema  system     system_distributed</span><br><span class="line">rating     system_auth    excelsior  system_traces</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>切换keyspace:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 语法:</span></span><br><span class="line"><span class="comment"># use_statement ::=  USE keyspace_name;</span></span><br><span class="line"><span class="comment"># 示例:</span></span><br><span class="line">cqlsh&gt; USE system_auth ;</span><br><span class="line">cqlsh:system_auth&gt;</span><br></pre></td></tr></table></figure></li>
+<li>修改keyspace<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 语法:</span></span><br><span class="line"><span class="comment"># alter_keyspace_statement ::=  ALTER KEYSPACE keyspace_name WITH options;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例:</span></span><br><span class="line">cqlsh&gt; ALTER KEYSPACE excelsior WITH replication = &#123;<span class="string">'class'</span>: <span class="string">'SimpleStrategy'</span>,<span class="string">'replication_factor'</span>:4&#125;;</span><br><span class="line">cqlsh&gt; DESCRIBE KEYSPACE excelsior;</span><br><span class="line"></span><br><span class="line">CREATE KEYSPACE excelsior WITH replication = &#123;<span class="string">'class'</span>: <span class="string">'SimpleStrategy'</span>, <span class="string">'replication_factor'</span>: <span class="string">'4'</span>&#125;  AND durable_writes = <span class="literal">true</span>;</span><br></pre></td></tr></table></figure></li>
+<li>删除keyspace:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 语法:</span></span><br><span class="line"><span class="comment"># drop_keyspace_statement ::=  DROP KEYSPACE [ IF EXISTS ] keyspace_name;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例:</span></span><br><span class="line">cqlsh&gt; drop KEYSPACE excelsior ;</span><br><span class="line">cqlsh&gt; DESCRIBE KEYSPACES ;</span><br><span class="line"></span><br><span class="line">rating     system_schema  system              system_traces</span><br><span class="line">excalibur  system_auth    system_distributed</span><br></pre></td></tr></table></figure></li>
+<li>查看keyspace:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 查看所有的keyspaces</span><br><span class="line">DESCRIBE KEYSPACES ;</span><br><span class="line"># 查看单个keyspace</span><br><span class="line">DESCRIBE KEYSPACE keyspace_name;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="表操作"><a href="#表操作" class="headerlink" title="表操作"></a>表操作</h3><ul>
+<li><p>创建表</p>
+<ul>
+<li><p>语法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">create_table_statement ::=  CREATE TABLE [ IF NOT EXISTS ] table_name</span><br><span class="line">                        &apos;(&apos;</span><br><span class="line">                            column_definition</span><br><span class="line">                            ( &apos;,&apos; column_definition )*</span><br><span class="line">                            [ &apos;,&apos; PRIMARY KEY &apos;(&apos; primary_key &apos;)&apos; ]</span><br><span class="line">                        &apos;)&apos; [ WITH table_options ]</span><br><span class="line">column_definition      ::=  column_name cql_type [ STATIC ] [ PRIMARY KEY]</span><br><span class="line">primary_key            ::=  partition_key [ &apos;,&apos; clustering_columns ]</span><br><span class="line">partition_key          ::=  column_name</span><br><span class="line">                        | &apos;(&apos; column_name ( &apos;,&apos; column_name )* &apos;)&apos;</span><br><span class="line">clustering_columns     ::=  column_name ( &apos;,&apos; column_name )*</span><br><span class="line">table_options          ::=  COMPACT STORAGE [ AND table_options ]</span><br><span class="line">                        | CLUSTERING ORDER BY &apos;(&apos; clustering_order &apos;)&apos; [ AND         table_options ]</span><br><span class="line">                        | options</span><br><span class="line">clustering_order       ::=  column_name (ASC | DESC) ( &apos;,&apos; column_name (ASC | DESC) )*</span><br></pre></td></tr></table></figure></li>
+<li><p>细节：</p>
+<ul>
+<li><p>STATIC定义：设置STATIC，则具有相同的partition key的数据这个字段的值都相同。</p>
+<ul>
+<li>限制：<ul>
+<li>定义表时使用了<code>COMPACT STORAGE</code>，不能使用static。</li>
+<li>没有<code>clustering columns</code>的表是不能使用static的，因为每个<code>partition</code>只有一行，所有本质上就是static的。</li>
+<li>只有不在<code>PRIMARY KEY</code>中的列才能是静态的。</li>
+</ul>
+</li>
+<li>示例：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">cqlsh:cass_test&gt; CREATE TABLE t(</span><br><span class="line">     ... pk int,</span><br><span class="line">     ... t int, </span><br><span class="line">     ... v text, </span><br><span class="line">     ... s text static, </span><br><span class="line">     ... PRIMARY KEY (pk , t )</span><br><span class="line">     ... );</span><br><span class="line">cqlsh:cass_test&gt; INSERT INTO t (pk, t, v, s) VALUES (0, 0, <span class="string">'val0'</span>, <span class="string">'static0'</span>);</span><br><span class="line">cqlsh:cass_test&gt; INSERT INTO t (pk, t, v, s) VALUES (0, 1, <span class="string">'val1'</span>, <span class="string">'static1'</span>);</span><br><span class="line">cqlsh:cass_test&gt; SELECT * FROM t ;</span><br><span class="line"></span><br><span class="line"> pk | t | s       | v</span><br><span class="line">----+---+---------+------</span><br><span class="line">  0 | 0 | static1 | val0</span><br><span class="line">  0 | 1 | static1 | val1</span><br><span class="line"></span><br><span class="line">(2 rows)</span><br><span class="line"><span class="comment"># 添加相同的partition更新，可以看到pk相同的，s都改变了</span></span><br><span class="line">cqlsh:cass_test&gt; INSERT INTO t (pk, t, v, s) VALUES (0, 2, <span class="string">'val1'</span>, <span class="string">'static2'</span>);</span><br><span class="line">cqlsh:cass_test&gt; SELECT * FROM t ;</span><br><span class="line"></span><br><span class="line"> pk | t | s       | v</span><br><span class="line">----+---+---------+------</span><br><span class="line">  0 | 0 | static2 | val0</span><br><span class="line">  0 | 1 | static2 | val1</span><br><span class="line">  0 | 2 | static2 | val1</span><br><span class="line">  </span><br><span class="line"><span class="comment"># 添加不同的partition</span></span><br><span class="line">cqlsh:cass_test&gt; INSERT INTO t (pk, t, v, s) VALUES (1, 0, <span class="string">'val1'</span>, <span class="string">'static3'</span>);</span><br><span class="line">cqlsh:cass_test&gt; SELECT * FROM t ;</span><br><span class="line"></span><br><span class="line"> pk | t | s       | v</span><br><span class="line">----+---+---------+------</span><br><span class="line">  1 | 0 | static3 | val1</span><br><span class="line">  0 | 0 | static2 | val0</span><br><span class="line">  0 | 1 | static2 | val1</span><br><span class="line">  0 | 2 | static2 | val1</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>Primary Key</p>
+<ul>
+<li><p>含义；在表中，区别不同行的数据是通过<code>primary key</code>来区别的，<code>primary key</code>包含两个部分<code>partition key</code>和<code>clustering columns</code>。</p>
+</li>
+<li><p>partition key:<code>primary key</code>的第一个参数为<code>partition key</code>。可以为一个列表</p>
+</li>
+<li><p>clustering columns：<code>primary key</code>除了第一个参数，都为<code>clustering columns</code>。</p>
+</li>
+<li><p>示例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PRIMARY KEY (a):a               # 为partition key，没有clustering columns</span><br><span class="line">PRIMARY KEY (a, b, c):a         # 为partition key,b和c为clustering columns</span><br><span class="line">PRIMARY KEY ((a, b), c):(a,b)   # 为partition key，c为clustering columns</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>表的选项</p>
+<ul>
+<li><p><code>COMPACT STORAGE</code>:压缩存储(在创建表后，不能被修改)。这个字段存在是因为为了兼容CQL3之前，在新的表中不推荐使用，他会带来以下的限制：</p>
+<ul>
+<li>不能使用<code>collections</code>和<code>static columns</code>。</li>
+<li>如果至少有一个<code>clustering column</code>，那么它必须在<code>primary key</code>之外有一列。这意味在创建后，某些特殊情况下无法添加或删除列。</li>
+<li>在创建索引上是受限的，并且不能创建<code>materialized view</code>。</li>
+</ul>
+</li>
+<li><p><code>CLUSTERING ORDER</code>:设置排序(在创建表后，不能被修改)。只能设置<code>clustering columns</code>，默认采用<code>ASC</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WITH CLUSTERING ORDER (a DESC, b ASC)</span><br></pre></td></tr></table></figure></li>
+<li><p><a href="http://cassandra.apache.org/doc/latest/cql/ddl.html#other-table-options" target="_blank" rel="noopener">其他选项参见官方文档</a></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>示例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建一个测试的keyspace</span></span><br><span class="line">cqlsh&gt; CREATE KEYSPACE cass_test WITH replication = &#123;<span class="string">'class'</span>: <span class="string">'SimpleStrategy'</span>, <span class="string">'replication_factor'</span>: <span class="string">'1'</span>&#125;  AND durable_writes = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 切换到该keyspace</span></span><br><span class="line">cqlsh&gt; USE cass_test ;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建表</span></span><br><span class="line">cqlsh:cass_test&gt; CREATE TABLE monkey (</span><br><span class="line">             ··· species text PRIMARY KEY,</span><br><span class="line">             ··· common_name text,</span><br><span class="line">             ··· population varint,</span><br><span class="line">             ··· average_size int</span><br><span class="line">             ··· ) WITH comment=<span class="string">'Important biological records'</span></span><br><span class="line">             ··· AND read_repair_chance = 1.0;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查</span></span><br><span class="line">cqlsh:cass_test&gt; DESCRIBE TABLE monkey ;</span><br><span class="line"></span><br><span class="line">CREATE TABLE cass_test.monkey (</span><br><span class="line">    species text PRIMARY KEY,</span><br><span class="line">    average_size int,</span><br><span class="line">    common_name text,</span><br><span class="line">    population varint</span><br><span class="line">) WITH bloom_filter_fp_chance = 0.01</span><br><span class="line">    AND caching = &#123;<span class="string">'keys'</span>: <span class="string">'ALL'</span>, <span class="string">'rows_per_partition'</span>: <span class="string">'NONE'</span>&#125;</span><br><span class="line">    AND comment = <span class="string">'Important biological records'</span></span><br><span class="line">    AND compaction = &#123;<span class="string">'class'</span>: <span class="string">'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy'</span>, <span class="string">'max_threshold'</span>: <span class="string">'32'</span>, <span class="string">'min_threshold'</span>: <span class="string">'4'</span>&#125;</span><br><span class="line">    AND compression = &#123;<span class="string">'chunk_length_in_kb'</span>: <span class="string">'64'</span>, <span class="string">'class'</span>: <span class="string">'org.apache.cassandra.io.compress.LZ4Compressor'</span>&#125;</span><br><span class="line">    AND crc_check_chance = 1.0</span><br><span class="line">    AND dclocal_read_repair_chance = 0.1</span><br><span class="line">    AND default_time_to_live = 0</span><br><span class="line">    AND gc_grace_seconds = 864000</span><br><span class="line">    AND max_index_interval = 2048</span><br><span class="line">    AND memtable_flush_period_in_ms = 0</span><br><span class="line">    AND min_index_interval = 128</span><br><span class="line">    AND read_repair_chance = 1.0</span><br><span class="line">    AND speculative_retry = <span class="string">'99PERCENTILE'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 其他范例</span></span><br><span class="line">cqlsh:cass_test&gt; CREATE TABLE timeline (</span><br><span class="line">             ··· userid uuid,</span><br><span class="line">             ··· posted_month int,</span><br><span class="line">             ··· posted_time uuid,</span><br><span class="line">             ··· body text,</span><br><span class="line">             ··· posted_by text,</span><br><span class="line">             ··· PRIMARY KEY (userid, posted_month, posted_time)</span><br><span class="line">             ··· ) WITH compaction = &#123; <span class="string">'class'</span> : <span class="string">'LeveledCompactionStrategy'</span> &#125;;</span><br><span class="line"></span><br><span class="line">cqlsh:cass_test&gt; CREATE TABLE loads (</span><br><span class="line">             ··· machine inet,</span><br><span class="line">             ··· cpu int,</span><br><span class="line">             ··· mtime timeuuid,</span><br><span class="line">             ··· load <span class="built_in">float</span>,</span><br><span class="line">             ··· PRIMARY KEY ((machine, cpu), mtime)</span><br><span class="line">             ··· ) WITH CLUSTERING ORDER BY (mtime DESC);</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>修改表</p>
+<ul>
+<li>语法<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">alter_table_statement   ::=  ALTER TABLE table_name alter_table_instruction</span><br><span class="line">alter_table_instruction ::=  ADD column_name cql_type ( &apos;,&apos; column_name cql_type )*</span><br><span class="line">                         | DROP column_name ( column_name )*</span><br><span class="line">                         | WITH options</span><br></pre></td></tr></table></figure></li>
+<li>注意：<ul>
+<li>添加的新的列永远不会成为<code>primary key</code>。</li>
+<li>在紧凑表中有表添加的限制。</li>
+</ul>
+</li>
+<li>示例<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 范例</span><br><span class="line">ALTER TABLE addamsFamily ADD gravesite varchar;</span><br><span class="line"></span><br><span class="line">ALTER TABLE addamsFamily</span><br><span class="line">       WITH comment = &apos;A most excellent and useful table&apos;</span><br><span class="line">       AND read_repair_chance = 0.2;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>删除表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 语法:</span><br><span class="line">drop_table_statement ::=  DROP TABLE [ IF EXISTS ] table_name;</span><br><span class="line"># 示例:</span><br><span class="line">DROP TABLE loads;</span><br></pre></td></tr></table></figure></li>
+<li><p>截短:实际上做的是一个清空表的操作，会永久性的删除表中已经存在的数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 语法</span><br><span class="line">truncate_statement ::=  TRUNCATE [ TABLE ] table_name;</span><br></pre></td></tr></table></figure></li>
+<li><p>基础数据</p>
+</li>
+<li><p>UUID和TIMEUUID</p>
+</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://cassandra.apache.org/doc/latest/" target="_blank" rel="noopener">cassandra官方文档</a></li>
+<li><a href="https://www.w3cschool.cn/cassandra/" target="_blank" rel="noopener">W3Cschool cassandra教程</a></li>
+<li><a href="https://www.tutorialspoint.com/cassandra/index.htm" target="_blank" rel="noopener">tutorialspoint.com/cassandra</a></li>
+</ul>
+<hr>
+<p>PS:新人学习，新人写文章，若有不足，望请指出。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Cassandra/" rel="tag"># Cassandra</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"># 数据库</a>
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2018/05/20/Python3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="next" title="Python3学习笔记-表达式">
+                  <i class="fa fa-chevron-left"></i> Python3学习笔记-表达式
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2018/05/27/%E6%95%8F%E6%8D%B7%E8%AE%BE%E8%AE%A1/" rel="prev" title="敏捷设计">
+                  敏捷设计 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CQL"><span class="nav-number">2.</span> <span class="nav-text">CQL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据定义"><span class="nav-number">2.1.</span> <span class="nav-text">数据定义</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#键空间操作"><span class="nav-number">2.1.1.</span> <span class="nav-text">键空间操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#表操作"><span class="nav-number">2.2.</span> <span class="nav-text">表操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="Martin"
+    src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Martin</p>
+  <div class="site-description" itemprop="description">一只奔跑在代码之道上的猪</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备16004961号 </a><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=null" rel="noopener" target="_blank">null </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Martin</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

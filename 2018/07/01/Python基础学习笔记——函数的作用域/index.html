@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="记录关于Python函数作用域的学习笔记。">
+<meta name="keywords" content="学习笔记,Python,Python基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python基础学习笔记——函数的作用域">
+<meta property="og:url" content="http:&#x2F;&#x2F;fangjieblog.cn&#x2F;2018&#x2F;07&#x2F;01&#x2F;Python%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%87%BD%E6%95%B0%E7%9A%84%E4%BD%9C%E7%94%A8%E5%9F%9F&#x2F;index.html">
+<meta property="og:site_name" content="随遇而安">
+<meta property="og:description" content="记录关于Python函数作用域的学习笔记。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-26T13:20:08.000Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://fangjieblog.cn/2018/07/01/Python%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%87%BD%E6%95%B0%E7%9A%84%E4%BD%9C%E7%94%A8%E5%9F%9F/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Python基础学习笔记——函数的作用域 | 随遇而安</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">随遇而安</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">淡泊明志，宁静致远</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://fangjieblog.cn/2018/07/01/Python%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%87%BD%E6%95%B0%E7%9A%84%E4%BD%9C%E7%94%A8%E5%9F%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Martin">
+      <meta itemprop="description" content="一只奔跑在代码之道上的猪">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="随遇而安">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python基础学习笔记——函数的作用域
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-07-01 20:36:04" itemprop="dateCreated datePublished" datetime="2018-07-01T20:36:04+08:00">2018-07-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-10-26 21:20:08" itemprop="dateModified" datetime="2019-10-26T21:20:08+08:00">2019-10-26</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python3-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index">
+                    <span itemprop="name">Python3 学习笔记</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>记录关于Python函数作用域的学习笔记。</p>
+<a id="more"></a>
+
+<h2 id="LEGB"><a href="#LEGB" class="headerlink" title="LEGB"></a>LEGB</h2><ul>
+<li><p>说明：Python3中，在函数中访问名字是以LEGB的规则来访问的。其L指<code>locals</code>名字空间，E指<code>nonlocal</code>，G指<code>globals</code>，B指<code>builtins</code>。当需要访问一个名字时，会现在L中查找，若没有然后去E中查找，依次类推。LEGB仅仅为一个原则，并非python的内部实现。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> builtins</span><br><span class="line"></span><br><span class="line">builtins.B = <span class="string">'B'</span></span><br><span class="line"></span><br><span class="line">G = <span class="string">'G'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">enclosing</span><span class="params">()</span>:</span></span><br><span class="line">    E = <span class="string">'E'</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></span><br><span class="line">        L = <span class="string">'L'</span></span><br><span class="line">        <span class="comment"># locals &#123;'L': 'L', 'E': 'E'&#125;</span></span><br><span class="line">        print(<span class="string">'test locals'</span>, locals())</span><br><span class="line"></span><br><span class="line">        <span class="comment"># L E G B</span></span><br><span class="line">        print(L, E, G, B)</span><br><span class="line">    <span class="comment"># &#123;'test': &lt;function enclosing.&lt;locals&gt;.test at 0x7fa5326a4158&gt;, 'E': 'E'&#125;</span></span><br><span class="line">    print(<span class="string">'enclosing locals'</span>, locals())</span><br><span class="line">    <span class="keyword">return</span> test</span><br><span class="line"></span><br><span class="line">enclosing()()</span><br><span class="line"><span class="comment"># globals &#123;...'G': 'G', 'enclosing': &lt;function enclosing at 0x7fa53275be18&gt;&#125;</span></span><br><span class="line">print(<span class="string">'globals'</span>, globals())</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">builtins &#123;'__name__': 'builtins', ... 'B': 'B'&#125;</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line">print(<span class="string">'builtins'</span>, builtins)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>注意，LEGB原则只适用于访问，而不适用于修改，因为修改是在当前的名字空间中实现的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">read_legb</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">"""LEGB规则"""</span></span><br><span class="line">    <span class="comment"># nonlocal</span></span><br><span class="line">    E = <span class="string">'E'</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="comment"># locals</span></span><br><span class="line">        L = <span class="string">'L'</span></span><br><span class="line">        print(<span class="string">'Read'</span>, L, E, G, B)</span><br><span class="line"></span><br><span class="line">    dis.dis(test)</span><br><span class="line">    <span class="keyword">return</span> test()</span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string"> 38           0 LOAD_CONST               1 ('L')</span></span><br><span class="line"><span class="string">              2 STORE_FAST               0 (L)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"> 39           4 LOAD_GLOBAL              0 (print)</span></span><br><span class="line"><span class="string">              6 LOAD_CONST               2 ('Read')</span></span><br><span class="line"><span class="string">              8 LOAD_FAST                0 (L)</span></span><br><span class="line"><span class="string">             10 LOAD_DEREF               0 (E)</span></span><br><span class="line"><span class="string">             12 LOAD_GLOBAL              1 (G)</span></span><br><span class="line"><span class="string">             14 LOAD_GLOBAL              2 (B)</span></span><br><span class="line"><span class="string">             16 CALL_FUNCTION            5</span></span><br><span class="line"><span class="string">             18 POP_TOP</span></span><br><span class="line"><span class="string">             20 LOAD_CONST               0 (None)</span></span><br><span class="line"><span class="string">             22 RETURN_VALUE</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line">read_legb()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">write_legb</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">"""LEGB规则"""</span></span><br><span class="line">    <span class="comment"># nonlocal</span></span><br><span class="line">    E = <span class="string">'E'</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="comment"># locals</span></span><br><span class="line">        L += <span class="string">'_write'</span></span><br><span class="line">        E += <span class="string">'_write'</span></span><br><span class="line">        G += <span class="string">'_write'</span></span><br><span class="line">        B += <span class="string">'_write'</span></span><br><span class="line"></span><br><span class="line">    print(<span class="string">'write_legb'</span>)</span><br><span class="line">    dis.dis(test)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> test()</span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string"> 55           0 LOAD_FAST                0 (L) # 从FAST中获取的值</span></span><br><span class="line"><span class="string">              2 LOAD_CONST               1 ('_write')</span></span><br><span class="line"><span class="string">              4 INPLACE_ADD</span></span><br><span class="line"><span class="string">              6 STORE_FAST               0 (L)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"> 56           8 LOAD_FAST                1 (E)</span></span><br><span class="line"><span class="string">             10 LOAD_CONST               1 ('_write')</span></span><br><span class="line"><span class="string">             12 INPLACE_ADD</span></span><br><span class="line"><span class="string">             14 STORE_FAST               1 (E)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"> 57          16 LOAD_FAST                2 (G)</span></span><br><span class="line"><span class="string">             18 LOAD_CONST               1 ('_write')</span></span><br><span class="line"><span class="string">             20 INPLACE_ADD</span></span><br><span class="line"><span class="string">             22 STORE_FAST               2 (G)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"> 58          24 LOAD_FAST                3 (B)</span></span><br><span class="line"><span class="string">             26 LOAD_CONST               1 ('_write')</span></span><br><span class="line"><span class="string">             28 INPLACE_ADD</span></span><br><span class="line"><span class="string">             30 STORE_FAST               3 (B)</span></span><br><span class="line"><span class="string">             32 LOAD_CONST               0 (None)</span></span><br><span class="line"><span class="string">             34 RETURN_VALUE</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line">write_legb()</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="内存结构"><a href="#内存结构" class="headerlink" title="内存结构"></a>内存结构</h2><ul>
+<li><p>函数在每次调用的时候，都会新建栈帧用于局部变量和执行过程存储，当执行完毕后，即会销毁。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在Ipython中执行</span></span><br><span class="line">In[<span class="number">2</span>]: <span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></span><br><span class="line">  ...:     print(id(locals()))</span><br><span class="line">  ...:     </span><br><span class="line">In[<span class="number">3</span>]: test()</span><br><span class="line"><span class="number">140250284467472</span></span><br><span class="line">In[<span class="number">4</span>]: test()</span><br><span class="line"><span class="number">140250282525248</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>采用字典实现的名字空间虽然灵活，但是访问效率较低。因此解释器专门划出内存空间，用效率最高的数组替代字典。在函数指令执行之前，会将包含参数在内的所有局部变量，以及要使用的外部变量复制到该数组中。由于作用域的不同，其内存区域分为FAST(存储参数、局部变量)和DEREF(存储外层嵌套变量、闭包)。这也可以解释locals和nonlocals在运行期是不能扩展的。因为FAST和DEREF中的值是在编译期确定。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">enclosing</span><span class="params">()</span>:</span></span><br><span class="line">    E = <span class="string">'E'</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">(a, b)</span>:</span></span><br><span class="line">        c = a + b</span><br><span class="line">        print(E, c)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> test</span><br><span class="line"></span><br><span class="line">t = enclosing()</span><br><span class="line">dis.dis(t)</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string"> 16           0 LOAD_FAST                0 (a) # 从FAST中读取a</span></span><br><span class="line"><span class="string">              2 LOAD_FAST                1 (b)</span></span><br><span class="line"><span class="string">              4 BINARY_ADD</span></span><br><span class="line"><span class="string">              6 STORE_FAST               2 (c)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"> 17           8 LOAD_GLOBAL              0 (print)</span></span><br><span class="line"><span class="string">             10 LOAD_DEREF               0 (E) # 从DEREF中读取E</span></span><br><span class="line"><span class="string">             12 LOAD_FAST                2 (c)</span></span><br><span class="line"><span class="string">             14 CALL_FUNCTION            2</span></span><br><span class="line"><span class="string">             16 POP_TOP</span></span><br><span class="line"><span class="string">             18 LOAD_CONST               0 (None)</span></span><br><span class="line"><span class="string">             20 RETURN_VALUE</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="名字空间"><a href="#名字空间" class="headerlink" title="名字空间"></a>名字空间</h2><ul>
+<li><p>从上面的实现中，我们可以发现，实际上是不存在所谓的名字空间字典的，但是我们能通过locals来获取名字空间字典，这是因为locals返回的字典是按需延迟创建的，并从FAST区域复制相关的值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> dis</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></span><br><span class="line">    locals()[<span class="string">'x'</span>]=<span class="number">100</span></span><br><span class="line">    print(x)</span><br><span class="line"></span><br><span class="line"><span class="comment"># NameError: name 'x' is not defined</span></span><br><span class="line"><span class="comment"># 因为locals是单向的。不能通过locals设置相关的值。</span></span><br><span class="line">test()</span><br><span class="line"></span><br><span class="line">dis.dis(test)</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">  5           0 LOAD_CONST               1 (100)</span></span><br><span class="line"><span class="string">              2 LOAD_GLOBAL              0 (locals)</span></span><br><span class="line"><span class="string">              4 CALL_FUNCTION            0</span></span><br><span class="line"><span class="string">              6 LOAD_CONST               2 ('x')</span></span><br><span class="line"><span class="string">              8 STORE_SUBSCR</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  6          10 LOAD_GLOBAL              1 (print)</span></span><br><span class="line"><span class="string">             12 LOAD_GLOBAL              2 (x) # 是从global中获取的x</span></span><br><span class="line"><span class="string">             14 CALL_FUNCTION            1</span></span><br><span class="line"><span class="string">             16 POP_TOP</span></span><br><span class="line"><span class="string">             18 LOAD_CONST               0 (None)</span></span><br><span class="line"><span class="string">             20 RETURN_VALUE</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test2</span><span class="params">()</span>:</span></span><br><span class="line">    x = <span class="number">100</span></span><br><span class="line">    print(<span class="string">"未修改之前："</span>, x)</span><br><span class="line">    locals()[<span class="string">'x'</span>] = <span class="number">999</span></span><br><span class="line">	<span class="comment"># 100</span></span><br><span class="line">    print(<span class="string">"fast.x"</span>, x)</span><br><span class="line">    <span class="comment"># 从FAST中刷新</span></span><br><span class="line">    <span class="comment"># 100</span></span><br><span class="line">    print(<span class="string">'locals.x='</span>, locals()[<span class="string">'x'</span>])</span><br><span class="line"></span><br><span class="line">test2()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>locals</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test3</span><span class="params">()</span>:</span></span><br><span class="line">    x = <span class="number">1</span></span><br><span class="line">    d = locals()</span><br><span class="line">	<span class="comment"># True</span></span><br><span class="line">    print(d <span class="keyword">is</span> locals())</span><br><span class="line"></span><br><span class="line">    d[<span class="string">'context'</span>] = <span class="string">'hello'</span></span><br><span class="line">    <span class="comment"># &#123;'x': 1, 'd': &#123;...&#125;, 'context': 'hello'&#125;</span></span><br><span class="line">    print(d)</span><br><span class="line"></span><br><span class="line">    x = <span class="number">999</span></span><br><span class="line">    <span class="comment"># locals会有所缓存，所以不会立即更新&#123;'x': 1, 'd': &#123;...&#125;, 'context': 'hello'&#125;</span></span><br><span class="line">    print(d)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 再次调用locals，即刷新locals。&#123;'x': 999, 'd': &#123;...&#125;, 'context': 'hello'&#125;</span></span><br><span class="line">    print(locals())</span><br><span class="line">    <span class="comment"># &#123;'x': 999, 'd': &#123;...&#125;, 'context': 'hello'&#125;</span></span><br><span class="line">    print(d)</span><br><span class="line"></span><br><span class="line">test3()</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="编程建议"><a href="#编程建议" class="headerlink" title="编程建议"></a>编程建议</h2><ul>
+<li>函数应该设计为纯函数，即只依赖参数，内部变量和自身的属性。</li>
+<li>若一定要依赖外部变量，则尽可能不做修改，以返回值的形式交给调用方决策。</li>
+</ul>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><a href="https://item.jd.com/12261161.html" target="_blank" rel="noopener">《Python 3学习笔记（上卷》  雨痕</a></li>
+</ul>
+<p>PS:新人学习，新人写文章，若有不足，望请指出。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/Python%E5%9F%BA%E7%A1%80/" rel="tag"># Python基础</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2018/07/01/Python%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%87%BD%E6%95%B0%E7%9A%84%E5%9F%BA%E7%A1%80/" rel="next" title="Python基础学习笔记——函数的基础">
+                  <i class="fa fa-chevron-left"></i> Python基础学习笔记——函数的基础
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2018/07/01/Python%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E2%80%94%E2%80%94%E5%87%BD%E6%95%B0%E7%9A%84%E8%B0%83%E7%94%A8/" rel="prev" title="Python基础学习笔记——函数的调用">
+                  Python基础学习笔记——函数的调用 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#LEGB"><span class="nav-number">1.</span> <span class="nav-text">LEGB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存结构"><span class="nav-number">2.</span> <span class="nav-text">内存结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#名字空间"><span class="nav-number">3.</span> <span class="nav-text">名字空间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编程建议"><span class="nav-number">4.</span> <span class="nav-text">编程建议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">5.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="Martin"
+    src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Martin</p>
+  <div class="site-description" itemprop="description">一只奔跑在代码之道上的猪</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备16004961号 </a><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=null" rel="noopener" target="_blank">null </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Martin</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

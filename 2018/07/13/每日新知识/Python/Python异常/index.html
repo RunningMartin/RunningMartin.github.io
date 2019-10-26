@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="记录关于Python异常处理的相关知识点。">
+<meta name="keywords" content="学习笔记,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="每日新知识--Python异常">
+<meta property="og:url" content="http:&#x2F;&#x2F;fangjieblog.cn&#x2F;2018&#x2F;07&#x2F;13&#x2F;%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86&#x2F;Python&#x2F;Python%E5%BC%82%E5%B8%B8&#x2F;index.html">
+<meta property="og:site_name" content="随遇而安">
+<meta property="og:description" content="记录关于Python异常处理的相关知识点。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-26T13:20:08.000Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://fangjieblog.cn/2018/07/13/%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86/Python/Python%E5%BC%82%E5%B8%B8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>每日新知识--Python异常 | 随遇而安</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">随遇而安</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">淡泊明志，宁静致远</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://fangjieblog.cn/2018/07/13/%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86/Python/Python%E5%BC%82%E5%B8%B8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Martin">
+      <meta itemprop="description" content="一只奔跑在代码之道上的猪">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="随遇而安">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          每日新知识--Python异常
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-07-13 21:56:36" itemprop="dateCreated datePublished" datetime="2018-07-13T21:56:36+08:00">2018-07-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-10-26 21:20:08" itemprop="dateModified" datetime="2019-10-26T21:20:08+08:00">2019-10-26</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86/" itemprop="url" rel="index">
+                    <span itemprop="name">每日新知识</span>
+                  </a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index">
+                    <span itemprop="name">Python基础</span>
+                  </a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E3%80%8APython3-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index">
+                    <span itemprop="name">《Python3 学习笔记》阅读笔记</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>记录关于Python异常处理的相关知识点。</p>
+<a id="more"></a>
+
+<p>在面对错误时，常见的错误处理方式为：</p>
+<ul>
+<li>返回错误码，由调用方决定如何处理错误，这种方式不需要额外状态保存和流程控制机制非常简单、高效(采用此方法，需要将所有可能的错误码放入函数签名中，便于调用者了解)。</li>
+<li>采用专门的语句处理，这样可以分离正常的逻辑和故障处理代码。</li>
+</ul>
+<h2 id="执行机制"><a href="#执行机制" class="headerlink" title="执行机制"></a>执行机制</h2><ul>
+<li><p>解释器会使用块栈的结构来处理异常逻辑。在执行期，相关指令会提前将跳转位置存储到块栈中，需要时直接获取。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> dis</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">raise</span> Exception</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(<span class="string">"except"</span>)</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">  5           0 SETUP_EXCEPT             8 (to 10) 		# 向块栈设置了exception跳出位置</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  6           2 LOAD_GLOBAL              0 (Exception)	# 创建并引发异常</span></span><br><span class="line"><span class="string">              4 RAISE_VARARGS            1				# 从块栈弹出设置，按参数跳转</span></span><br><span class="line"><span class="string">              6 POP_BLOCK</span></span><br><span class="line"><span class="string">              8 JUMP_FORWARD            20 (to 30)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  7     &gt;&gt;   10 POP_TOP									# 跳转到此处</span></span><br><span class="line"><span class="string">             12 POP_TOP									# 清理exc参数</span></span><br><span class="line"><span class="string">             14 POP_TOP</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  8          16 LOAD_GLOBAL              1 (print)		# 执行exception中的代码 </span></span><br><span class="line"><span class="string">             18 LOAD_CONST               1 ('except')</span></span><br><span class="line"><span class="string">             20 CALL_FUNCTION            1</span></span><br><span class="line"><span class="string">             22 POP_TOP</span></span><br><span class="line"><span class="string">             24 POP_EXCEPT								# 移除块栈内的设置</span></span><br><span class="line"><span class="string">             26 JUMP_FORWARD             2 (to 30)		# 处理后，正常返回</span></span><br><span class="line"><span class="string">             28 END_FINALLY</span></span><br><span class="line"><span class="string">        &gt;&gt;   30 LOAD_CONST               0 (None)</span></span><br><span class="line"><span class="string">             32 RETURN_VALUE</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line">dis.dis(test)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>异常会从触发地向外传递，直到进程奔溃或者被捕获。</p>
+</li>
+<li><p>触发异常后，解释器会逐级为每个未能捕获的异常的函数调用创建关联追踪对象，它负责存储栈帧、最后指令的位置、以及源代码的信息。这些对象通过链表来串联起来。</p>
+</li>
+</ul>
+<h2 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h2><ul>
+<li><p>语法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">  语句块</span><br><span class="line"><span class="keyword">except</span> 异常 <span class="keyword">as</span> 别名:</span><br><span class="line">  异常处理</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">  未出现异常时的代码块</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">  代码块（不管有没有异常都会执行）</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在捕获异常时，最好明确异常的类型，如果需要同时匹配多个异常，可以使用元组进行包装。</p>
+</li>
+<li><p>抛出异常：raise 异常(若在except中，没有异常，则视做为重新抛出异常)。</p>
+</li>
+</ul>
+<h2 id="自定义类型"><a href="#自定义类型" class="headerlink" title="自定义类型"></a>自定义类型</h2><ul>
+<li><p>继承BaseException或Exception即可。异常信息会存在Exception.args中，但是在创建异常时，最好还是显式使用属性来存储。</p>
+</li>
+<li><p>异常链：通常解释器会将前一个异常对象存储在<code>__context__</code>中，但是我们可以通过``from<code>语法，在保存原异常的前提下，主动构造和选择目标，触发新的异常。因此如果我们从</code>from None<code>则可以打破链条。如果异常未被捕获，解释器会自动输出</code><strong>cause</strong><code>和</code><strong>context</strong>`中的异常信息。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">"原异常"</span>)</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> exc:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">"新异常"</span>) <span class="keyword">from</span> exc</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        test()</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> exc:</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>: <span class="comment"># 循环访问链上的异常</span></span><br><span class="line">            print(repr(exc),exc.__traceback__)</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> exc.__cause__:<span class="keyword">break</span></span><br><span class="line">            exc=exc.__cause__</span><br><span class="line">            </span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">Exception('新异常',) &lt;traceback object at 0x7f3be9408b48&gt;</span></span><br><span class="line"><span class="string">Exception('原异常',) &lt;traceback object at 0x7f3be9408ac8&gt;</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="模式"><a href="#模式" class="headerlink" title="模式"></a>模式</h2><ul>
+<li>我们可以通过在不同的层次设置不同的异常，在内部通过触发异常的方式，进行跳转。可以终止多级函数调用过程。</li>
+</ul>
+<h2 id="警告信息"><a href="#警告信息" class="headerlink" title="警告信息"></a>警告信息</h2><ul>
+<li>可以通过标准模块<code>warning</code>输出警告信息。</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://item.jd.com/12261161.html" target="_blank" rel="noopener">《Python 3学习笔记（上卷》  雨痕</a></li>
+</ul>
+<p>PS:新人学习，新人写文章，若有不足，望请指出。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
+              <a href="/tags/Python/" rel="tag"># Python</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2018/07/12/%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86/Python/Python%E7%B1%BB%E4%B9%8B%E5%BC%80%E6%94%BE%E7%B1%BB/" rel="next" title="每日新知识--Python类的开放类">
+                  <i class="fa fa-chevron-left"></i> 每日新知识--Python类的开放类
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2018/07/16/%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86/Python/Python%E6%96%AD%E8%A8%80/" rel="prev" title="每日新知识--Python断言">
+                  每日新知识--Python断言 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#执行机制"><span class="nav-number">1.</span> <span class="nav-text">执行机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异常处理"><span class="nav-number">2.</span> <span class="nav-text">异常处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义类型"><span class="nav-number">3.</span> <span class="nav-text">自定义类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模式"><span class="nav-number">4.</span> <span class="nav-text">模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#警告信息"><span class="nav-number">5.</span> <span class="nav-text">警告信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="Martin"
+    src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Martin</p>
+  <div class="site-description" itemprop="description">一只奔跑在代码之道上的猪</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备16004961号 </a><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=null" rel="noopener" target="_blank">null </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Martin</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

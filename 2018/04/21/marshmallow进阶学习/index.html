@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="这篇文章是接上文的学习笔记，这篇文件将记录关于marshmallow进阶学习，源码。">
+<meta name="keywords" content="学习笔记,Python,Python第三方库,marshmallow">
+<meta property="og:type" content="article">
+<meta property="og:title" content="marshmallow进阶学习">
+<meta property="og:url" content="http:&#x2F;&#x2F;fangjieblog.cn&#x2F;2018&#x2F;04&#x2F;21&#x2F;marshmallow%E8%BF%9B%E9%98%B6%E5%AD%A6%E4%B9%A0&#x2F;index.html">
+<meta property="og:site_name" content="随遇而安">
+<meta property="og:description" content="这篇文章是接上文的学习笔记，这篇文件将记录关于marshmallow进阶学习，源码。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-26T13:20:08.000Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://fangjieblog.cn/2018/04/21/marshmallow%E8%BF%9B%E9%98%B6%E5%AD%A6%E4%B9%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>marshmallow进阶学习 | 随遇而安</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">随遇而安</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">淡泊明志，宁静致远</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://fangjieblog.cn/2018/04/21/marshmallow%E8%BF%9B%E9%98%B6%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Martin">
+      <meta itemprop="description" content="一只奔跑在代码之道上的猪">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="随遇而安">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          marshmallow进阶学习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-04-21 20:39:21" itemprop="dateCreated datePublished" datetime="2018-04-21T20:39:21+08:00">2018-04-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-10-26 21:20:08" itemprop="dateModified" datetime="2019-10-26T21:20:08+08:00">2019-10-26</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93/" itemprop="url" rel="index">
+                    <span itemprop="name">Python第三方库</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这篇文章是接<a href="https://fangjieblog.cn/2018/04/19/marshmallow%E5%88%9D%E6%AD%A5%E5%AD%A6%E4%B9%A0/">上文</a>的学习笔记，这篇文件将记录关于marshmallow进阶学习，<a href="https://github.com/RunningMartin/PythonModuleStudy/tree/master/src/marshmallow/advance" target="_blank" rel="noopener">源码</a>。</p>
+<a id="more"></a>
+
+<h2 id="内嵌模式"><a href="#内嵌模式" class="headerlink" title="内嵌模式"></a>内嵌模式</h2><ul>
+<li><p>进行嵌套使用</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">from</span> marshmallow <span class="keyword">import</span> Schema, fields</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, email)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line">        self.email = email</span><br><span class="line">        self.created_at = datetime.now()</span><br><span class="line">        self.friends = []</span><br><span class="line">        self.employer = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Blog</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, title, author)</span>:</span></span><br><span class="line">        self.title = title</span><br><span class="line">        self.author = author  <span class="comment"># A User object</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserSchema</span><span class="params">(Schema)</span>:</span></span><br><span class="line">    name = fields.String()</span><br><span class="line">    email = fields.Email()</span><br><span class="line">    created_at = fields.DateTime()</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BlogSchema</span><span class="params">(Schema)</span>:</span></span><br><span class="line">    title = fields.String()</span><br><span class="line">    <span class="comment"># 若author为collection，则设置many=True</span></span><br><span class="line">    author = fields.Nested(UserSchema)</span><br><span class="line">    <span class="comment"># authors = fields.Nested(UserSchema,many=True)</span></span><br><span class="line"></span><br><span class="line">user = User(name=<span class="string">"Monty"</span>, email=<span class="string">"monty@python.org"</span>)</span><br><span class="line">blog = Blog(title=<span class="string">"Something Completely Different"</span>, author=user)</span><br><span class="line">result = BlogSchema().dump(blog)</span><br><span class="line">print(result)</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">MarshalResult(</span></span><br><span class="line"><span class="string">data=&#123;</span></span><br><span class="line"><span class="string">    'title': 'Something Completely Different', </span></span><br><span class="line"><span class="string">    'author': &#123;</span></span><br><span class="line"><span class="string">        'email': 'monty@python.org', </span></span><br><span class="line"><span class="string">        'created_at': '2018-04-21T14:26:03.614814+00:00',</span></span><br><span class="line"><span class="string">        'name': 'Monty'&#125;&#125;,</span></span><br><span class="line"><span class="string">errors=&#123;&#125;)</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure></li>
+<li><p>指明嵌套的只序列化哪些字段</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">from</span> marshmallow <span class="keyword">import</span> Schema, fields</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, email)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line">        self.email = email</span><br><span class="line">        self.created_at = datetime.now()</span><br><span class="line">        self.friends = []</span><br><span class="line">        self.employer = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Blog</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, title, author)</span>:</span></span><br><span class="line">        self.title = title</span><br><span class="line">        self.author = author  <span class="comment"># A User object</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserSchema</span><span class="params">(Schema)</span>:</span></span><br><span class="line">    name = fields.String()</span><br><span class="line">    email = fields.Email()</span><br><span class="line">    created_at = fields.DateTime()</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BlogSchema</span><span class="params">(Schema)</span>:</span></span><br><span class="line">    title = fields.String()</span><br><span class="line">    <span class="comment"># 若author为collection，则设置many=True</span></span><br><span class="line">    author = fields.Nested(UserSchema, only=[<span class="string">'email'</span>])</span><br><span class="line"></span><br><span class="line">user = User(name=<span class="string">"Monty"</span>, email=<span class="string">"monty@python.org"</span>)</span><br><span class="line">blog = Blog(title=<span class="string">"Something Completely Different"</span>, author=user)</span><br><span class="line">result = BlogSchema().dump(blog)</span><br><span class="line">print(result)</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">MarshalResult(</span></span><br><span class="line"><span class="string">data=&#123;</span></span><br><span class="line"><span class="string">    'author': &#123;</span></span><br><span class="line"><span class="string">        'email': 'monty@python.org'&#125;,         </span></span><br><span class="line"><span class="string">        'title': 'Something Completely Different'&#125;, </span></span><br><span class="line"><span class="string">errors=&#123;&#125;)</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过点的形式指定</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Site</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, blog)</span>:</span></span><br><span class="line">        self.blog = blog</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SiteSchema</span><span class="params">(Schema)</span>:</span></span><br><span class="line">    blog = fields.Nested(BlogSchema)</span><br><span class="line"></span><br><span class="line">site = Site(blog)</span><br><span class="line">schema = SiteSchema(only=[<span class="string">'blog.author.email'</span>])</span><br><span class="line">result = schema.dump(site)</span><br><span class="line">print(result)</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">MarshalResult(</span></span><br><span class="line"><span class="string">    data=&#123;</span></span><br><span class="line"><span class="string">        'blog': &#123;</span></span><br><span class="line"><span class="string">            'author': &#123;</span></span><br><span class="line"><span class="string">                'email': 'monty@python.org'&#125;&#125;&#125;, </span></span><br><span class="line"><span class="string">    errors=&#123;&#125;)</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure></li>
+<li><p>互相引用</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> marshmallow <span class="keyword">import</span> Schema, fields, pprint</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Author</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name)</span>:</span></span><br><span class="line">        self.id = <span class="number">123</span></span><br><span class="line">        self.name = name</span><br><span class="line">        self.books = []</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AuthorSchema</span><span class="params">(Schema)</span>:</span></span><br><span class="line">    <span class="comment"># 防止循环引用，填写路径(path.BookSchema)或直接填写名称</span></span><br><span class="line">    books = fields.Nested(<span class="string">'BookSchema'</span>, many=<span class="literal">True</span>, exclude=(<span class="string">'author'</span>,))</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        fields = (<span class="string">'id'</span>, <span class="string">'name'</span>, <span class="string">'books'</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Book</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, title, author)</span>:</span></span><br><span class="line">        self.id = <span class="number">123</span></span><br><span class="line">        self.title = title</span><br><span class="line">        self.author = author</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookSchema</span><span class="params">(Schema)</span>:</span></span><br><span class="line">    author = fields.Nested(AuthorSchema, only=(<span class="string">'id'</span>, <span class="string">'name'</span>))</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        fields = (<span class="string">'id'</span>, <span class="string">'title'</span>, <span class="string">'author'</span>)</span><br><span class="line"></span><br><span class="line">author = Author(name=<span class="string">'William Faulkner'</span>)</span><br><span class="line">book = Book(title=<span class="string">'As I Lay Dying'</span>, author=author)</span><br><span class="line">author.books.append(book)</span><br><span class="line">book_result = BookSchema().dump(book)</span><br><span class="line">pprint(book_result, indent=<span class="number">2</span>)</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">MarshalResult(data=&#123;'title': 'As I Lay Dying', 'author': &#123;'name': 'William Faulkner', 'id': 123&#125;, 'id': 123&#125;, errors=&#123;&#125;)</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line">author_result = AuthorSchema().dump(author)</span><br><span class="line">pprint(author_result, indent=<span class="number">2</span>)</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">MarshalResult(data=&#123;'id': 123, 'name': 'William Faulkner', 'books': [&#123;'id': 123, 'title': 'As I Lay Dying'&#125;]&#125;, errors=&#123;&#125;)</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure></li>
+<li><p>嵌套引用自己</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> marshmallow <span class="keyword">import</span> Schema, fields</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, email)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line">        self.email = email</span><br><span class="line">        self.friends = []</span><br><span class="line">        self.employer = []</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserSchema</span><span class="params">(Schema)</span>:</span></span><br><span class="line">    name = fields.String()</span><br><span class="line">    email = fields.Email()</span><br><span class="line">    friends = fields.Nested(<span class="string">'self'</span>, many=<span class="literal">True</span>)</span><br><span class="line">    employer = fields.Nested(<span class="string">'self'</span>, exclude=(<span class="string">'employer'</span>,), default=<span class="literal">None</span>)</span><br><span class="line"></span><br><span class="line">user = User(<span class="string">"Steve"</span>, <span class="string">'steve@example.com'</span>)</span><br><span class="line">user.friends.append(User(<span class="string">"Mike"</span>, <span class="string">'mike@example.com'</span>))</span><br><span class="line">user.friends.append(User(<span class="string">'Joe'</span>, <span class="string">'joe@example.com'</span>))</span><br><span class="line">user.employer = User(<span class="string">'Dirk'</span>, <span class="string">'dirk@example.com'</span>)</span><br><span class="line">result = UserSchema().dump(user)</span><br><span class="line">print(result)</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">MarshalResult(</span></span><br><span class="line"><span class="string">data=&#123;</span></span><br><span class="line"><span class="string">    'name': 'Steve', </span></span><br><span class="line"><span class="string">    'friends': [</span></span><br><span class="line"><span class="string">        &#123;'name': 'Mike', 'friends': [], 'employer': &#123;&#125;, 'email': 'mike@example.com'&#125;,</span></span><br><span class="line"><span class="string">        &#123;'name': 'Joe', 'friends': [], 'employer': &#123;&#125;, 'email': 'joe@example.com'&#125;],</span></span><br><span class="line"><span class="string">    'employer': &#123;'name': 'Dirk', 'friends': [], 'email': 'dirk@example.com'&#125;,</span></span><br><span class="line"><span class="string">    'email': 'steve@example.com'&#125;,</span></span><br><span class="line"><span class="string">errors=&#123;&#125;)</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+<h2 id="自定义字段"><a href="#自定义字段" class="headerlink" title="自定义字段"></a>自定义字段</h2></li>
+<li><p>创建一个字段类:继承fields.Field，实现<code>_serialize</code>或<code>_deserialize</code>方法。</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> marshmallow <span class="keyword">import</span> fields, Schema</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TitleCased</span><span class="params">(fields.Field)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_serialize</span><span class="params">(self, value, attr, obj)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> value <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">''</span></span><br><span class="line">        <span class="keyword">return</span> value.title()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_deserialize</span><span class="params">(self, value, attr, data)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> value <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">''</span></span><br><span class="line">        <span class="keyword">return</span> value.lower()</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserSchema</span><span class="params">(Schema)</span>:</span></span><br><span class="line">    name = fields.String()</span><br><span class="line">    email = fields.String()</span><br><span class="line">    created_at = fields.DateTime()</span><br><span class="line">    titlename = TitleCased(attribute=<span class="string">"name"</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, email)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line">        self.email = email</span><br><span class="line">        self.created_at = datetime.utcnow()</span><br><span class="line">        self.titlename = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">user = User(<span class="string">'martin fang'</span>, <span class="string">'123@qq.com'</span>)</span><br><span class="line">schema = UserSchema()</span><br><span class="line">result = schema.dump(user)</span><br><span class="line">print(result)</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">MarshalResult(</span></span><br><span class="line"><span class="string">    data=&#123;</span></span><br><span class="line"><span class="string">        'titlename': 'Martin Fang',</span></span><br><span class="line"><span class="string">        'name': 'martin fang',</span></span><br><span class="line"><span class="string">        'email': '123@qq.com',</span></span><br><span class="line"><span class="string">        'created_at': '2018-04-21T09:29:39.019391+00:00'&#125;,</span></span><br><span class="line"><span class="string">    errors=&#123;&#125;)</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用方法创建:通过指定<code>fields.Method(方法名)</code></p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> marshmallow <span class="keyword">import</span> Schema, fields</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, email)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line">        self.email = email</span><br><span class="line">        self.created_at = datetime.utcnow()</span><br><span class="line">        self.since_created = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserSchema</span><span class="params">(Schema)</span>:</span></span><br><span class="line">    name = fields.String()</span><br><span class="line">    email = fields.String()</span><br><span class="line">    created_at = fields.DateTime()</span><br><span class="line">    <span class="comment"># 默认指定的是序列化的方法，还可以指定反序列化的方法，通过deserialize关键字</span></span><br><span class="line">    since_created = fields.Method(<span class="string">"get_days_since_created"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_days_since_created</span><span class="params">(self, obj)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> datetime.now().day - obj.created_at.day</span><br><span class="line"></span><br><span class="line">user = User(<span class="string">'martin fang'</span>, <span class="string">'123@qq.com'</span>)</span><br><span class="line">schema = UserSchema()</span><br><span class="line">result = schema.dump(user)</span><br><span class="line">print(result)</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">MarshalResult(</span></span><br><span class="line"><span class="string">    data=&#123;</span></span><br><span class="line"><span class="string">        'since_created': 0,</span></span><br><span class="line"><span class="string">        'name': 'martin fang',</span></span><br><span class="line"><span class="string">        'email': '123@qq.com',</span></span><br><span class="line"><span class="string">        'created_at': '2018-04-21T09:34:20.003577+00:00'&#125;,</span></span><br><span class="line"><span class="string">        errors=&#123;&#125;)</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>获得上下文：<code>self.context</code> </li>
+</ul>
+</li>
+<li><p>使用函数创建:通过指定<code>fields.Function(方法)</code></p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> marshmallow <span class="keyword">import</span> Schema, fields</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, email)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line">        self.email = email</span><br><span class="line">        self.created_at = datetime.utcnow()</span><br><span class="line">        self.uppername = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserSchema</span><span class="params">(Schema)</span>:</span></span><br><span class="line">    name = fields.String()</span><br><span class="line">    email = fields.String()</span><br><span class="line">    created_at = fields.DateTime()</span><br><span class="line">    uppername = fields.Function(<span class="keyword">lambda</span> obj: obj.name.upper())</span><br><span class="line"></span><br><span class="line">user = User(<span class="string">'martin fang'</span>, <span class="string">'123@qq.com'</span>)</span><br><span class="line">schema = UserSchema()</span><br><span class="line">result = schema.dump(user)</span><br><span class="line">print(result)</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">MarshalResult(</span></span><br><span class="line"><span class="string">    data=&#123;</span></span><br><span class="line"><span class="string">        'uppername': 'MARTIN FANG',</span></span><br><span class="line"><span class="string">        'email': '123@qq.com', </span></span><br><span class="line"><span class="string">        'created_at': '2018-04-21T09:37:59.115440+00:00',</span></span><br><span class="line"><span class="string">        'name': 'martin fang'&#125;, </span></span><br><span class="line"><span class="string">    errors=&#123;&#125;)</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>定制化错误信息</p>
+<ul>
+<li><p>fields中设置：<code>name = fields.Str(required=True,error_messages={&#39;required&#39;: &#39;Please provide a name.&#39;})</code></p>
+<ul>
+<li>类层次，继承相应Field<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> marshmallow <span class="keyword">import</span> fields</span><br><span class="line"></span><br><span class="line"> <span class="class"><span class="keyword">class</span> <span class="title">MyDate</span><span class="params">(fields.Date)</span>:</span></span><br><span class="line">     <span class="comment"># 将于父类的相合并</span></span><br><span class="line">     default_error_messages = &#123;</span><br><span class="line">         <span class="string">'invalid'</span>: <span class="string">'Please provide a valid date.'</span>,</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>数据处理</p>
+<ul>
+<li><code>pre_load(self,value)</code>:序列化之前的操作</li>
+<li><code>post_load(self,value)</code>:序列化之后的操作</li>
+<li><code>pre_dump(self,value)</code>:反序列化之前的操作</li>
+<li><code>post_dump(self,value)</code>:反序列化后的操作 </li>
+<li>在pre和post的处理中，可以出发ValidationError</li>
+<li>当有多个处理的时候应该让其他的处理在第一个处理中出现，而不是使用这些装饰器多次。</li>
+<li>处理在dump和load中触发的ValidationError：定义<code>handle_error(self, exc, data)</code></li>
+</ul>
+</li>
+</ul>
+<p>PS:新人学习，新人写文章，若有不足，望请指出。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/Python%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93/" rel="tag"># Python第三方库</a>
+              <a href="/tags/marshmallow/" rel="tag"># marshmallow</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2018/04/19/marshmallow%E5%88%9D%E6%AD%A5%E5%AD%A6%E4%B9%A0/" rel="next" title="marshmallow初步学习">
+                  <i class="fa fa-chevron-left"></i> marshmallow初步学习
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2018/04/21/marshmallow%E6%80%BB%E7%BB%93/" rel="prev" title="marshmallow总结">
+                  marshmallow总结 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#内嵌模式"><span class="nav-number">1.</span> <span class="nav-text">内嵌模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义字段"><span class="nav-number">2.</span> <span class="nav-text">自定义字段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展"><span class="nav-number">3.</span> <span class="nav-text">扩展</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="Martin"
+    src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Martin</p>
+  <div class="site-description" itemprop="description">一只奔跑在代码之道上的猪</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备16004961号 </a><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=null" rel="noopener" target="_blank">null </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Martin</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

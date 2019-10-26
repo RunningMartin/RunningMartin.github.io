@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="记录关于Linux中关于压缩和打包相关知识点的总结。">
+<meta name="keywords" content="《鸟哥的Linux私房菜》阅读笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux--压缩与打包">
+<meta property="og:url" content="http:&#x2F;&#x2F;fangjieblog.cn&#x2F;2018&#x2F;07&#x2F;30&#x2F;%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86&#x2F;Linux&#x2F;Linux-%E5%8E%8B%E7%BC%A9%E4%B8%8E%E6%89%93%E5%8C%85&#x2F;index.html">
+<meta property="og:site_name" content="随遇而安">
+<meta property="og:description" content="记录关于Linux中关于压缩和打包相关知识点的总结。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-26T13:20:08.000Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://fangjieblog.cn/2018/07/30/%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86/Linux/Linux-%E5%8E%8B%E7%BC%A9%E4%B8%8E%E6%89%93%E5%8C%85/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Linux--压缩与打包 | 随遇而安</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">随遇而安</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">淡泊明志，宁静致远</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://fangjieblog.cn/2018/07/30/%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86/Linux/Linux-%E5%8E%8B%E7%BC%A9%E4%B8%8E%E6%89%93%E5%8C%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Martin">
+      <meta itemprop="description" content="一只奔跑在代码之道上的猪">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="随遇而安">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux--压缩与打包
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-07-30 18:51:13" itemprop="dateCreated datePublished" datetime="2018-07-30T18:51:13+08:00">2018-07-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-10-26 21:20:08" itemprop="dateModified" datetime="2019-10-26T21:20:08+08:00">2019-10-26</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>记录关于Linux中关于压缩和打包相关知识点的总结。</p>
+<a id="more"></a>、
+
+<h2 id="压缩"><a href="#压缩" class="headerlink" title="压缩"></a>压缩</h2><ul>
+<li><p>常见的压缩后缀与对应的命令</p>
+<table>
+<thead>
+<tr>
+<th align="center">文件名</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">*.Z</td>
+<td align="center">comoress程序压缩的文件，(可以通过znew转换为gzip)</td>
+</tr>
+<tr>
+<td align="center">*.zip</td>
+<td align="center">zip程序压缩的文件</td>
+</tr>
+<tr>
+<td align="center">*.gz</td>
+<td align="center">gzip程序压缩的文件</td>
+</tr>
+<tr>
+<td align="center">*.bz2</td>
+<td align="center">bzip2程序压缩的文件</td>
+</tr>
+<tr>
+<td align="center">*.xz</td>
+<td align="center">xz程序压缩的文件</td>
+</tr>
+<tr>
+<td align="center">*.tar</td>
+<td align="center">tar程序打包的数据，并没有压缩过</td>
+</tr>
+<tr>
+<td align="center">*.tar.gz</td>
+<td align="center">tar程序打包的文件， 其中并且经过gzip的压缩</td>
+</tr>
+<tr>
+<td align="center">*.tar.bz2</td>
+<td align="center">tar程序打包的文件， 其中并且经过bzip2的压缩</td>
+</tr>
+<tr>
+<td align="center">*.tar.xz</td>
+<td align="center">tar程序打包的文件， 其中并且经过xz的压缩</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h3 id="gzip-zcat-zmore-zless-zgrep"><a href="#gzip-zcat-zmore-zless-zgrep" class="headerlink" title="gzip, zcat/zmore/zless/zgrep"></a>gzip, zcat/zmore/zless/zgrep</h3><ul>
+<li><p>gzip:压缩后，原文件将消失，生成的文件名为*.gz。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@ubuntu ~]<span class="comment"># gzip [-cdtv#] 文件名A &gt; 输出的文件名B（可以缺省，默认为A.gz）</span></span><br><span class="line">选项与参数：</span><br><span class="line">-c ： 将压缩的数据输出到屏幕上， 可通过数据流重导向来处理；</span><br><span class="line">-d ： 用于解压的参数，对应gunzip命令；</span><br><span class="line">-t ： 可以用来检验一个压缩文件的一致性～看看文件有无错误；</span><br><span class="line">-v ： 可以显示出原文件/压缩文件的压缩比等信息；</span><br><span class="line">-<span class="comment"># ： # 为数字的意思， 代表压缩等级， -1 最快， 但是压缩比最差、 -9 最慢， 但是压缩比最好！ 默认是 -6</span></span><br><span class="line">root@ubuntu:~<span class="comment"># ls</span></span><br><span class="line">readme</span><br><span class="line">root@ubuntu:~<span class="comment"># gzip -v readme</span></span><br><span class="line">readme:  -7.4% -- replaced with readme.gz</span><br><span class="line">root@ubuntu:~<span class="comment"># ls</span></span><br><span class="line">readme.gz</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<ul>
+<li><p>zcat:打印压缩文件中的内容。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@ubuntu:~<span class="comment"># zcat readme.gz</span></span><br><span class="line">fangjieblog.cn</span><br><span class="line">name:martin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>zgrep:在压缩文件中匹配。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@ubuntu:~<span class="comment"># zgrep -n "name" readme.gz</span></span><br><span class="line">2:name:martin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>zmore、zless:对压缩文件使用more和less命令。</p>
+</li>
+</ul>
+<h3 id="bzip2-bzcat-bzmore-bzless-bzgrep"><a href="#bzip2-bzcat-bzmore-bzless-bzgrep" class="headerlink" title="bzip2, bzcat/bzmore/bzless/bzgrep"></a>bzip2, bzcat/bzmore/bzless/bzgrep</h3><ul>
+<li><p>bzip2:用于替代gzip，提供更好的压缩比，其用法和参数与gzip相同，生成的文件名为*.bz2。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@ubuntu ~]<span class="comment"># bzip2 [-cdkzv#] 文件名</span></span><br><span class="line">[root@ubuntu ~]<span class="comment"># bzcat 文件名.bz2</span></span><br><span class="line">选项与参数：</span><br><span class="line">-c ： 将压缩的过程产生的数据输出到屏幕上！</span><br><span class="line">-d ： 解压缩的参数</span><br><span class="line">-k ： 保留原始文件， 而不会删除原始的文件喔！</span><br><span class="line">-z ： 压缩的参数 （ 默认值， 可以不加）</span><br><span class="line">-v ： 可以显示出原文件/压缩文件的压缩比等信息；</span><br><span class="line">-<span class="comment"># ： 与 gzip 同样的， 都是在计算压缩比的参数， -9 最佳， -1 最快！</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="xz-xzcat-xzmore-xzless-xzgrep"><a href="#xz-xzcat-xzmore-xzless-xzgrep" class="headerlink" title="xz, xzcat/xzmore/xzless/xzgrep"></a>xz, xzcat/xzmore/xzless/xzgrep</h3><ul>
+<li><p>xz:提供比bzip2更好的压缩比，文件名写*.xz。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@ubuntu ~]<span class="comment"># xz [-dtlkc#] 文件名</span></span><br><span class="line">[root@ubuntu ~]<span class="comment"># xcat 文件名.xz</span></span><br><span class="line">选项与参数：</span><br><span class="line">-d ： 就是解压缩啊！</span><br><span class="line">-t ： 测试压缩文件的完整性， 看有没有错误</span><br><span class="line">-l ： 列出压缩文件的相关信息</span><br><span class="line">-k ： 保留原本的文件不删除～</span><br><span class="line">-c ： 同样的， 就是将数据由屏幕上输出的意思！</span><br><span class="line">-<span class="comment"># ： 同样的， 也有较佳的压缩比的意思！</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h2><ul>
+<li><p>tar命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 压缩 </span></span><br><span class="line">[root@ubuntu ~]<span class="comment"># tar [-z|-j|-J] [cv] [-f 生成的文件名] filename</span></span><br><span class="line"><span class="comment"># 查看</span></span><br><span class="line">[root@ubuntu ~]<span class="comment"># tar [-z|-j|-J] [tv] [-f 压缩文件名]            </span></span><br><span class="line"><span class="comment"># 解压</span></span><br><span class="line">[root@ubuntu ~]<span class="comment"># tar [-z|-j|-J] [xv] [-f 压缩文件名] [-C 目录]</span></span><br><span class="line">选项与参数：</span><br><span class="line"><span class="comment"># 操作参数</span></span><br><span class="line">-c ： 创建打包文件， 可搭配 -v 来察看过程中被打包的文件名（ filename）</span><br><span class="line">-t ： 察看打包文件的内容含有哪些文件名， 重点在察看“文件名”就是了；</span><br><span class="line">-x ： 解打包或解压的功能， 可以搭配 -C （ 大写） 在特定目录解开</span><br><span class="line">特别留意的是， -c, -t, -x 不可同时出现在一串命令行中。</span><br><span class="line"><span class="comment"># 类型参数</span></span><br><span class="line">-z ： 通过 gzip 的支持进行压缩/解压： 此时文件名最好为 *.tar.gz</span><br><span class="line">-j ： 通过 bzip2 的支持进行压缩/解压： 此时文件名最好为 *.tar.bz2</span><br><span class="line">-J ： 通过 xz 的支持进行压缩/解压： 此时文件名最好为 *.tar.xz</span><br><span class="line">特别留意， -z, -j, -J 不可以同时出现在一串命令行中</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可选参数</span></span><br><span class="line">-v ： 在压缩/解压缩的过程中， 将正在处理的文件名显示出来！</span><br><span class="line">-f filename： -f 后面要立刻接要被处理的文件名！ 建议 -f 单独写一个选项啰！ （ 比较不会忘记）</span><br><span class="line">-C 目录 ： 指定解压的目录。</span><br><span class="line">-p（ 小写） ： 保留备份数据的原本权限与属性， 常用于备份（ -c） 重要的配置文件</span><br><span class="line">-P（ 大写） ： 保留绝对路径，解压时会原路解压，因此可能会发送同名覆盖的问题。</span><br><span class="line">--exclude=FILE： 在压缩的过程中， 不要将 FILE 打包！</span><br><span class="line">--newer：指定mtime和ctime</span><br><span class="line">--newer-mtime=<span class="string">'2011/01/01'</span>：指定mtime</span><br><span class="line"><span class="comment"># 解压部分文件</span></span><br><span class="line"><span class="comment"># 1.查找文件的完整名字</span></span><br><span class="line">[root@ubuntu ~]<span class="comment"># tar -ztv -f 书籍.tar.gz |grep 'progit'</span></span><br><span class="line">书籍/progit_v2.1.8.pdf</span><br><span class="line"><span class="comment"># 2.解压</span></span><br><span class="line">[root@ubuntu ~]<span class="comment"># tar -zxv -f 书籍.tar.gz 书籍/progit_v2.1.8.pdf</span></span><br><span class="line">书籍/progit_v2.1.8.pdf</span><br><span class="line">[root@ubuntu ~]<span class="comment"># ll</span></span><br><span class="line">total 160M</span><br><span class="line">drwxr-xr-x 2 martin martin 4.0K Jul 30 19:47 书籍</span><br><span class="line">-rw-r--r-- 1 martin martin 160M Jul 30 19:20 书籍.tar.gz</span><br><span class="line">[root@ubuntu ~]<span class="comment"># cd 书籍</span></span><br><span class="line">[root@ubuntu ~]<span class="comment"># ll</span></span><br><span class="line">total 12M</span><br><span class="line">-rw-r--r-- 1 martin martin 12M Jul 30 19:18 progit_v2.1.8.pdf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 备份/etc /home /var/spool/mail /var/spool/cron /root</span></span><br><span class="line">[root@ubuntu ~]<span class="comment"># tar -jcv -f /backups/backup-system-20150701.tar.bz2 \</span></span><br><span class="line">&gt; --exclude=/root/*.bz2 --exclude=/root/*.gz --exclude=/home/loop* \</span><br><span class="line">&gt; /etc /home /var/spool/mail /var/spool/cron /root</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>备份后复原不能登录解决方案(/etc/shadow 这个密码文件的 SELinux 类型在还原时被更改了！导致系统的登陆程序无法顺利的存取它)</p>
+<ul>
+<li>通过各种可行的救援方式登陆系统，然后修改 /etc/selinux/config 文件，将 SELinux 改成permissive 模式，重新开机后系统就正常了；</li>
+<li>在第一次复原系统后，不要立即重新开机！先使用 restorecon -Rv /etc 自动修复一下SELinux 的类型即可。</li>
+<li>通过各种可行的方式登陆系统，创建 /.autorelabel 文件，重新开机后系统会自动修复SELinux 的类型，并且又会再次重新开机，之后就正常了！</li>
+</ul>
+</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://linux.vbird.org/linux_basic/" target="_blank" rel="noopener">鳥哥的 Linux 私房菜</a></li>
+</ul>
+<p>PS:新人学习，新人写文章，若有不足，望请指出。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E3%80%8A%E9%B8%9F%E5%93%A5%E7%9A%84Linux%E7%A7%81%E6%88%BF%E8%8F%9C%E3%80%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" rel="tag"># 《鸟哥的Linux私房菜》阅读笔记</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2018/07/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%A0%91/" rel="next" title="数据结构--树">
+                  <i class="fa fa-chevron-left"></i> 数据结构--树
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2018/08/06/Python%E7%88%AC%E8%99%AB%E5%B7%A5%E5%85%B7-requests/" rel="prev" title="Python爬虫工具--requests">
+                  Python爬虫工具--requests <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#压缩"><span class="nav-number">1.</span> <span class="nav-text">压缩</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#gzip-zcat-zmore-zless-zgrep"><span class="nav-number">1.1.</span> <span class="nav-text">gzip, zcat/zmore/zless/zgrep</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bzip2-bzcat-bzmore-bzless-bzgrep"><span class="nav-number">1.2.</span> <span class="nav-text">bzip2, bzcat/bzmore/bzless/bzgrep</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xz-xzcat-xzmore-xzless-xzgrep"><span class="nav-number">1.3.</span> <span class="nav-text">xz, xzcat/xzmore/xzless/xzgrep</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#打包"><span class="nav-number">2.</span> <span class="nav-text">打包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="Martin"
+    src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Martin</p>
+  <div class="site-description" itemprop="description">一只奔跑在代码之道上的猪</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备16004961号 </a><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=null" rel="noopener" target="_blank">null </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Martin</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

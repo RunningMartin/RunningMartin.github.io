@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="记录关于Linux权限和目录相关知识点的总结。">
+<meta name="keywords" content="学习笔记,Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux权限与目录">
+<meta property="og:url" content="http:&#x2F;&#x2F;fangjieblog.cn&#x2F;2018&#x2F;07&#x2F;18&#x2F;%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86&#x2F;Linux&#x2F;Linux%E6%9D%83%E9%99%90%E4%B8%8E%E7%9B%AE%E5%BD%95&#x2F;index.html">
+<meta property="og:site_name" content="随遇而安">
+<meta property="og:description" content="记录关于Linux权限和目录相关知识点的总结。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-26T13:20:08.000Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://fangjieblog.cn/2018/07/18/%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86/Linux/Linux%E6%9D%83%E9%99%90%E4%B8%8E%E7%9B%AE%E5%BD%95/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Linux权限与目录 | 随遇而安</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">随遇而安</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">淡泊明志，宁静致远</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://fangjieblog.cn/2018/07/18/%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86/Linux/Linux%E6%9D%83%E9%99%90%E4%B8%8E%E7%9B%AE%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Martin">
+      <meta itemprop="description" content="一只奔跑在代码之道上的猪">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="随遇而安">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux权限与目录
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-07-18 23:04:26" itemprop="dateCreated datePublished" datetime="2018-07-18T23:04:26+08:00">2018-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-10-26 21:20:08" itemprop="dateModified" datetime="2019-10-26T21:20:08+08:00">2019-10-26</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86/" itemprop="url" rel="index">
+                    <span itemprop="name">每日新知识</span>
+                  </a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E3%80%8A%E9%B8%9F%E5%93%A5%E7%9A%84Linux%E7%A7%81%E6%88%BF%E8%8F%9C%E3%80%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index">
+                    <span itemprop="name">《鸟哥的Linux私房菜》阅读笔记</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>记录关于Linux权限和目录相关知识点的总结。</p>
+<a id="more"></a>
+
+<p>在Linux中可以通过设置不同的身份的权限来限制不同的人的行为。</p>
+<h2 id="身份"><a href="#身份" class="headerlink" title="身份"></a>身份</h2><ul>
+<li>拥有者:文件的创建人。</li>
+<li>用户组:创建人所在的一个团队。</li>
+<li>其他人:既不是用户组中的，也不是拥有者，就是其他人。</li>
+<li>root:Linux中的神，也就是你设置的权限对他无用。</li>
+<li>存储:<ul>
+<li>用户和root的信息存储在/etc/passwd。</li>
+<li>用户组信息存储在/etc/group。</li>
+<li>密码存储在/etc/shadow。</li>
+</ul>
+</li>
+</ul>
+<h2 id="文件权限"><a href="#文件权限" class="headerlink" title="文件权限"></a>文件权限</h2><ul>
+<li><p>文件的权限可以通过<code>ls -al</code>查看。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">➜  / ls -al</span><br><span class="line">total 112</span><br><span class="line">drwxr-xr-x  25 root   root    4096 Apr  5 23:55 .</span><br><span class="line">drwxr-xr-x  25 root   root    4096 Apr  5 23:55 ..</span><br><span class="line">drwxr-xr-x   2 root   root    4096 Feb 28 23:16 bin</span><br><span class="line">drwxr-xr-x   5 root   root    4096 Mar 27 22:07 boot</span><br><span class="line">drwxr-xr-x   3 root   root    4096 Feb 27 14:08 .cache</span><br><span class="line">drwxr-xr-x  21 root   root    3420 Jul 18 20:39 dev</span><br><span class="line">drwxr-xr-x 143 root   root   12288 Jul 18 20:39 etc</span><br><span class="line">drwxr-xr-x   4 root   root    4096 Feb 27 22:07 home</span><br><span class="line">[权限]   [连接数][拥有者][用户组] [文件大小(B)][最后修改时间][文件名]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>权限信息讲解。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drwxr-xr-x：d代表文件的类型，第一组rwx代表拥有者的权限，第二组r-x代表用户组的权限，第三组为r-x代表其他人的权限。r为读权限，w为写权限，x为执行权限，-为没有该权限。</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="权限修改-需要root权限"><a href="#权限修改-需要root权限" class="headerlink" title="权限修改(需要root权限)"></a>权限修改(需要root权限)</h2><p>cp命令在复制文件的时候也会复制文件的权限。如果使用<code>su</code>命令切换root失败，请使用运行<code>sudo passwd root</code>。运行下面的文件之前最好先用<code>cp</code>命令复制一份。<code>cp</code>命令将复制权限。</p>
+<h3 id="修改所属用户组"><a href="#修改所属用户组" class="headerlink" title="修改所属用户组"></a>修改所属用户组</h3><ul>
+<li><p>chgrp</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># R 选项为递归修改，用于递归修改文件夹的用户组。</span></span><br><span class="line"><span class="comment"># 新的用户组必须存在，查看用户组vi /etc/group</span></span><br><span class="line"><span class="comment"># chgrp 新的用户组 [-R] 文件名</span></span><br><span class="line">➜  martin ls -al test.log </span><br><span class="line">-rw-r--r-- 1 martin martin 109849 7月  18 23:25 test.log</span><br><span class="line">➜  martin chgrp root test.log </span><br><span class="line">➜  martin ls -al test.log</span><br><span class="line">-rw-r--r-- 1 martin root 109849 7月  18 23:25 test.log</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="修改拥有者"><a href="#修改拥有者" class="headerlink" title="修改拥有者"></a>修改拥有者</h3><ul>
+<li><p>chown</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># chown [-R] 帐号名称 文件或目录</span></span><br><span class="line"><span class="comment"># chown [-R] 帐号名称:群组名称 文件或目录</span></span><br><span class="line">➜  martin chown root:root test.log </span><br><span class="line">➜  ~martin ls -al test.log</span><br><span class="line">-rw-r--r-- 1 root root 109849 7月  18 23:25 test.log</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="修改权限"><a href="#修改权限" class="headerlink" title="修改权限"></a>修改权限</h3><ul>
+<li><p>chmod</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 权限：</span></span><br><span class="line"><span class="comment"># 	数字权限：r:4,w:2,x:1</span></span><br><span class="line"><span class="comment">#		rwx=7</span></span><br><span class="line"><span class="comment"># 身份：</span></span><br><span class="line"><span class="comment"># 	u:user，g:group，o:other，a:all</span></span><br><span class="line"><span class="comment"># chmod 数字权限 [-R] 文件</span></span><br><span class="line"><span class="comment"># 权限操作</span></span><br><span class="line"><span class="comment">#	+:添加权限，r:删除权限，=:直接赋值权限</span></span><br><span class="line">➜  ~martin chmod 700 test.log </span><br><span class="line">➜  ~martin ls -al test.log</span><br><span class="line">-rwx------ 1 root root 109849 7月  18 23:25 test.log</span><br><span class="line"><span class="comment"># chmod 身份=权限 [-R] 文件</span></span><br><span class="line">➜  ~martin chmod g=r,o=rwx test.log  </span><br><span class="line">➜  ~martin ls -al test.log</span><br><span class="line">-rwxr--rwx 1 root root 109849 7月  18 23:25 test.log</span><br><span class="line"><span class="comment"># chmod 身份+权限 [-R] 文件</span></span><br><span class="line">➜  ~martin chmod g-r,o-rx test.log </span><br><span class="line">➜  ~martin ls -al test.log</span><br><span class="line">-rwx----w- 1 root root 109849 7月  18 23:25 test.log</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="权限对目录和文件的作用"><a href="#权限对目录和文件的作用" class="headerlink" title="权限对目录和文件的作用"></a>权限对目录和文件的作用</h2><p>r权限在使用tab进行补全的时候非常关键，如果没有r权限，是不会自动补全的。</p>
+<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><ul>
+<li>r:读取目录结构，类似ls命令就需要这个权限。</li>
+<li>w:改变目录结构的权限:增删改复。</li>
+<li>x:能否进入该目录(将之变为工作目录的权限)。</li>
+</ul>
+<h3 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h3><ul>
+<li>r:读该文件的权限。</li>
+<li>w:修改该文件的权限。</li>
+<li>x:执行该文件的权限。</li>
+</ul>
+<h2 id="文件种类"><a href="#文件种类" class="headerlink" title="文件种类"></a>文件种类</h2><ul>
+<li>正规文件:第一个字符为[-]<ul>
+<li>纯文本文件</li>
+<li>二进制文件</li>
+<li>数据文件</li>
+</ul>
+</li>
+<li>目录文件:第一个字符为[d]</li>
+<li>链接文件:第一个字符为[l]</li>
+<li>设备与设备文件<ul>
+<li>区块文件:硬盘之类，以块为单位读取。第一个字符为[b]</li>
+<li>字符文件:鼠标、键盘之类，以流形式读取。第一个字符为[c]</li>
+</ul>
+</li>
+<li>数据接口文件:sockets，常用于网络连接，一般在/tmp中。第一个字符为[s]</li>
+<li>数据输送:FIFO(用于处理多个程序访问同一个文件)，pipe。第一个字符为[s]。</li>
+</ul>
+<h2 id="常见的目录"><a href="#常见的目录" class="headerlink" title="常见的目录"></a>常见的目录</h2><ul>
+<li>/:根目录</li>
+<li>/bin:可执行文件</li>
+<li>/boot:开机使用的文件的位置</li>
+<li>/dev:存放设备文件</li>
+<li>/etc:存放配置文件</li>
+<li>/lib:函数库</li>
+<li>/opt:第三方软件</li>
+<li>/media:可移除的设备，如光盘</li>
+<li>/mnt:临时需要挂载的设备位置</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://linux.vbird.org/linux_basic/" target="_blank" rel="noopener">鳥哥的 Linux 私房菜</a></li>
+</ul>
+<p>PS:新人学习，新人写文章，若有不足，望请指出。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2018/07/18/%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86/Python/Python%E6%B3%A8%E8%A7%A3/" rel="next" title="每日新知识--Python注解">
+                  <i class="fa fa-chevron-left"></i> 每日新知识--Python注解
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2018/07/19/%E6%AF%8F%E6%97%A5%E6%96%B0%E7%9F%A5%E8%AF%86/Python/Python%E5%8C%85%E7%AE%A1%E7%90%86/" rel="prev" title="每日新知识--Python包管理">
+                  每日新知识--Python包管理 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#身份"><span class="nav-number">1.</span> <span class="nav-text">身份</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件权限"><span class="nav-number">2.</span> <span class="nav-text">文件权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#权限修改-需要root权限"><span class="nav-number">3.</span> <span class="nav-text">权限修改(需要root权限)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#修改所属用户组"><span class="nav-number">3.1.</span> <span class="nav-text">修改所属用户组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改拥有者"><span class="nav-number">3.2.</span> <span class="nav-text">修改拥有者</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改权限"><span class="nav-number">3.3.</span> <span class="nav-text">修改权限</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#权限对目录和文件的作用"><span class="nav-number">4.</span> <span class="nav-text">权限对目录和文件的作用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#目录"><span class="nav-number">4.1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件"><span class="nav-number">4.2.</span> <span class="nav-text">文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件种类"><span class="nav-number">5.</span> <span class="nav-text">文件种类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见的目录"><span class="nav-number">6.</span> <span class="nav-text">常见的目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="Martin"
+    src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Martin</p>
+  <div class="site-description" itemprop="description">一只奔跑在代码之道上的猪</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备16004961号 </a><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=null" rel="noopener" target="_blank">null </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Martin</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

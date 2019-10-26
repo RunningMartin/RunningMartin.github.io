@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="这份笔记将记录在雨痕大大的《Python3 学习笔记》一书中学到有关Python3类型的知识。">
+<meta name="keywords" content="学习笔记,Python,Python基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python3学习笔记-类型">
+<meta property="og:url" content="http:&#x2F;&#x2F;fangjieblog.cn&#x2F;2018&#x2F;05&#x2F;11&#x2F;Python3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E7%B1%BB%E5%9E%8B&#x2F;index.html">
+<meta property="og:site_name" content="随遇而安">
+<meta property="og:description" content="这份笔记将记录在雨痕大大的《Python3 学习笔记》一书中学到有关Python3类型的知识。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-26T13:20:08.000Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://fangjieblog.cn/2018/05/11/Python3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E7%B1%BB%E5%9E%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Python3学习笔记-类型 | 随遇而安</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">随遇而安</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">淡泊明志，宁静致远</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://fangjieblog.cn/2018/05/11/Python3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E7%B1%BB%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Martin">
+      <meta itemprop="description" content="一只奔跑在代码之道上的猪">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="随遇而安">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python3学习笔记-类型
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-11 08:44:32" itemprop="dateCreated datePublished" datetime="2018-05-11T08:44:32+08:00">2018-05-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-10-26 21:20:08" itemprop="dateModified" datetime="2019-10-26T21:20:08+08:00">2019-10-26</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python3-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index">
+                    <span itemprop="name">Python3 学习笔记</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这份笔记将记录在雨痕大大的《Python3 学习笔记》一书中学到有关Python3类型的知识。</p>
+<a id="more"></a>
+<h2 id="内置类型"><a href="#内置类型" class="headerlink" title="内置类型"></a>内置类型</h2><ul>
+<li>内置类型</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>分类</th>
+<th>可变类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>int</td>
+<td>number</td>
+<td>N</td>
+</tr>
+<tr>
+<td>float</td>
+<td>number</td>
+<td>N</td>
+</tr>
+<tr>
+<td>str</td>
+<td>sequence</td>
+<td>N</td>
+</tr>
+<tr>
+<td>bytes</td>
+<td>sequence</td>
+<td>N</td>
+</tr>
+<tr>
+<td>bytearray</td>
+<td>sequence</td>
+<td>Y</td>
+</tr>
+<tr>
+<td>list</td>
+<td>sequence</td>
+<td>Y</td>
+</tr>
+<tr>
+<td>tuple</td>
+<td>sequence</td>
+<td>N</td>
+</tr>
+<tr>
+<td>dict</td>
+<td>mapping</td>
+<td>Y</td>
+</tr>
+<tr>
+<td>set</td>
+<td>set</td>
+<td>Y</td>
+</tr>
+<tr>
+<td>frozenset</td>
+<td>set</td>
+<td>N</td>
+</tr>
+</tbody></table>
+<ul>
+<li><code>collection.abc</code>列出了相关的抽象基类</li>
+</ul>
+<h2 id="整数"><a href="#整数" class="headerlink" title="整数"></a>整数</h2><ul>
+<li>在python3中，整数类型采用变长结构。在底层实现时采用不定长结构，按需分配内存。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">1</span>]:x=<span class="number">1</span></span><br><span class="line">In [<span class="number">2</span>]:print(type(x))</span><br><span class="line">Out[<span class="number">2</span>]:<span class="string">"&lt;class 'int'&gt;</span></span><br><span class="line"><span class="string">In [3]:import sys</span></span><br><span class="line"><span class="string">In [4]:print(sys.getsizeof(x))</span></span><br><span class="line"><span class="string">Out[4]:28</span></span><br><span class="line"><span class="string">In [5]:y=1&lt;&lt;100</span></span><br><span class="line"><span class="string">In [6]:print(y)</span></span><br><span class="line"><span class="string">Out[6]:1267650600228229401496703205376</span></span><br><span class="line"><span class="string">In [7]:print(type(y))</span></span><br><span class="line"><span class="string">Out[7]:&lt;class 'int'&gt;</span></span><br><span class="line"><span class="string">In [8]:print(sys.getsizeof(y))</span></span><br><span class="line"><span class="string">Out[8]:40</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>千分位语法</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">9</span>]:x=<span class="number">7</span>_654_321</span><br><span class="line">In [<span class="number">10</span>]:print(x)</span><br><span class="line">Out[<span class="number">10</span>]:<span class="number">7654321</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>进制运算</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>进制</th>
+<th>函数</th>
+<th>格式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>二进制</td>
+<td>bin</td>
+<td>0b</td>
+</tr>
+<tr>
+<td>八进制</td>
+<td>oct</td>
+<td>0o</td>
+</tr>
+<tr>
+<td>十六进制</td>
+<td>hex</td>
+<td>0x</td>
+</tr>
+</tbody></table>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">11</span>]:print(bin(<span class="number">100</span>))</span><br><span class="line">Out[<span class="number">11</span>]:<span class="number">0b1100100</span></span><br><span class="line">In [<span class="number">12</span>]:print(oct(<span class="number">100</span>))</span><br><span class="line">Out[<span class="number">12</span>]:<span class="number">0o144</span></span><br><span class="line">In [<span class="number">13</span>]:print(hex(<span class="number">100</span>))</span><br><span class="line">Out[<span class="number">13</span>]:<span class="number">0x64</span></span><br><span class="line">In [<span class="number">14</span>]:print(int(<span class="string">"0b1100100"</span>,<span class="number">2</span>))</span><br><span class="line">Out[<span class="number">14</span>]:<span class="number">100</span></span><br><span class="line">In [<span class="number">15</span>]:print(int(<span class="string">"0o144"</span>,<span class="number">8</span>))</span><br><span class="line">Out[<span class="number">15</span>]:<span class="number">100</span></span><br><span class="line">In [<span class="number">16</span>]:print(int(<span class="string">"0x64"</span>,<span class="number">16</span>))</span><br><span class="line">Out[<span class="number">16</span>]:<span class="number">100</span></span><br><span class="line">In [<span class="number">17</span>]:print(int(<span class="string">"64"</span>,<span class="number">16</span>))  <span class="comment"># 指定进制可以不用书写前缀</span></span><br><span class="line">Out[<span class="number">17</span>]:<span class="number">100</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>将整数转换为字节数组，常用于二进制网络协议和二进制文件读写中，这里需要涉及到大小端（当所需的字节数大于8位数，存储时，高位在前，为大端，低位在前，为小端）。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">18</span>]:x=<span class="number">0x1234</span></span><br><span class="line">In [<span class="number">19</span>]:n=(x.bit_length()+<span class="number">8</span><span class="number">-1</span>)//<span class="number">8</span>     <span class="comment"># 计算八位对齐所需的字节数</span></span><br><span class="line">In [<span class="number">20</span>]:<span class="keyword">import</span> sys</span><br><span class="line">In [<span class="number">21</span>]:b=x.to_bytes(n,sys.byteorder) <span class="comment">#sys.byteorder 可以获得当前系统的字节顺序</span></span><br><span class="line">In [<span class="number">22</span>]:print(b.hex())</span><br><span class="line">Out[<span class="number">22</span>]:<span class="number">3412</span></span><br><span class="line">In [<span class="number">23</span>]:print(hex(int.from_bytes(b,sys.byteorder)))</span><br><span class="line">Out[<span class="number">23</span>]:<span class="number">0x1234</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>运算符，python3中，<code>/</code>为正常的除法，一定会返回浮点数，<code>//</code>为整除除法。</li>
+</ul>
+<p>In [5]:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">24</span>]:print(<span class="number">4</span>/<span class="number">3</span>)</span><br><span class="line">Out[<span class="number">24</span>]:<span class="number">1.3333333333333333</span></span><br><span class="line">In [<span class="number">25</span>]:print(<span class="number">4</span>//<span class="number">3</span>)</span><br><span class="line">Out[<span class="number">25</span>]:<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>布尔类型：布尔类型为整数的子类型，<code>True==1，False==0</code>，这也意味着False和True能直接参与数值计算。如果是自定义类型，可以通过重写<code>__bool__</code>和<code>__len__</code>方法来影响bool转换结果。</li>
+</ul>
+<p>In [6]:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">26</span>]:print(issubclass(bool,int))</span><br><span class="line">Out[<span class="number">26</span>]:<span class="literal">True</span></span><br><span class="line">In [<span class="number">27</span>]:print(<span class="literal">True</span> == <span class="number">1</span>)</span><br><span class="line">Out[<span class="number">27</span>]:<span class="literal">True</span></span><br><span class="line">In [<span class="number">28</span>]:print(<span class="literal">False</span> == <span class="number">0</span>)</span><br><span class="line">Out[<span class="number">28</span>]:<span class="literal">True</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>枚举：在python3中，没有枚举类型，可以通过标准库<code>enum</code>来实现。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> enum</span><br><span class="line">Color=enum.Enum(<span class="string">"Color"</span>,<span class="string">"Yello Green"</span>)  <span class="comment"># 创建的枚举名，枚举值：用空格隔开</span></span><br><span class="line">In [<span class="number">29</span>]:print(isinstance(Color.Green,Color))</span><br><span class="line">Out[<span class="number">29</span>]:<span class="literal">True</span></span><br><span class="line">In [<span class="number">30</span>]:print(list(Color))</span><br><span class="line">Out[<span class="number">30</span>]:[&lt;Color.Yello: <span class="number">1</span>&gt;, &lt;Color.Green: <span class="number">2</span>&gt;]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>枚举值的类型不一定为整数，可以通过继承的方式来修改枚举值的类型。其内部实现实际上为一个字典，每个枚举值都有一个name，value属性，可以通过名字或者值来获得。当有多个匹配值的时候，永远返回第一个匹配项，如果想要避免值相同的枚举定义，可以使用<code>enum.unique</code>装饰器。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">31</span>]:<span class="class"><span class="keyword">class</span> <span class="title">X</span><span class="params">(enum.Enum)</span>:</span></span><br><span class="line">    		A=<span class="string">"a"</span></span><br><span class="line">    		B=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">    		C=<span class="number">100</span></span><br><span class="line">In [<span class="number">32</span>]:print(X.A.name,X.A.value)</span><br><span class="line">Out[<span class="number">32</span>]:A a</span><br><span class="line">In [<span class="number">33</span>]:print(X.B.name,X.B.value)</span><br><span class="line">Out[<span class="number">33</span>]:B [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">In [<span class="number">34</span>]:print(X.C.name,X.C.value)</span><br><span class="line">Out[<span class="number">34</span>]:C <span class="number">100</span></span><br><span class="line">In [<span class="number">35</span>]:print(X[<span class="string">"A"</span>])</span><br><span class="line">Out[<span class="number">35</span>]:X.A</span><br><span class="line">In [<span class="number">36</span>]:print(X(<span class="string">"a"</span>))</span><br><span class="line">Out[<span class="number">36</span>]:X.A</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>内存：在对一些常用的小数字，解释器会在初始化的时候将其预缓存，将名字关联到这些缓存对象即可。在Python3.6中，其预存范围为[-5,256]。当超出缓存对象后，就会新建对象。</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"># Objects/longobject.c:_PyLong_Init源码</span><br><span class="line"><span class="keyword">int</span></span><br><span class="line">_PyLong_Init(<span class="keyword">void</span>)</span><br><span class="line">&#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> NSMALLNEGINTS + NSMALLPOSINTS &gt; 0</span></span><br><span class="line">    <span class="keyword">int</span> ival, size;</span><br><span class="line">    PyLongObject *v = small_ints;</span><br><span class="line">    # NSMALLNEGINTS=<span class="number">5</span>,NSMALLPOSINTS=<span class="number">257</span></span><br><span class="line">    <span class="keyword">for</span> (ival = -NSMALLNEGINTS; ival &lt;  NSMALLPOSINTS; ival++, v++) &#123;</span><br><span class="line">        size = (ival &lt; <span class="number">0</span>) ? <span class="number">-1</span> : ((ival == <span class="number">0</span>) ? <span class="number">0</span> : <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (Py_TYPE(v) == &amp;PyLong_Type) &#123;</span><br><span class="line">            <span class="comment">/* The element is already initialized, most likely</span></span><br><span class="line"><span class="comment">             * the Python interpreter was initialized before.</span></span><br><span class="line"><span class="comment">             */</span></span><br><span class="line">            Py_ssize_t refcnt;</span><br><span class="line">            PyObject* op = (PyObject*)v;</span><br><span class="line"></span><br><span class="line">            refcnt = Py_REFCNT(op) &lt; <span class="number">0</span> ? <span class="number">0</span> : Py_REFCNT(op);</span><br><span class="line">            _Py_NewReference(op);</span><br><span class="line">            <span class="comment">/* _Py_NewReference sets the ref count to 1 but</span></span><br><span class="line"><span class="comment">             * the ref count might be larger. Set the refcnt</span></span><br><span class="line"><span class="comment">             * to the original refcnt + 1 */</span></span><br><span class="line">            Py_REFCNT(op) = refcnt + <span class="number">1</span>;</span><br><span class="line">            assert(Py_SIZE(op) == size);</span><br><span class="line">            assert(v-&gt;ob_digit[<span class="number">0</span>] == (digit)<span class="built_in">abs</span>(ival));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            (<span class="keyword">void</span>)PyObject_INIT(v, &amp;PyLong_Type);</span><br><span class="line">        &#125;</span><br><span class="line">        Py_SIZE(v) = size;</span><br><span class="line">        v-&gt;ob_digit[<span class="number">0</span>] = (digit)<span class="built_in">abs</span>(ival);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    <span class="comment">/* initialize int_info */</span></span><br><span class="line">    <span class="keyword">if</span> (Int_InfoType.tp_name == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (PyStructSequence_InitType2(&amp;Int_InfoType, &amp;int_info_desc) &lt; <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">37</span>]:a=<span class="number">-5</span></span><br><span class="line">In [<span class="number">38</span>]:b=<span class="number">-5</span></span><br><span class="line">In [<span class="number">39</span>]:print(a <span class="keyword">is</span> b)</span><br><span class="line">Out[<span class="number">39</span>]:<span class="literal">True</span></span><br><span class="line">In [<span class="number">40</span>]:a=<span class="number">256</span></span><br><span class="line">In [<span class="number">41</span>]:b=<span class="number">256</span></span><br><span class="line">In [<span class="number">42</span>]:print(a <span class="keyword">is</span> b)</span><br><span class="line">Out[<span class="number">42</span>]:<span class="literal">True</span></span><br><span class="line">In [<span class="number">43</span>]:a=<span class="number">-6</span></span><br><span class="line">In [<span class="number">44</span>]:b=<span class="number">-6</span></span><br><span class="line">In [<span class="number">45</span>]:print(a <span class="keyword">is</span> b)</span><br><span class="line">Out[<span class="number">45</span>]:<span class="literal">False</span></span><br><span class="line">In [<span class="number">46</span>]:a=<span class="number">257</span></span><br><span class="line">In [<span class="number">47</span>]:b=<span class="number">257</span></span><br><span class="line">In [<span class="number">48</span>]:print(a <span class="keyword">is</span> b)</span><br><span class="line">Out[<span class="number">48</span>]:<span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>分析RSS内存使用情况。需要使用到psutil扩展库。</li>
+</ul>
+<p>In [10]:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">49</span>]:<span class="keyword">import</span> psutil</span><br><span class="line">In [<span class="number">50</span>]:<span class="function"><span class="keyword">def</span> <span class="title">rss</span><span class="params">()</span>:</span></span><br><span class="line">    		m=psutil.Process().memory_info()</span><br><span class="line">    		print(m.rss&gt;&gt;<span class="number">20</span>,<span class="string">"MB"</span>)</span><br><span class="line">In [<span class="number">51</span>]:rss()</span><br><span class="line">Out[<span class="number">51</span>]:<span class="number">56</span> MB</span><br><span class="line">In [<span class="number">52</span>]:x=list(range(<span class="number">100000000</span>))</span><br><span class="line">In [<span class="number">53</span>]:rss()</span><br><span class="line">Out[<span class="number">53</span>]:<span class="number">3920</span> MB</span><br><span class="line">In [<span class="number">54</span>]:<span class="keyword">del</span> x</span><br><span class="line">In [<span class="number">55</span>]:rss()</span><br><span class="line">Out[<span class="number">55</span>]:<span class="number">57</span> MB</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>内存名词<ul>
+<li>VSS- Virtual Set Size 虚拟耗用内存（包含共享库占用的内存）</li>
+<li>RSS- Resident Set Size 实际使用物理内存（包含共享库占用的内存）</li>
+<li>PSS- Proportional Set Size 实际使用的物理内存（比例分配共享库占用的内存）</li>
+<li>USS- Unique Set Size 进程独自占用的物理内存（不包含共享库占用的内存）</li>
+<li>一般来说内存占用大小有如下规律：VSS &gt;= RSS &gt;= PSS &gt;= USS</li>
+</ul>
+</li>
+</ul>
+<h2 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h2><ul>
+<li>在Python3中，float类型默认采用双精度浮点数，可以表达16-17个小数点。从其实现的方式来看，其采用的是通过二进制来存储十进制的近似数。因此如果想要保留其进度，可以采用float.hex的方式来传递。如果需要非常高的精度，可以采用decimal.Decimal类型。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">56</span>]:print(<span class="number">1</span>/<span class="number">3</span>)</span><br><span class="line">Out[<span class="number">56</span>]:<span class="number">0.3333333333333333</span></span><br><span class="line">In [<span class="number">57</span>]:print(<span class="number">0.1234567890123456789</span>)</span><br><span class="line">Out[<span class="number">57</span>]:<span class="number">0.12345678901234568</span></span><br><span class="line">In [<span class="number">58</span>]: print(<span class="number">0.1</span>*<span class="number">3</span> ==<span class="number">0.3</span>)</span><br><span class="line">Out[<span class="number">58</span>]:<span class="literal">False</span></span><br><span class="line">In [<span class="number">59</span>]:print((<span class="number">0.1</span>*<span class="number">3</span>).hex())</span><br><span class="line">Out[<span class="number">59</span>]:<span class="number">0x1</span><span class="number">.3333333333334</span>p<span class="number">-2</span></span><br><span class="line">In [<span class="number">60</span>]:print((<span class="number">0.3</span>).hex())</span><br><span class="line">Out[<span class="number">60</span>]:<span class="number">0x1</span><span class="number">.3333333333333</span>p<span class="number">-2</span></span><br><span class="line">In [<span class="number">61</span>]:s=(<span class="number">1</span>/<span class="number">3</span>).hex()</span><br><span class="line">In [<span class="number">62</span>]:print(float.fromhex(s))</span><br><span class="line">Out[<span class="number">62</span>]:<span class="number">0.3333333333333333</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>转换：math模块中。<ul>
+<li>trunc：只要整数部分。</li>
+<li>floor：向下取整。</li>
+<li>ceil：向上取整。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> trunc,floor,ceil</span><br><span class="line">print(trunc(<span class="number">2.6</span>))</span><br><span class="line">print(floor(<span class="number">2.4</span>))</span><br><span class="line">print(ceil(<span class="number">2.6</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>十进制浮点数：decimal.Decimal，采用十进制实现，最高提供28位有效精度。<ul>
+<li>创建Decimal时，需要传入一个确定的值，如果是float类型，则其精度已经丢失。</li>
+<li>可以通过getcontext获得上下文的方式修改默认的精度。</li>
+<li>还可以通过localcontext的方式限制某个区域的精度。</li>
+<li>Decimal的速度较float来说，非常的慢。</li>
+</ul>
+</li>
+</ul>
+<p>In [14]:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> decimal <span class="keyword">import</span> Decimal,getcontext,localcontext</span><br><span class="line">print(Decimal(<span class="string">"0.1"</span>)+Decimal(<span class="string">"0.2"</span>))</span><br><span class="line">print(Decimal(<span class="string">"0.1"</span>)+Decimal(<span class="string">"0.2"</span>)-Decimal(<span class="string">"0.3"</span>)==<span class="number">0</span>)</span><br><span class="line">print(Decimal(<span class="number">0.1</span>))</span><br><span class="line">print(getcontext())</span><br><span class="line">getcontext().prec=<span class="number">2</span></span><br><span class="line">print(Decimal(<span class="number">1</span>)/Decimal(<span class="number">3</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> localcontext() <span class="keyword">as</span> lct:</span><br><span class="line">    lct.prec=<span class="number">3</span></span><br><span class="line">    print(Decimal(<span class="number">1</span>)/Decimal(<span class="number">3</span>))</span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line"><span class="number">0.3</span></span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="number">0.1000000000000000055511151231257827021181583404541015625</span></span><br><span class="line">Context(prec=<span class="number">28</span>, rounding=ROUND_HALF_EVEN, Emin=<span class="number">-999999</span>, Emax=<span class="number">999999</span>, capitals=<span class="number">1</span>, clamp=<span class="number">0</span>, flags=[FloatOperation], traps=[InvalidOperation, DivisionByZero, Overflow])</span><br><span class="line"><span class="number">0.33</span></span><br><span class="line"><span class="number">0.333</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>对浮点数进行四舍五入时，需要注意<code>round</code>是根据离相邻数字的远近来考虑是否进位的。这时，四舍六入是一定的，但是由于float的精度问题，5不一定会入。<ul>
+<li>规则：先考虑5，如果后面还有，一定进位。然后看返回值是不是整数，若为整数，取临近的偶数。</li>
+<li>如果返回的值为小数，这个就很难有规律了。其原因在<a href="https://docs.python.org/3/tutorial/floatingpoint.html" target="_blank" rel="noopener">Floating Point Arithmetic: Issues and Limitations</a>中详细指出了。总结来说，二进制不能完美的表达浮点数。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">print(round(<span class="number">0.5</span>))    <span class="comment"># 距离相等，暂时不确定。</span></span><br><span class="line">print(round(<span class="number">0.50001</span>))</span><br><span class="line">print(round(<span class="number">1.25</span>,<span class="number">1</span>))</span><br><span class="line">print(round(<span class="number">1.250001</span>,<span class="number">1</span>))</span><br><span class="line">print(round(<span class="number">1.5</span>))</span><br><span class="line">print(round(<span class="number">2.5</span>))</span><br><span class="line">print(round(<span class="number">1.35</span>,<span class="number">1</span>))</span><br><span class="line">print(round(<span class="number">1.675</span>,<span class="number">2</span>))</span><br><span class="line">print(round(<span class="number">2.675</span>,<span class="number">2</span>))</span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">1.2</span></span><br><span class="line"><span class="number">1.3</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">1.4</span></span><br><span class="line"><span class="number">1.68</span></span><br><span class="line"><span class="number">2.67</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>如果需要严格的四舍五入，可以采用decimal.Decimal来实现。</li>
+</ul>
+<p>In [16]:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> decimal <span class="keyword">import</span> Decimal,ROUND_HALF_UP</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">roundx</span><span class="params">(x,n)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> Decimal(x).quantize(Decimal(n),ROUND_HALF_UP)</span><br><span class="line"></span><br><span class="line">print(roundx(<span class="string">"1.24"</span>,<span class="string">".1"</span>))</span><br><span class="line">print(roundx(<span class="string">"1.25"</span>,<span class="string">".1"</span>))</span><br><span class="line">print(roundx(<span class="string">"1.245"</span>,<span class="string">".01"</span>))xfrom decimal </span><br><span class="line"><span class="comment"># 结果</span></span><br><span class="line"><span class="number">1.2</span></span><br><span class="line"><span class="number">1.3</span></span><br><span class="line"><span class="number">1.25</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><h3 id="字符串基础"><a href="#字符串基础" class="headerlink" title="字符串基础"></a>字符串基础</h3><ul>
+<li>存储Unicode码：在Python3中，字符串将只存储Unicode码，属于不可变数据类型。</li>
+</ul>
+<ul>
+<li>常用函数<ul>
+<li>ord:获得在编码中的顺序</li>
+<li>chr:根据顺序，转换为字符串</li>
+<li>ascii:将其转换为Unicode编码。</li>
+<li><code>\u</code>代表16进制，<code>\U</code>代表32为。</li>
+</ul>
+</li>
+<li>原始字符串:以<code>r</code>开头，会将<code>\</code>视做为文本的内容。</li>
+<li>操作：<ul>
+<li>拼接字符串：采用<code>+</code>或<code>*</code>(重复多次)，在编译的时候，编译器会尝试直接计算出最后的结果，节约开销，但是此机制不一定有效。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></span><br><span class="line">    alpha=<span class="string">'a'</span>+<span class="string">'b'</span>+<span class="string">'c'</span></span><br><span class="line">    decimal = <span class="string">'1'</span>*<span class="number">10</span></span><br><span class="line">    <span class="keyword">return</span> alpha,decimal</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> dis</span><br><span class="line">dis.dis(test)</span><br><span class="line"><span class="comment"># 结果</span></span><br><span class="line">  <span class="number">2</span>           <span class="number">0</span> LOAD_CONST               <span class="number">7</span> (<span class="string">'abc'</span>)</span><br><span class="line">              <span class="number">2</span> STORE_FAST               <span class="number">0</span> (alpha)</span><br><span class="line"></span><br><span class="line">  <span class="number">3</span>           <span class="number">4</span> LOAD_CONST               <span class="number">8</span> (<span class="string">'1111111111'</span>)</span><br><span class="line">              <span class="number">6</span> STORE_FAST               <span class="number">1</span> (decimal)</span><br><span class="line"></span><br><span class="line">  <span class="number">4</span>           <span class="number">8</span> LOAD_FAST                <span class="number">0</span> (alpha)</span><br><span class="line">             <span class="number">10</span> LOAD_FAST                <span class="number">1</span> (decimal)</span><br><span class="line">             <span class="number">12</span> BUILD_TUPLE              <span class="number">2</span></span><br><span class="line">             <span class="number">14</span> RETURN_VALUE</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>采用join或者format </p>
+<ul>
+<li>采用join或者format</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 采用join和format的作用是：1、简单明了，模板分离。2、较多次计算、多次分配的方法，能计算总长度，一次性分配内存</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 1、准备</span></span><br><span class="line"><span class="comment"># test_join_and_format.py文件</span></span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"></span><br><span class="line">alphas = list(string.ascii_uppercase)</span><br><span class="line"></span><br><span class="line"><span class="meta">@profile</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_add</span><span class="params">()</span>:</span></span><br><span class="line">    result = <span class="string">''</span></span><br><span class="line">    <span class="keyword">for</span> alpha <span class="keyword">in</span> alphas:</span><br><span class="line">        result += alpha</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"><span class="meta">@profile</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_join</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">''</span>.join(alphas)</span><br><span class="line"></span><br><span class="line">test_add()</span><br><span class="line">test_join()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 2、测试</span></span><br><span class="line">  <span class="comment"># 提前安装pip3 install line_profiler</span></span><br><span class="line">  (venv) ➜  src kernprof -l -v test_join_and_format.py</span><br><span class="line">  Wrote profile results to test_join_and_format.py.lprof</span><br><span class="line">  Timer unit: <span class="number">1e-06</span> s</span><br><span class="line"></span><br><span class="line">  Total time: <span class="number">1.6e-05</span> s</span><br><span class="line">  File: test_join_and_format.py</span><br><span class="line">  Function: test_add at line <span class="number">5</span></span><br><span class="line"></span><br><span class="line">  Line <span class="comment">#      Hits         Time  Per Hit   % Time  Line Contents</span></span><br><span class="line">  ==============================================================</span><br><span class="line">       <span class="number">5</span>                                           @profile</span><br><span class="line">       <span class="number">6</span>                                           <span class="function"><span class="keyword">def</span> <span class="title">test_add</span><span class="params">()</span>:</span></span><br><span class="line">       <span class="number">7</span>         <span class="number">1</span>          <span class="number">2.0</span>      <span class="number">2.0</span>     <span class="number">12.5</span>      result = <span class="string">''</span></span><br><span class="line">       <span class="number">8</span>        <span class="number">27</span>         <span class="number">12.0</span>      <span class="number">0.4</span>     <span class="number">75.0</span>      <span class="keyword">for</span> alpha <span class="keyword">in</span> alphas:</span><br><span class="line">       <span class="number">9</span>        <span class="number">26</span>          <span class="number">2.0</span>      <span class="number">0.1</span>     <span class="number">12.5</span>          result += alpha</span><br><span class="line">      <span class="number">10</span>         <span class="number">1</span>          <span class="number">0.0</span>      <span class="number">0.0</span>      <span class="number">0.0</span>      <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line">  Total time: <span class="number">1e-06</span> s</span><br><span class="line">  File: test_join_and_format.py</span><br><span class="line">  Function: test_join at line <span class="number">12</span></span><br><span class="line"></span><br><span class="line">  Line <span class="comment">#      Hits         Time  Per Hit   % Time  Line Contents</span></span><br><span class="line">  ==============================================================</span><br><span class="line">      <span class="number">12</span>                                           @profile</span><br><span class="line">      <span class="number">13</span>                                           <span class="function"><span class="keyword">def</span> <span class="title">test_join</span><span class="params">()</span>:</span></span><br><span class="line">      <span class="number">14</span>         <span class="number">1</span>          <span class="number">1.0</span>      <span class="number">1.0</span>    <span class="number">100.0</span>      <span class="keyword">return</span> <span class="string">''</span>.join(alphas)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">  <span class="comment"># 3、分析内存分配</span></span><br><span class="line">  <span class="comment"># 提前安装pip3 install memory_profiler</span></span><br><span class="line">  (venv) ➜  src python -m memory_profiler test_join_and_format.py</span><br><span class="line">  Filename: test_join_and_format.py</span><br><span class="line"></span><br><span class="line">  Line <span class="comment">#    Mem usage    Increment   Line Contents</span></span><br><span class="line">  ================================================</span><br><span class="line">       <span class="number">5</span>   <span class="number">31.918</span> MiB   <span class="number">31.918</span> MiB   @profile</span><br><span class="line">       <span class="number">6</span>                             <span class="function"><span class="keyword">def</span> <span class="title">test_add</span><span class="params">()</span>:</span></span><br><span class="line">       <span class="number">7</span>   <span class="number">31.918</span> MiB    <span class="number">0.000</span> MiB       result = <span class="string">''</span></span><br><span class="line">       <span class="number">8</span>   <span class="number">31.918</span> MiB    <span class="number">0.000</span> MiB       <span class="keyword">for</span> alpha <span class="keyword">in</span> alphas:</span><br><span class="line">       <span class="number">9</span>   <span class="number">31.918</span> MiB    <span class="number">0.000</span> MiB           result += alpha</span><br><span class="line">      <span class="number">10</span>   <span class="number">31.918</span> MiB    <span class="number">0.000</span> MiB       <span class="keyword">return</span> result</span><br><span class="line">Filename: test_join_and_format.py</span><br><span class="line"> Line <span class="comment">#    Mem usage    Increment   Line Contents</span></span><br><span class="line">================================================</span><br><span class="line">  <span class="number">12</span>   <span class="number">31.918</span> MiB   <span class="number">31.918</span> MiB   @profile</span><br><span class="line">  <span class="number">13</span>                             <span class="function"><span class="keyword">def</span> <span class="title">test_join</span><span class="params">()</span>:</span></span><br><span class="line">  <span class="number">14</span>   <span class="number">31.918</span> MiB    <span class="number">0.000</span> MiB       <span class="keyword">return</span> <span class="string">''</span>.join(alphas)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="转换"><a href="#转换" class="headerlink" title="转换"></a>转换</h3><ul>
+<li>Python3采用bytes、bytearray来存储字节序列</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 转换为字节序列</span></span><br><span class="line">name=<span class="string">'李梅'</span></span><br><span class="line">b=name.encode(<span class="string">'utf-16'</span>)</span><br><span class="line">print(b)</span><br><span class="line"><span class="comment"># 转换为字符串</span></span><br><span class="line">print(b.decode(<span class="string">'utf-16'</span>))</span><br><span class="line"><span class="comment"># 处理BOM信息，采用codecs模块</span></span><br><span class="line"><span class="keyword">import</span> codecs</span><br><span class="line"><span class="comment"># utf16小端编码</span></span><br><span class="line">print(codecs.BOM_UTF16_LE.hex())</span><br><span class="line">print(b.hex())</span><br><span class="line"><span class="comment"># 按指定的BOM转换</span></span><br><span class="line">print(codecs.encode(name,<span class="string">'utf-16le'</span>).hex())</span><br><span class="line">print(codecs.encode(name,<span class="string">'utf-16le'</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 结果</span></span><br><span class="line"><span class="string">b'\xff\xfeNg\x85h'</span></span><br><span class="line">李梅</span><br><span class="line">fffe</span><br><span class="line">fffe4e678568</span><br><span class="line"><span class="number">4e678568</span></span><br><span class="line"><span class="string">b'Ng\x85h'</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="格式化"><a href="#格式化" class="headerlink" title="格式化"></a>格式化</h3><ul>
+<li><code>f-strings</code>支持：将字符串中的字段或表达式解析出来，在上下文中寻找相应的同名对象匹配。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a=<span class="string">'a'</span></span><br><span class="line">print(<span class="string">f"<span class="subst">&#123;a&#125;</span> `length is <span class="subst">&#123;len(a)&#125;</span>"</span>)</span><br><span class="line"><span class="comment"># 结果</span></span><br><span class="line">a `length <span class="keyword">is</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>format</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 手动编序</span></span><br><span class="line"><span class="string">'&#123;0&#125;&#123;1&#125;&#123;0&#125;'</span>.format(a,b)</span><br><span class="line"><span class="comment"># 自动编序</span></span><br><span class="line"><span class="string">'&#123;&#125;&#123;&#125;'</span>.format(<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line"><span class="comment"># 键值对</span></span><br><span class="line"><span class="string">'&#123;x&#125;&#123;y&#125;'</span>.format(x=<span class="number">1</span>,y=<span class="number">2</span>)</span><br><span class="line"><span class="comment"># 属性</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">a=A()</span><br><span class="line">a.name = <span class="number">1</span></span><br><span class="line">print(<span class="string">'&#123;0.name&#125;'</span>.format(a))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 索引</span></span><br><span class="line">a=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">print(<span class="string">'&#123;0[2]&#125;'</span>.format(a))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 宽度与补位</span></span><br><span class="line"><span class="comment"># 补0，宽度为8位的二进制</span></span><br><span class="line">print(<span class="string">'&#123;0:#08b&#125;'</span>.format(<span class="number">5</span>))</span><br><span class="line"><span class="comment"># 数字处理</span></span><br><span class="line">print(<span class="string">'&#123;:06.2f&#125;'</span>.format(<span class="number">1.23</span>))</span><br><span class="line"><span class="comment"># 千分位</span></span><br><span class="line">print(<span class="string">'&#123;:,&#125;'</span>.format(<span class="number">12345</span>))</span><br><span class="line"><span class="comment"># 对齐处理</span></span><br><span class="line">print(<span class="string">'[&#123;:^10&#125;]'</span>.format(<span class="string">'a'</span>))</span><br><span class="line"><span class="comment"># 左对齐 &lt; 右对齐 &gt;、</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 结果</span></span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="number">0b000101</span></span><br><span class="line"><span class="number">001.23</span></span><br><span class="line"><span class="number">12</span>,<span class="number">345</span></span><br><span class="line">[    a     ]</span><br></pre></td></tr></table></figure>
+
+<h3 id="池化"><a href="#池化" class="headerlink" title="池化"></a>池化</h3><ul>
+<li>在python中，字符串是进程中最多的类型之一，为了减少开销，编译器采用字符串池，将内容相同且不会发生变化的存入池中，使用时只需要进行引用即可。其实现采用的是字典实现的。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">print(<span class="string">'name'</span> <span class="keyword">is</span> sys.intern(<span class="string">'name'</span>))</span><br><span class="line"></span><br><span class="line">a=<span class="string">'name'</span></span><br><span class="line">b=<span class="string">'name'</span></span><br><span class="line">print(a <span class="keyword">is</span> b)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将其加入池中</span></span><br><span class="line">sys.intern(a)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 结果</span></span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="string">"name"</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="字节数组"><a href="#字节数组" class="headerlink" title="字节数组"></a>字节数组</h2><ul>
+<li>在计算机中，万物的存储皆为二进制，因此在python3中，针对二进制处理的类型分为bytes(只读)和bytearray。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">b=bytes(<span class="string">"汉字"</span>,<span class="string">"utf-8"</span>)</span><br><span class="line">print(b)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 结果</span></span><br><span class="line"><span class="string">b'\xe6\xb1\x89\xe5\xad\x97'</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>内存视图：通过内存视图来直接操作底层，可读取最新的数据(能否修改数据，需要看原类型是否支持该操作)。支持内存视图的有bytes、bytearray、array.array和Numpy中的某些类型。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">a=bytearray([<span class="number">0x10</span>,<span class="number">0x11</span>,<span class="number">0x12</span>,<span class="number">0x13</span>,<span class="number">0x14</span>,<span class="number">0x15</span>,<span class="number">0x16</span>])</span><br><span class="line">x=a[<span class="number">2</span>:<span class="number">5</span>]</span><br><span class="line">print(x)</span><br><span class="line">a[<span class="number">3</span>]=<span class="number">0x23</span>   <span class="comment"># 为数据复制</span></span><br><span class="line">print(x)</span><br><span class="line"><span class="comment"># 结果</span></span><br><span class="line">bytearray(<span class="string">b'\x12\x13\x14'</span>)</span><br><span class="line">bytearray(<span class="string">b'\x12\x13\x14'</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">a=bytearray([<span class="number">0x10</span>,<span class="number">0x11</span>,<span class="number">0x12</span>,<span class="number">0x13</span>,<span class="number">0x14</span>,<span class="number">0x15</span>,<span class="number">0x16</span>])</span><br><span class="line">v=memoryview(a)</span><br><span class="line">x=v[<span class="number">2</span>:<span class="number">5</span>]</span><br><span class="line">print(x.hex())</span><br><span class="line">a[<span class="number">3</span>]=<span class="number">0x23</span>   <span class="comment"># 为数据复制</span></span><br><span class="line">print(x.hex())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 结果</span></span><br><span class="line"><span class="number">121314</span></span><br><span class="line"><span class="number">122314</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>复制视图数据：采用tolist,tobytes。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">d=x.tobytes()</span><br><span class="line">print(d)</span><br><span class="line">a[<span class="number">3</span>]=<span class="number">0x33</span></span><br><span class="line">print(d)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 结果</span></span><br><span class="line"><span class="string">b'\x12#\x14'</span></span><br><span class="line"><span class="string">b'\x12#\x14'</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>内存视图为我们提供了一种内存管理的手段：例如可以通过bytearray预申请很大的内存，然后通过视图将不同的片段给不同逻辑使用，因为逻辑不能越界访问。可以通过合理使用视图，这样就可以不使用ctypes等复杂扩展的前提下，改善性能。</li>
+<li>可以通过memoryview.case、struct.unpack将字节数组转换为目标类型。</li>
+</ul>
+<h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><ul>
+<li>如大量的写操作，请使用collections.deque,quque等类型。</li>
+<li>由于列表经常被使用，因此通过固定长度(80)的头部结构，实现内存复用。因此，在不超过复用长度时，只需分配和回收指针数组。其空间的变化是使用的按比例变化。</li>
+<li>列表只会存储指针。</li>
+<li>自定义列表：通过继承<code>collections.UserList</code>来实现。但是我们也需要遵守最小接口设计的原则，因此在使用这功能丰富的类作为基类时，需要多加考虑。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">(list)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line">print(type(A(<span class="string">"abc"</span>)+list(<span class="string">"de"</span>)))</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> UserList</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span><span class="params">(UserList)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line">print(type(B(<span class="string">"abc"</span>)+list(<span class="string">"de"</span>)))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 结果</span></span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">list</span>'&gt;</span></span><br><span class="line"><span class="class">&lt;<span class="title">class</span> '<span class="title">__main__</span>.<span class="title">B</span>'&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>可以通过bisect模块，向一个有序列表中插入值，采用的是二分法。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">d=[<span class="number">0</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line"><span class="keyword">import</span> bisect</span><br><span class="line">bisect.insort_left(d,<span class="number">1</span>)</span><br><span class="line">print(d)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 结果</span></span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br></pre></td></tr></table></figure>
+
+<h3 id="元组"><a href="#元组" class="headerlink" title="元组"></a>元组</h3><ul>
+<li>由于元组是不可变类型，因此可以一次性分配内存，python3.6会缓存复用长度在20以内的元组内存，每种2000上限。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">%timeit[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">%timeit[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]%timeit[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 结果</span></span><br><span class="line"><span class="number">38.8</span> ns ± <span class="number">0.532</span> ns per loop (mean ± std. dev. of <span class="number">7</span> runs, <span class="number">10000000</span> loops each)</span><br><span class="line"><span class="number">38.5</span> ns ± <span class="number">0.312</span> ns per loop (mean ± std. dev. of <span class="number">7</span> runs, <span class="number">10000000</span> loops each)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>collections.namedtuple(名称,属性值)</code></li>
+</ul>
+<h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><ul>
+<li>数组和列表、元组的本质区别在于：元素单一且内容嵌入。在数组中，存储数据。由于内容单一，因此复杂的类型，需要使用struct、marshl、pickle等转换为二进制存储。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> array</span><br><span class="line">a=array.array(<span class="string">"b"</span>,[<span class="number">0x11</span>,<span class="number">0x22</span>,<span class="number">0x33</span>,<span class="number">0x44</span>])  <span class="comment"># 存储的值的类型。</span></span><br><span class="line">print(memoryview(a).hex())</span><br><span class="line"><span class="comment"># 结果</span></span><br><span class="line"><span class="number">11223344</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>数组的长度不固定，动态变化。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">a=array.array(<span class="string">"i"</span>,[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br><span class="line">print(a.buffer_info())</span><br><span class="line">a.extend(range(<span class="number">10000</span>))</span><br><span class="line">print(a.buffer_info())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 结果</span></span><br><span class="line">(<span class="number">140639361737440</span>, <span class="number">3</span>)</span><br><span class="line">(<span class="number">94180497867232</span>, <span class="number">10003</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>由于可以指定更佳紧凑的数组类型，因此数组可节约更多内存。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 准备工作：pip3 install memory_profiler</span></span><br><span class="line"><span class="comment"># 创建测试文件 test.py</span></span><br><span class="line"><span class="keyword">import</span> array</span><br><span class="line"></span><br><span class="line"><span class="meta">@profile</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_list</span><span class="params">()</span>:</span></span><br><span class="line">    x=[]</span><br><span class="line">    x.extend(range(<span class="number">10000</span>))</span><br><span class="line">    <span class="keyword">return</span> x</span><br><span class="line"></span><br><span class="line"><span class="meta">@profile</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_array</span><span class="params">()</span>:</span></span><br><span class="line">    x=array.array(<span class="string">"l"</span>)</span><br><span class="line">    x.extend(range(<span class="number">10000</span>))</span><br><span class="line">    <span class="keyword">return</span> x</span><br><span class="line"></span><br><span class="line">test_list()</span><br><span class="line">test_array()</span><br><span class="line"><span class="comment"># 执行 python3 -m memory_profiler test.py</span></span><br><span class="line"></span><br><span class="line">Filename: test.py</span><br><span class="line"></span><br><span class="line">Line <span class="comment">#    Mem usage    Increment   Line Contents</span></span><br><span class="line">================================================</span><br><span class="line">     <span class="number">3</span>   <span class="number">31.848</span> MiB   <span class="number">31.848</span> MiB   @profile</span><br><span class="line">     <span class="number">4</span>                             <span class="function"><span class="keyword">def</span> <span class="title">test_list</span><span class="params">()</span>:</span></span><br><span class="line">     <span class="number">5</span>   <span class="number">31.848</span> MiB    <span class="number">0.000</span> MiB       x=[]</span><br><span class="line">     <span class="number">6</span>   <span class="number">32.234</span> MiB    <span class="number">0.387</span> MiB       x.extend(range(<span class="number">10000</span>))</span><br><span class="line">     <span class="number">7</span>   <span class="number">32.234</span> MiB    <span class="number">0.000</span> MiB       <span class="keyword">return</span> x</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Filename: test.py</span><br><span class="line"></span><br><span class="line">Line <span class="comment">#    Mem usage    Increment   Line Contents</span></span><br><span class="line">================================================</span><br><span class="line">     <span class="number">9</span>   <span class="number">32.168</span> MiB   <span class="number">32.168</span> MiB   @profile</span><br><span class="line">    <span class="number">10</span>                             <span class="function"><span class="keyword">def</span> <span class="title">test_array</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="number">11</span>   <span class="number">32.168</span> MiB    <span class="number">0.000</span> MiB       x=array.array(<span class="string">"l"</span>)</span><br><span class="line">    <span class="number">12</span>   <span class="number">32.168</span> MiB    <span class="number">0.000</span> MiB       x.extend(range(<span class="number">10000</span>))</span><br><span class="line">    <span class="number">13</span>   <span class="number">32.168</span> MiB    <span class="number">0.000</span> MiB       <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h2><ul>
+<li>字典通过哈希表来存储键值对数据。因此其主键必须可哈希。</li>
+<li>实现：<ul>
+<li>keys：<ul>
+<li>entries:顺序存储主键的引用。</li>
+<li>indices:哈希表，存储主键在entries中的实际索引。因此只要在in1dices中获得实际索引后，就可以读取主键和值信息。</li>
+</ul>
+</li>
+<li>values：顺序存储值的引用。</li>
+<li>系统缓存复用80个dict和keys，其中包括长度为8的entires内存，因此对于大量的小字典对象，不用分配内存，就可以直接。</li>
+<li>由于hash表采用开放地址法解决冲突，因此不适合处理大数据。</li>
+</ul>
+</li>
+<li>构建：<ul>
+<li>大括号：{key:value}</li>
+<li>采用元组、列表或可迭代对象创建:<code>dict([(&#39;a&#39;:1)])</code></li>
+<li>动态创建：<ul>
+<li>推导式:<code>{key:value for item in iterable}</code>。</li>
+<li>zip:<code>dict(zip(A,B))</code></li>
+<li>map:<code>dict(map(func,A,B))</code></li>
+</ul>
+</li>
+<li>视图：在Python3中，默认以视图关联字典内容，因此能同步字典的内容。</li>
+</ul>
+</li>
+<li>扩展：<ul>
+<li>设置默认字典：<code>collections.defaultdict(func)</code>在可以通过func中设置默认值。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict</span><br><span class="line">d=defaultdict(<span class="keyword">lambda</span> :<span class="number">100</span>)</span><br><span class="line">print(d[<span class="string">"a"</span>])</span><br><span class="line"><span class="comment"># 结果</span></span><br><span class="line"><span class="number">100</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>有序字典：<code>collections.OrderDict()</code>我们可以通过继承的方式，来重载<code>__missing__</code>的方式来新增值。</li>
+</ul>
+<p>In [33]:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> OrderedDict</span><br><span class="line">d=OrderedDict()</span><br><span class="line">d[<span class="string">"a"</span>]=<span class="number">1</span></span><br><span class="line">d[<span class="string">"b"</span>]=<span class="number">2</span></span><br><span class="line">d[<span class="string">"c"</span>]=<span class="number">3</span></span><br><span class="line"><span class="keyword">for</span> k,v <span class="keyword">in</span> d.items():</span><br><span class="line">    print(k,v)</span><br><span class="line"><span class="comment"># 结果</span></span><br><span class="line">a <span class="number">1</span></span><br><span class="line">b <span class="number">2</span></span><br><span class="line">c <span class="number">3</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>链式字典：<code>collections.ChainMap(A,B)</code></p>
+<p>,链式字典本身不存储数据，</p>
+<ul>
+<li>所有的操作都是针对第一字典的。我们可以利用这里特性来创建多层次的上下文结构。</li>
+<li>上下文的特征：<ul>
+<li>继承：所有的设置可以被调用链的后续函数读取。</li>
+<li>修改只针对当前和后续逻辑，不应该向父类传递。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> ChainMap</span><br><span class="line">a=dict(a=<span class="number">1</span>,b=<span class="number">2</span>)</span><br><span class="line">b=dict(b=<span class="number">20</span>,c=<span class="number">30</span>)</span><br><span class="line">x=ChainMap(a,b)</span><br><span class="line">print(x[<span class="string">"b"</span>])</span><br><span class="line"><span class="keyword">for</span> k,v <span class="keyword">in</span> x.items():</span><br><span class="line">    print(k,v)</span><br><span class="line"></span><br><span class="line">x[<span class="string">'a'</span>]=<span class="number">100</span></span><br><span class="line">x[<span class="string">'d'</span>]=<span class="number">5</span></span><br><span class="line">print(x)</span><br><span class="line">print(a)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建多层次上下文</span></span><br><span class="line">root = ChainMap(&#123;<span class="string">"a"</span>:<span class="number">1</span>&#125;)</span><br><span class="line">child = root.new_child(&#123;<span class="string">"b"</span>:<span class="number">200</span>&#125;)</span><br><span class="line">print(child)</span><br><span class="line">child[<span class="string">"a"</span>]=<span class="number">100</span></span><br><span class="line">print(child)</span><br><span class="line">print(child.parents)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 结果</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line">b <span class="number">2</span></span><br><span class="line">c <span class="number">30</span></span><br><span class="line">a <span class="number">1</span></span><br><span class="line">ChainMap(&#123;<span class="string">'a'</span>: <span class="number">100</span>, <span class="string">'b'</span>: <span class="number">2</span>, <span class="string">'d'</span>: <span class="number">5</span>&#125;, &#123;<span class="string">'b'</span>: <span class="number">20</span>, <span class="string">'c'</span>: <span class="number">30</span>&#125;)</span><br><span class="line">&#123;<span class="string">'a'</span>: <span class="number">100</span>, <span class="string">'b'</span>: <span class="number">2</span>, <span class="string">'d'</span>: <span class="number">5</span>&#125;</span><br><span class="line">ChainMap(&#123;<span class="string">'b'</span>: <span class="number">200</span>&#125;, &#123;<span class="string">'a'</span>: <span class="number">1</span>&#125;)</span><br><span class="line">ChainMap(&#123;<span class="string">'b'</span>: <span class="number">200</span>, <span class="string">'a'</span>: <span class="number">100</span>&#125;, &#123;<span class="string">'a'</span>: <span class="number">1</span>&#125;)</span><br><span class="line">ChainMap(&#123;<span class="string">'a'</span>: <span class="number">1</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><ul>
+<li>判重：<ul>
+<li>集合的判重公式：<code>(a is b) or ((hash(a)==hash(b) and a==b))</code>。</li>
+<li>对象判重：可以通过重写<code>__hash__</code>和<code>__eq__</code>方法来实现。</li>
+</ul>
+</li>
+<li>实现：<code>set</code>和<code>frozenset</code>都是通过数组实现的哈希表来存储对象引用，因此，元素必须可哈希。集合对象中，有一个长度为8的小数组，当超出容量，才会分配更大的空间。</li>
+<li>集合推导式：<code>{experssion for item in iterable}</code></li>
+<li>操作：<ul>
+<li>交集：set_a &amp; set_b</li>
+<li>并集：set_a | set_b</li>
+<li>差集：set_a - set_b</li>
+<li>对称差集:set_a ^ set_b：只属于a的+只属于b的</li>
+</ul>
+</li>
+<li>删除：<ul>
+<li>remove</li>
+<li>discard:不会抛异常。</li>
+</ul>
+</li>
+</ul>
+<p>PS:新人学习，新人写文章，若有不足，望请指出。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/Python%E5%9F%BA%E7%A1%80/" rel="tag"># Python基础</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2018/05/11/Python3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%9F%BA%E7%A1%80/" rel="next" title="Python3学习笔记-基础">
+                  <i class="fa fa-chevron-left"></i> Python3学习笔记-基础
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2018/05/20/Python3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="prev" title="Python3学习笔记-表达式">
+                  Python3学习笔记-表达式 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#内置类型"><span class="nav-number">1.</span> <span class="nav-text">内置类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#整数"><span class="nav-number">2.</span> <span class="nav-text">整数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浮点数"><span class="nav-number">3.</span> <span class="nav-text">浮点数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串"><span class="nav-number">4.</span> <span class="nav-text">字符串</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串基础"><span class="nav-number">4.1.</span> <span class="nav-text">字符串基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#转换"><span class="nav-number">4.2.</span> <span class="nav-text">转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#格式化"><span class="nav-number">4.3.</span> <span class="nav-text">格式化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#池化"><span class="nav-number">4.4.</span> <span class="nav-text">池化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字节数组"><span class="nav-number">5.</span> <span class="nav-text">字节数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#列表"><span class="nav-number">6.</span> <span class="nav-text">列表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#元组"><span class="nav-number">6.1.</span> <span class="nav-text">元组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数组"><span class="nav-number">6.2.</span> <span class="nav-text">数组</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字典"><span class="nav-number">7.</span> <span class="nav-text">字典</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集合"><span class="nav-number">8.</span> <span class="nav-text">集合</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="Martin"
+    src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Martin</p>
+  <div class="site-description" itemprop="description">一只奔跑在代码之道上的猪</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备16004961号 </a><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=null" rel="noopener" target="_blank">null </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Martin</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
