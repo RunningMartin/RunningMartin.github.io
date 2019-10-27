@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://fangjieblog.cn/2018/05/20/Cassandra%25E5%25AD%25A6%25E4%25B9%25A0-%25E5%259F%25BA%25E6%259C%25AC%25E5%2591%25BD%25E4%25BB%25A4/</loc>
+    
+    <lastmod>2019-10-26T13:20:08.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://fangjieblog.cn/2018/03/18/Hexo%25E7%259A%2584%25E4%25BD%25BF%25E7%2594%25A8/</loc>
     
     <lastmod>2019-10-26T13:20:08.000Z</lastmod>
@@ -16,7 +23,7 @@
   </url>
   
   <url>
-    <loc>http://fangjieblog.cn/2018/05/20/Cassandra%25E5%25AD%25A6%25E4%25B9%25A0-%25E5%259F%25BA%25E6%259C%25AC%25E5%2591%25BD%25E4%25BB%25A4/</loc>
+    <loc>http://fangjieblog.cn/2018/06/02/Python-%25E5%25A4%259A%25E8%25BF%259B%25E7%25A8%258B/</loc>
     
     <lastmod>2019-10-26T13:20:08.000Z</lastmod>
     
@@ -30,21 +37,7 @@
   </url>
   
   <url>
-    <loc>http://fangjieblog.cn/2018/07/01/Python%25E5%259F%25BA%25E7%25A1%2580%25E5%25AD%25A6%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%25E2%2580%2594%25E2%2580%2594%25E5%2587%25BD%25E6%2595%25B0%25E7%259A%2584%25E4%25BD%259C%25E7%2594%25A8%25E5%259F%259F/</loc>
-    
-    <lastmod>2019-10-26T13:20:08.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://fangjieblog.cn/2018/05/11/Python3%25E5%25AD%25A6%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0-%25E7%25B1%25BB%25E5%259E%258B/</loc>
-    
-    <lastmod>2019-10-26T13:20:08.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://fangjieblog.cn/2018/07/01/Python%25E5%259F%25BA%25E7%25A1%2580%25E5%25AD%25A6%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%25E2%2580%2594%25E2%2580%2594%25E5%2587%25BD%25E6%2595%25B0%25E7%259A%2584%25E5%259F%25BA%25E7%25A1%2580/</loc>
     
     <lastmod>2019-10-26T13:20:08.000Z</lastmod>
     
@@ -58,21 +51,21 @@
   </url>
   
   <url>
-    <loc>http://fangjieblog.cn/2018/06/02/Python-%25E5%25A4%259A%25E8%25BF%259B%25E7%25A8%258B/</loc>
+    <loc>http://fangjieblog.cn/2018/07/01/Python%25E5%259F%25BA%25E7%25A1%2580%25E5%25AD%25A6%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%25E2%2580%2594%25E2%2580%2594%25E5%2587%25BD%25E6%2595%25B0%25E7%259A%2584%25E4%25BD%259C%25E7%2594%25A8%25E5%259F%259F/</loc>
     
     <lastmod>2019-10-26T13:20:08.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://fangjieblog.cn/2018/08/06/Python%25E7%2588%25AC%25E8%2599%25AB%25E5%25B7%25A5%25E5%2585%25B7-requests/</loc>
+    <loc>http://fangjieblog.cn/2018/07/01/Python%25E5%259F%25BA%25E7%25A1%2580%25E5%25AD%25A6%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%25E2%2580%2594%25E2%2580%2594%25E5%2587%25BD%25E6%2595%25B0%25E7%259A%2584%25E5%259F%25BA%25E7%25A1%2580/</loc>
     
     <lastmod>2019-10-26T13:20:08.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://fangjieblog.cn/2018/04/08/git%25E7%259A%2584%25E5%25AE%2589%25E8%25A3%2585%25E4%25B8%258E%25E9%2585%258D%25E7%25BD%25AE/</loc>
+    <loc>http://fangjieblog.cn/2018/06/25/Python%25E5%259F%25BA%25E7%25A1%2580%25E5%25AD%25A6%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%25E2%2580%2594%25E2%2580%2594%25E5%2587%25BD%25E6%2595%25B0%25E7%259A%2584%25E9%2597%25AD%25E5%258C%2585/</loc>
     
     <lastmod>2019-10-26T13:20:08.000Z</lastmod>
     
@@ -86,7 +79,21 @@
   </url>
   
   <url>
-    <loc>http://fangjieblog.cn/2018/06/25/Python%25E5%259F%25BA%25E7%25A1%2580%25E5%25AD%25A6%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%25E2%2580%2594%25E2%2580%2594%25E5%2587%25BD%25E6%2595%25B0%25E7%259A%2584%25E9%2597%25AD%25E5%258C%2585/</loc>
+    <loc>http://fangjieblog.cn/2018/08/06/Python%25E7%2588%25AC%25E8%2599%25AB%25E5%25B7%25A5%25E5%2585%25B7-requests/</loc>
+    
+    <lastmod>2019-10-26T13:20:08.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://fangjieblog.cn/2018/04/13/collections/</loc>
+    
+    <lastmod>2019-10-26T13:20:08.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://fangjieblog.cn/2018/04/08/git%25E7%259A%2584%25E5%25AE%2589%25E8%25A3%2585%25E4%25B8%258E%25E9%2585%258D%25E7%25BD%25AE/</loc>
     
     <lastmod>2019-10-26T13:20:08.000Z</lastmod>
     
@@ -107,21 +114,7 @@
   </url>
   
   <url>
-    <loc>http://fangjieblog.cn/2018/04/13/collections/</loc>
-    
-    <lastmod>2019-10-26T13:20:08.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://fangjieblog.cn/2018/04/21/marshmallow%25E8%25BF%259B%25E9%2598%25B6%25E5%25AD%25A6%25E4%25B9%25A0/</loc>
-    
-    <lastmod>2019-10-26T13:20:08.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://fangjieblog.cn/2018/03/26/%25E6%25B5%258B%25E8%25AF%2595%25E9%25A9%25B1%25E5%258A%25A8%25E5%25BC%2580%25E5%258F%2591/</loc>
+    <loc>http://fangjieblog.cn/2018/04/19/marshmallow%25E5%2588%259D%25E6%25AD%25A5%25E5%25AD%25A6%25E4%25B9%25A0/</loc>
     
     <lastmod>2019-10-26T13:20:08.000Z</lastmod>
     
@@ -135,7 +128,7 @@
   </url>
   
   <url>
-    <loc>http://fangjieblog.cn/2018/04/19/marshmallow%25E5%2588%259D%25E6%25AD%25A5%25E5%25AD%25A6%25E4%25B9%25A0/</loc>
+    <loc>http://fangjieblog.cn/2018/04/21/marshmallow%25E8%25BF%259B%25E9%2598%25B6%25E5%25AD%25A6%25E4%25B9%25A0/</loc>
     
     <lastmod>2019-10-26T13:20:08.000Z</lastmod>
     
@@ -149,7 +142,7 @@
   </url>
   
   <url>
-    <loc>http://fangjieblog.cn/2018/08/12/%25E6%2580%259D%25E8%2580%2583/%25E6%2597%25A9%25E7%259D%25A1/</loc>
+    <loc>http://fangjieblog.cn/2018/03/26/%25E6%25B5%258B%25E8%25AF%2595%25E9%25A9%25B1%25E5%258A%25A8%25E5%25BC%2580%25E5%258F%2591/</loc>
     
     <lastmod>2019-10-26T13:20:08.000Z</lastmod>
     
@@ -163,7 +156,7 @@
   </url>
   
   <url>
-    <loc>http://fangjieblog.cn/2018/08/12/%25E6%2580%259D%25E8%2580%2583/%25E6%25B3%25A8%25E6%2584%258F%25E5%258A%259B/</loc>
+    <loc>http://fangjieblog.cn/2018/08/12/%25E6%2580%259D%25E8%2580%2583/%25E6%2597%25A9%25E7%259D%25A1/</loc>
     
     <lastmod>2019-10-26T13:20:08.000Z</lastmod>
     
@@ -177,14 +170,21 @@
   </url>
   
   <url>
-    <loc>http://fangjieblog.cn/2018/08/12/%25E6%2580%259D%25E8%2580%2583/%25E8%25BF%259C%25E7%25A6%25BB%25E6%2589%258B%25E6%259C%25BA/</loc>
+    <loc>http://fangjieblog.cn/2018/08/12/%25E6%2580%259D%25E8%2580%2583/%25E6%25B7%25B1%25E5%25BA%25A6%25E6%2580%259D%25E8%2580%2583/</loc>
     
     <lastmod>2019-10-26T13:20:08.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://fangjieblog.cn/2018/08/12/%25E6%2580%259D%25E8%2580%2583/%25E6%25B7%25B1%25E5%25BA%25A6%25E6%2580%259D%25E8%2580%2583/</loc>
+    <loc>http://fangjieblog.cn/2018/08/12/%25E6%2580%259D%25E8%2580%2583/%25E6%25B3%25A8%25E6%2584%258F%25E5%258A%259B/</loc>
+    
+    <lastmod>2019-10-26T13:20:08.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://fangjieblog.cn/2018/08/12/%25E6%2580%259D%25E8%2580%2583/%25E8%25BF%259C%25E7%25A6%25BB%25E6%2589%258B%25E6%259C%25BA/</loc>
     
     <lastmod>2019-10-26T13:20:08.000Z</lastmod>
     
@@ -198,14 +198,14 @@
   </url>
   
   <url>
-    <loc>http://fangjieblog.cn/2018/07/23/%25E6%2595%25B0%25E6%258D%25AE%25E7%25BB%2593%25E6%259E%2584/%25E6%2595%25B0%25E6%258D%25AE%25E7%25BB%2593%25E6%259E%2584-%25E6%25A0%2588/</loc>
+    <loc>http://fangjieblog.cn/2018/07/28/%25E6%2595%25B0%25E6%258D%25AE%25E7%25BB%2593%25E6%259E%2584/%25E6%2595%25B0%25E6%258D%25AE%25E7%25BB%2593%25E6%259E%2584-%25E6%25A0%2591/</loc>
     
     <lastmod>2019-10-26T13:20:08.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://fangjieblog.cn/2018/07/28/%25E6%2595%25B0%25E6%258D%25AE%25E7%25BB%2593%25E6%259E%2584/%25E6%2595%25B0%25E6%258D%25AE%25E7%25BB%2593%25E6%259E%2584-%25E6%25A0%2591/</loc>
+    <loc>http://fangjieblog.cn/2018/07/23/%25E6%2595%25B0%25E6%258D%25AE%25E7%25BB%2593%25E6%259E%2584/%25E6%2595%25B0%25E6%258D%25AE%25E7%25BB%2593%25E6%259E%2584-%25E6%25A0%2588/</loc>
     
     <lastmod>2019-10-26T13:20:08.000Z</lastmod>
     
@@ -233,13 +233,6 @@
   </url>
   
   <url>
-    <loc>http://fangjieblog.cn/2018/03/31/%25E7%25BF%25BB%25E8%25AF%2591/%25E7%25BF%25BB%25E8%25AF%2591Given-When-Then/</loc>
-    
-    <lastmod>2019-10-26T13:20:08.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://fangjieblog.cn/2018/05/10/%25E9%2598%2585%25E8%25AF%25BB/%25E3%2580%258A%25E5%25A6%2582%25E4%25BD%2595%25E6%259C%2589%25E6%2595%2588%25E9%2598%2585%25E8%25AF%25BB%25E4%25B8%2580%25E6%259C%25AC%25E4%25B9%25A6%25E3%2580%258B%25E8%25AF%25BB%25E5%2590%258E%25E6%2584%259F/</loc>
     
     <lastmod>2019-10-26T13:20:08.000Z</lastmod>
@@ -247,7 +240,7 @@
   </url>
   
   <url>
-    <loc>http://fangjieblog.cn/2018/09/07/Python/%25E5%259F%25BA%25E6%259C%25AC%25E5%25BA%2593/Python%25E2%2580%2594%25E2%2580%2594%25E6%25AD%25A3%25E5%2588%2599%25E8%25A1%25A8%25E8%25BE%25BE%25E5%25BC%258F/</loc>
+    <loc>http://fangjieblog.cn/2018/03/31/%25E7%25BF%25BB%25E8%25AF%2591/%25E7%25BF%25BB%25E8%25AF%2591Given-When-Then/</loc>
     
     <lastmod>2019-10-26T13:20:08.000Z</lastmod>
     
@@ -255,6 +248,13 @@
   
   <url>
     <loc>http://fangjieblog.cn/2018/07/30/%25E6%25AF%258F%25E6%2597%25A5%25E6%2596%25B0%25E7%259F%25A5%25E8%25AF%2586/Linux/Linux-%25E5%258E%258B%25E7%25BC%25A9%25E4%25B8%258E%25E6%2589%2593%25E5%258C%2585/</loc>
+    
+    <lastmod>2019-10-26T13:20:08.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://fangjieblog.cn/2018/09/07/Python/%25E5%259F%25BA%25E6%259C%25AC%25E5%25BA%2593/Python%25E2%2580%2594%25E2%2580%2594%25E6%25AD%25A3%25E5%2588%2599%25E8%25A1%25A8%25E8%25BE%25BE%25E5%25BC%258F/</loc>
     
     <lastmod>2019-10-26T13:20:08.000Z</lastmod>
     
@@ -282,13 +282,6 @@
   </url>
   
   <url>
-    <loc>http://fangjieblog.cn/2018/07/19/%25E6%25AF%258F%25E6%2597%25A5%25E6%2596%25B0%25E7%259F%25A5%25E8%25AF%2586/Python/Python%25E5%258C%2585%25E7%25AE%25A1%25E7%2590%2586/</loc>
-    
-    <lastmod>2019-10-26T13:20:08.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://fangjieblog.cn/2018/07/18/%25E6%25AF%258F%25E6%2597%25A5%25E6%2596%25B0%25E7%259F%25A5%25E8%25AF%2586/Python/Python%25E5%2585%2583%25E7%25B1%25BB/</loc>
     
     <lastmod>2019-10-26T13:20:08.000Z</lastmod>
@@ -296,14 +289,7 @@
   </url>
   
   <url>
-    <loc>http://fangjieblog.cn/2018/07/16/%25E6%25AF%258F%25E6%2597%25A5%25E6%2596%25B0%25E7%259F%25A5%25E8%25AF%2586/Python/Python%25E6%2596%25AD%25E8%25A8%2580/</loc>
-    
-    <lastmod>2019-10-26T13:20:08.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://fangjieblog.cn/2018/07/17/%25E6%25AF%258F%25E6%2597%25A5%25E6%2596%25B0%25E7%259F%25A5%25E8%25AF%2586/Python/Python%25E6%258F%258F%25E8%25BF%25B0%25E7%25AC%25A6/</loc>
+    <loc>http://fangjieblog.cn/2018/07/19/%25E6%25AF%258F%25E6%2597%25A5%25E6%2596%25B0%25E7%259F%25A5%25E8%25AF%2586/Python/Python%25E5%258C%2585%25E7%25AE%25A1%25E7%2590%2586/</loc>
     
     <lastmod>2019-10-26T13:20:08.000Z</lastmod>
     
@@ -317,7 +303,35 @@
   </url>
   
   <url>
+    <loc>http://fangjieblog.cn/2018/07/17/%25E6%25AF%258F%25E6%2597%25A5%25E6%2596%25B0%25E7%259F%25A5%25E8%25AF%2586/Python/Python%25E6%258F%258F%25E8%25BF%25B0%25E7%25AC%25A6/</loc>
+    
+    <lastmod>2019-10-26T13:20:08.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://fangjieblog.cn/2018/07/16/%25E6%25AF%258F%25E6%2597%25A5%25E6%2596%25B0%25E7%259F%25A5%25E8%25AF%2586/Python/Python%25E6%2596%25AD%25E8%25A8%2580/</loc>
+    
+    <lastmod>2019-10-26T13:20:08.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://fangjieblog.cn/2018/07/18/%25E6%25AF%258F%25E6%2597%25A5%25E6%2596%25B0%25E7%259F%25A5%25E8%25AF%2586/Python/Python%25E6%25B3%25A8%25E8%25A7%25A3/</loc>
+    
+    <lastmod>2019-10-26T13:20:08.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://fangjieblog.cn/2018/07/10/%25E6%25AF%258F%25E6%2597%25A5%25E6%2596%25B0%25E7%259F%25A5%25E8%25AF%2586/Python/Python%25E7%25B1%25BB%25E4%25B9%258B%25E5%25AD%2597%25E6%25AE%25B5%25E4%25B8%258E%25E5%25B1%259E%25E6%2580%25A7/</loc>
+    
+    <lastmod>2019-10-26T13:20:08.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://fangjieblog.cn/2018/07/09/%25E6%25AF%258F%25E6%2597%25A5%25E6%2596%25B0%25E7%259F%25A5%25E8%25AF%2586/Python/Python%25E7%25B1%25BB%25E4%25B9%258B%25E5%25AE%259A%25E4%25B9%2589/</loc>
     
     <lastmod>2019-10-26T13:20:08.000Z</lastmod>
     
@@ -338,21 +352,7 @@
   </url>
   
   <url>
-    <loc>http://fangjieblog.cn/2018/07/10/%25E6%25AF%258F%25E6%2597%25A5%25E6%2596%25B0%25E7%259F%25A5%25E8%25AF%2586/Python/Python%25E7%25B1%25BB%25E4%25B9%258B%25E5%25AD%2597%25E6%25AE%25B5%25E4%25B8%258E%25E5%25B1%259E%25E6%2580%25A7/</loc>
-    
-    <lastmod>2019-10-26T13:20:08.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://fangjieblog.cn/2018/07/11/%25E6%25AF%258F%25E6%2597%25A5%25E6%2596%25B0%25E7%259F%25A5%25E8%25AF%2586/Python/Python%25E7%25B1%25BB%25E4%25B9%258B%25E8%25BF%2590%25E7%25AE%2597%25E7%25AC%25A6%25E9%2587%258D%25E8%25BD%25BD/</loc>
-    
-    <lastmod>2019-10-26T13:20:08.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://fangjieblog.cn/2018/07/19/%25E6%25AF%258F%25E6%2597%25A5%25E6%2596%25B0%25E7%259F%25A5%25E8%25AF%2586/Python/Python%25E8%25B0%2583%25E8%25AF%2595%25E5%2599%25A8/</loc>
     
     <lastmod>2019-10-26T13:20:08.000Z</lastmod>
     
@@ -366,7 +366,7 @@
   </url>
   
   <url>
-    <loc>http://fangjieblog.cn/2018/07/09/%25E6%25AF%258F%25E6%2597%25A5%25E6%2596%25B0%25E7%259F%25A5%25E8%25AF%2586/Python/Python%25E7%25B1%25BB%25E4%25B9%258B%25E5%25AE%259A%25E4%25B9%2589/</loc>
+    <loc>http://fangjieblog.cn/2018/07/19/%25E6%25AF%258F%25E6%2597%25A5%25E6%2596%25B0%25E7%259F%25A5%25E8%25AF%2586/Python/Python%25E8%25B0%2583%25E8%25AF%2595%25E5%2599%25A8/</loc>
     
     <lastmod>2019-10-26T13:20:08.000Z</lastmod>
     
@@ -380,13 +380,6 @@
   </url>
   
   <url>
-    <loc>http://fangjieblog.cn/2018/07/12/%25E6%25AF%258F%25E6%2597%25A5%25E6%2596%25B0%25E7%259F%25A5%25E8%25AF%2586/%25E7%25BD%2591%25E7%25BB%259C/PXE/</loc>
-    
-    <lastmod>2019-10-26T13:20:08.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://fangjieblog.cn/2018/07/12/%25E6%25AF%258F%25E6%2597%25A5%25E6%2596%25B0%25E7%259F%25A5%25E8%25AF%2586/%25E7%25BD%2591%25E7%25BB%259C/IP/</loc>
     
     <lastmod>2019-10-26T13:20:08.000Z</lastmod>
@@ -394,7 +387,7 @@
   </url>
   
   <url>
-    <loc>http://fangjieblog.cn/2018/07/26/%25E6%25AF%258F%25E6%2597%25A5%25E6%2596%25B0%25E7%259F%25A5%25E8%25AF%2586/%25E7%25BD%2591%25E7%25BB%259C/%25E7%25BD%2591%25E7%25BB%259C-Socket/</loc>
+    <loc>http://fangjieblog.cn/2018/07/12/%25E6%25AF%258F%25E6%2597%25A5%25E6%2596%25B0%25E7%259F%25A5%25E8%25AF%2586/%25E7%25BD%2591%25E7%25BB%259C/PXE/</loc>
     
     <lastmod>2019-10-26T13:20:08.000Z</lastmod>
     
@@ -408,6 +401,13 @@
   </url>
   
   <url>
+    <loc>http://fangjieblog.cn/2018/07/26/%25E6%25AF%258F%25E6%2597%25A5%25E6%2596%25B0%25E7%259F%25A5%25E8%25AF%2586/%25E7%25BD%2591%25E7%25BB%259C/%25E7%25BD%2591%25E7%25BB%259C-Socket/</loc>
+    
+    <lastmod>2019-10-26T13:20:08.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://fangjieblog.cn/2018/07/11/%25E6%25AF%258F%25E6%2597%25A5%25E6%2596%25B0%25E7%259F%25A5%25E8%25AF%2586/%25E7%25BD%2591%25E7%25BB%259C/%25E7%25BD%2591%25E7%25BB%259C%25E4%25B8%25BA%25E4%25BB%2580%25E4%25B9%2588%25E8%25A6%2581%25E5%2588%2586%25E5%25B1%2582/</loc>
     
     <lastmod>2019-10-26T13:20:08.000Z</lastmod>
@@ -415,14 +415,14 @@
   </url>
   
   <url>
-    <loc>http://fangjieblog.cn/categories/index.html</loc>
+    <loc>http://fangjieblog.cn/tags/index.html</loc>
     
     <lastmod>2019-10-26T13:20:08.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://fangjieblog.cn/tags/index.html</loc>
+    <loc>http://fangjieblog.cn/categories/index.html</loc>
     
     <lastmod>2019-10-26T13:20:08.000Z</lastmod>
     
